@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentsCoursesMapper implements RowMapper<StudentCourse> {
+
     @Override
     public StudentCourse mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new StudentCourse(

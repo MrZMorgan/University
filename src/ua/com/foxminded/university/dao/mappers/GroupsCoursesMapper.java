@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GroupsCoursesMapper implements RowMapper<GroupCourse> {
+
     @Override
     public GroupCourse mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GroupCourse(
