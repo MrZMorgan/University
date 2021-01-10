@@ -6,11 +6,11 @@ import ua.com.foxminded.university.models.Teacher;
 
 import java.util.List;
 
-public class TeacherJdbc {
+public class TeacherJdbcDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public TeacherJdbc(JdbcTemplate jdbcTemplate) {
+    public TeacherJdbcDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

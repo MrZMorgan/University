@@ -1,7 +1,9 @@
 package ua.com.foxminded.university.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import ua.com.foxminded.university.dao.mappers.GroupMapper;
 import ua.com.foxminded.university.dao.mappers.StudentMapper;
+import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.models.Student;
 
 import java.util.List;
@@ -20,10 +22,24 @@ public class StudentJdbcDao {
     }
 
     public Student read(int studentId) {
-        return jdbcTemplate.query("SELECT * FROM courses WHERE id = ?", new Object[]{studentId}, new StudentMapper())
+        return jdbcTemplate.query("SELECT * FROM courses WHERE id = ?",
+                new Object[]{studentId}, new StudentMapper())
                 .stream()
                 .findAny()
                 .orElse(null);
+    }
+
+    public List<Student> readStudentsRelatedToGroup(int groupId) {
+        return jdbcTemplate.query("SELECT * FROM students WHERE group_id = ?",
+                new Object[]{groupId}, new StudentMapper());
+    }
+
+    public List<Student> readStudentsRelatedToCourse(int courseId) {
+        return jdbcTemplate.query(
+                "SELECT first_name, last_name, age, group_id FROM students " +
+                        "JOIN students_courses; ON students.id = students_courses.id " +
+                        "WHERE course_id = ?",
+                new Object[]{courseId}, new GroupMapper());
     }
 
     public List<Student> read() {

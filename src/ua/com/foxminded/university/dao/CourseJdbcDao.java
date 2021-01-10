@@ -2,7 +2,9 @@ package ua.com.foxminded.university.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.com.foxminded.university.dao.mappers.CourseMapper;
+import ua.com.foxminded.university.dao.mappers.StudentMapper;
 import ua.com.foxminded.university.models.Course;
+import ua.com.foxminded.university.models.Student;
 
 import java.util.List;
 
@@ -27,6 +29,19 @@ public class CourseJdbcDao {
 
     public List<Course> read() {
         return jdbcTemplate.query("SELECT * FROM courses", new CourseMapper());
+    }
+
+    public List<Course> readCoursesRelatedToTeacher(int teacherId) {
+        return jdbcTemplate.query("SELECT * FROM courses WHERE teacher_id = ?",
+                new Object[]{teacherId}, new CourseMapper());
+    }
+
+    public List<Course> readCoursesRelatedToStudent(int studentId) {
+        return jdbcTemplate.query(
+                "SELECT name, teacher_id FROM courses " +
+                    "JOIN students_courses ON courses.id = students_courses.id " +
+                    "WHERE student_id = ?",
+                new Object[]{studentId}, new CourseMapper());
     }
 
     public void update(int id, Course courseForQuery) {
