@@ -1,9 +1,7 @@
 package ua.com.foxminded.university.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import ua.com.foxminded.university.dao.mappers.CourseMapper;
 import ua.com.foxminded.university.dao.mappers.GroupsCoursesMapper;
-import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.GroupCourse;
 
 public class GroupsCoursesJdbcDao {
