@@ -2,9 +2,7 @@ package ua.com.foxminded.university.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.com.foxminded.university.dao.mappers.GroupMapper;
-import ua.com.foxminded.university.dao.mappers.StudentMapper;
 import ua.com.foxminded.university.models.Group;
-import ua.com.foxminded.university.models.Student;
 
 import java.util.List;
 
