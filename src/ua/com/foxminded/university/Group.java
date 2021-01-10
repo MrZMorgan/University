@@ -8,13 +8,10 @@ public @Data class Group {
 
     private final int groupId;
     private String groupName;
-    private List<Student> students;
 
     public Group(int groupId,
-                 String groupName,
-                 List<Student> students) {
+                 String groupName) {
         this.groupId = groupId;
         this.groupName = groupName;
-        this.students = students;
     }
 }
