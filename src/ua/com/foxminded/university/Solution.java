@@ -9,8 +9,6 @@ public class Solution {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         JdbcTemplate jdbcTemplate = (JdbcTemplate) context.getBean("jdbcTemplate");
-
-
     }
 
 }
