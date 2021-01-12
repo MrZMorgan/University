@@ -8,8 +8,8 @@ public class GroupsCoursesJdbcDao {
 
     private static final String INSERT_INTO_GROUPS_COURSES = "INSERT INTO groups_courses (group_id, course_id) VALUES (?, ?)";
     private static final String SELECT_FROM_GROUPS_COURSES= "SELECT * FROM groups_courses " +
-            "WHERE courses_id = ? " +
-            "AND group_id = ?";
+                                                            "WHERE courses_id = ? " +
+                                                            "AND group_id = ?";
     private static final String UPDATE_COURSE_ID = "UPDATE groups_courses SET course_id=? WHERE course_id=?";
     private static final String DELETE_COURSE = "DELETE FROM groups_courses WHERE course_id=?";
     private static final String DELETE_GROUP = "DELETE FROM groups_courses WHERE group_id=?";
