@@ -54,4 +54,5 @@ public class CourseJdbcDao {
     public void delete(int courseId) {
         jdbcTemplate.update("DELETE FROM course WHERE id=?", courseId);
     }
+    
 }
