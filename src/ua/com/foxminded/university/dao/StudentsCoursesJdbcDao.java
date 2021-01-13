@@ -1,20 +1,22 @@
 package ua.com.foxminded.university.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import ua.com.foxminded.university.dao.mappers.StudentsCoursesMapper;
+import ua.com.foxminded.university.dao.mappers.StudentCourseMapper;
+import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.StudentCourse;
 
 public class StudentsCoursesJdbcDao {
 
-    private static final String INSERT = "INSERT INTO groups_courses (student_id, course_id) VALUES (?, ?)";
-    private static final String READ = "SELECT * FROM students_courses " +
+    public static final String CREATE = "INSERT INTO groups_courses (student_id, course_id) VALUES (?, ?)";
+    public static final String READ = "SELECT * FROM students_courses " +
             "WHERE student_id = ? " +
             "AND course_id = ?";
-    private static final String UPDATE_COURSE_ID = "UPDATE students_courses SET course_id=? WHERE course_id=?";
-    private static final String UPDATE_STUDENT_ID = "UPDATE students_courses SET student_id=? WHERE studentId=?";
-    private static final String DELETE_COURSE = "DELETE FROM students_courses WHERE course_id=?";
-    private static final String DELETE_STUDENT = "DELETE FROM students_courses WHERE student_id=?";
-    private static final String DELETE_STUDENT_FROM_COURSE = "DELETE FROM students_courses WHERE student_id=? AND course_id =?";
+    public static final String UPDATE_COURSE_ID = "UPDATE students_courses SET course_id=? WHERE course_id=?";
+    public static final String UPDATE_STUDENT_ID = "UPDATE students_courses SET student_id=? WHERE studentId=?";
+    public static final String DELETE_COURSE = "DELETE FROM students_courses WHERE course_id=?";
+    public static final String DELETE_STUDENT = "DELETE FROM students_courses WHERE student_id=?";
+    public static final String DELETE_STUDENT_FROM_COURSE = "DELETE FROM students_courses WHERE student_id=? AND course_id =?";
+    public final static String DAO_EXCEPTION_MESSAGE = "There is no group-course with this ID in the database";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -23,15 +25,25 @@ public class StudentsCoursesJdbcDao {
     }
 
     public void create(int studentId, int courseId) {
-        jdbcTemplate.update(INSERT, studentId, courseId);
+        jdbcTemplate.update(CREATE, studentId, courseId);
     }
 
     public StudentCourse read(int courseId, int studentId) {
-        return jdbcTemplate.query(READ,
-                new Object[]{studentId, courseId}, new StudentsCoursesMapper())
+        StudentCourse studentCourse = jdbcTemplate.query(READ,
+                new Object[]{studentId, courseId}, new StudentCourseMapper())
                 .stream()
                 .findAny()
                 .orElse(null);
+
+        if (studentCourse == null) {
+            try {
+                throw new DAOException(DAO_EXCEPTION_MESSAGE);
+            } catch (DAOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return studentCourse;
     }
 
     public void updateCourseId(int courseId, int updatedId) {

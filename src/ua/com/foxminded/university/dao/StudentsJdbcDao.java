@@ -1,40 +1,55 @@
 package ua.com.foxminded.university.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import ua.com.foxminded.university.dao.mappers.GroupMapper;
+import ua.com.foxminded.university.dao.interfacers.StudentsDao;
 import ua.com.foxminded.university.dao.mappers.StudentMapper;
-import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Student;
 
 import java.util.List;
 
-public class StudentJdbcDao {
+public class StudentsJdbcDao implements StudentsDao {
 
-    private static final String CREATE = "INSERT INTO students (first_name, last_name, age, group_id) VALUES (?, ?, ?, ?)";
-    private static final String READ = "SELECT * FROM courses WHERE id = ?";
-    private static final String READ_STUDENTS_RELATED_TO_GROUP = "SELECT * FROM students WHERE group_id = ?";
-    private static final String READ_STUDENTS_RELATED_TO_COURSE = "SELECT first_name, last_name, age, group_id FROM students " +
+    public static final String CREATE = "INSERT INTO students (first_name, last_name, age, group_id) VALUES (?, ?, ?, ?)";
+    public static final String READ = "SELECT * FROM courses WHERE id = ?";
+    public static final String READ_STUDENTS_RELATED_TO_GROUP = "SELECT * FROM students WHERE group_id = ?";
+    public static final String READ_STUDENTS_RELATED_TO_COURSE = "SELECT first_name, last_name, age, group_id FROM students " +
                                                                   "JOIN students_courses; ON students.id = students_courses.id " +
                                                                   "WHERE course_id = ?";
-    private static final String READ_ALL = "SELECT * FROM students";
-    private static final String UPDATE = "UPDATE students SET fists_name=?, last_name = ?, age = ?, group_id = ? WHERE id=?";
-    private static final String DELETE = "DELETE FROM students WHERE id=?";
+    public static final String READ_ALL = "SELECT * FROM students";
+    public static final String UPDATE = "UPDATE students SET fists_name=?, last_name = ?, age = ?, group_id = ? WHERE id=?";
+    public static final String DELETE = "DELETE FROM students WHERE id=?";
+    public final static String DAO_EXCEPTION_MESSAGE = "There is no student with this ID in the database";
 
     private final JdbcTemplate jdbcTemplate;
 
-    public StudentJdbcDao(JdbcTemplate jdbcTemplate) {
+    public StudentsJdbcDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void create(String firstName, String lastName, int age, int groupId) {
+    public void create(Object[] data) {
+        String firstName = (String) data[0];
+        String lastName = (String) data[1];
+        int age = (int) data[2];
+        int groupId = (int) data[3];
         jdbcTemplate.update(CREATE, firstName, lastName, age, groupId);
     }
 
     public Student read(int studentId) {
-        return jdbcTemplate.query(READ, new Object[]{studentId}, new StudentMapper())
+        Student student = jdbcTemplate.query(READ, new Object[]{studentId}, new StudentMapper())
                 .stream()
                 .findAny()
                 .orElse(null);
+
+        if (student == null) {
+            try {
+                throw new DAOException(DAO_EXCEPTION_MESSAGE);
+            } catch (DAOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return student;
     }
 
     public List<Student> readStudentsRelatedToGroup(int groupId) {

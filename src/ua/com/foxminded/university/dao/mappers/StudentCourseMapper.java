@@ -6,7 +6,7 @@ import ua.com.foxminded.university.models.StudentCourse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class StudentsCoursesMapper implements RowMapper<StudentCourse> {
+public class StudentCourseMapper implements RowMapper<StudentCourse> {
 
     @Override
     public StudentCourse mapRow(ResultSet rs, int rowNum) throws SQLException {
