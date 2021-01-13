@@ -1,6 +1,8 @@
 package ua.com.foxminded.university.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.interfacers.StudentsDao;
 import ua.com.foxminded.university.dao.mappers.StudentMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
@@ -8,6 +10,7 @@ import ua.com.foxminded.university.models.Student;
 
 import java.util.List;
 
+@Repository
 public class StudentsJdbcDao implements StudentsDao {
 
     public static final String CREATE = "INSERT INTO students (first_name, last_name, age, group_id) VALUES (?, ?, ?, ?)";
@@ -21,11 +24,8 @@ public class StudentsJdbcDao implements StudentsDao {
     public static final String DELETE = "DELETE FROM students WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no student with this ID in the database";
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public StudentsJdbcDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public void create(Object[] data) {
         String firstName = (String) data[0];
