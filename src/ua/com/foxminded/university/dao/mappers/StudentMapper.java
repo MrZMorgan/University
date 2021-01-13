@@ -5,15 +5,14 @@ import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
 import ua.com.foxminded.university.dao.GroupsJdbcDao;
 import ua.com.foxminded.university.models.Student;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentMapper implements RowMapper<Student> {
 
     private final JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    private final GroupsJdbcDao groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
-    private final CoursesJdbcDao coursesJdbcDao = new CoursesJdbcDao(jdbcTemplate);
+    private final GroupsJdbcDao groupsJdbcDao = new GroupsJdbcDao();
+    private final CoursesJdbcDao coursesJdbcDao = new CoursesJdbcDao();
 
     @Override
     public Student mapRow(ResultSet rs, int rowNum) throws SQLException {

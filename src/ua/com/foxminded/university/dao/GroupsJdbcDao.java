@@ -2,14 +2,15 @@ package ua.com.foxminded.university.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.interfacers.GroupsDao;
 import ua.com.foxminded.university.dao.mappers.GroupMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
-import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.Group;
 
 import java.util.List;
 
+@Repository
 public class GroupsJdbcDao implements GroupsDao {
 
     public static final String CREATE = "INSERT INTO groups (name) VALUES (?)";
@@ -22,11 +23,8 @@ public class GroupsJdbcDao implements GroupsDao {
     public static final String DELETE = "DELETE FROM groups WHERE id = ?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public GroupsJdbcDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public void create(Object[] data) {
         jdbcTemplate.update(CREATE, data[0]);

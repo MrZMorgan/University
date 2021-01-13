@@ -1,10 +1,13 @@
 package ua.com.foxminded.university.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.mappers.GroupCourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.GroupCourse;
 
+@Repository
 public class GroupsCoursesJdbcDao {
 
     public static final String CREATE = "INSERT INTO groups_courses (group_id, course_id) VALUES (?, ?)";
@@ -17,11 +20,8 @@ public class GroupsCoursesJdbcDao {
     public static final String DELETE_ONE_RECORD = "DELETE FROM groups_courses WHERE group_id=? AND coures_id =?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no group-course with this ID in the database";
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public GroupsCoursesJdbcDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public void create(int groupId, int courseId) {
         jdbcTemplate.update(CREATE, groupId, courseId);
