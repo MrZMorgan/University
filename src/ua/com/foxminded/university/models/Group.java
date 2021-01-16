@@ -1,10 +1,8 @@
 package ua.com.foxminded.university.models;
 
-import lombok.Data;
-
 import java.util.List;
 
-public @Data class Group {
+public class Group {
 
     private final int groupId;
     private String groupName;
@@ -15,6 +13,26 @@ public @Data class Group {
                  List<Student> students) {
         this.groupId = groupId;
         this.groupName = groupName;
+        this.students = students;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 }
