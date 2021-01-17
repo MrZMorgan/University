@@ -33,8 +33,8 @@ public class TeachersJdbcDao implements TeachersDao {
         jdbcTemplate.update(CREATE, firstName, lastName, age);
     }
 
-    public Teacher read(int studentId) {
-        Teacher teacher = jdbcTemplate.query(READ, new Object[]{studentId}, new TeacherMapper(jdbcTemplate))
+    public Teacher read(int teacherId) {
+        Teacher teacher = jdbcTemplate.query(READ, new Object[]{teacherId}, new TeacherMapper(jdbcTemplate))
                 .stream()
                 .findAny()
                 .orElse(null);

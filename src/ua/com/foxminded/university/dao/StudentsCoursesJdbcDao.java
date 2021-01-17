@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 @Repository
 public class StudentsCoursesJdbcDao {
 
-    public static final String CREATE = "INSERT INTO groups_courses (student_id, course_id) VALUES (?, ?)";
+    public static final String CREATE = "INSERT INTO students_courses (student_id, course_id) VALUES (?, ?)";
     public static final String READ = "SELECT * FROM students_courses " +
             "WHERE student_id = ? " +
             "AND course_id = ?";
