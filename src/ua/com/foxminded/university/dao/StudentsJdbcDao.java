@@ -15,7 +15,7 @@ public class StudentsJdbcDao implements StudentsDao {
     public static final String CREATE = "INSERT INTO students (first_name, last_name, age, group_id) VALUES (?, ?, ?, ?)";
     public static final String READ = "SELECT * FROM courses WHERE id = ?";
     public static final String READ_STUDENTS_RELATED_TO_GROUP = "SELECT * FROM students WHERE group_id = ?";
-    public static final String READ_STUDENTS_RELATED_TO_COURSE = "SELECT first_name, last_name, age, group_id FROM students" +
+    public static final String READ_STUDENTS_RELATED_TO_COURSE = "SELECT first_name, last_name, age, group_id FROM students " +
                                                                   "JOIN students_courses ON students.id = students_courses.student_id " +
                                                                   "WHERE course_id = ?";
     public static final String READ_ALL = "SELECT * FROM students";

@@ -23,8 +23,8 @@ public class GroupsJdbcDao implements GroupsDao {
     public static final String UPDATE = "UPDATE groups SET name = ? WHERE id = ?";
     public static final String DELETE = "DELETE FROM groups WHERE id = ?";
     public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
-    public static final String READ_GROUP_BY_STUDENT_ID = "SELECT groups.id, name FROM groups" +
-                                                          "JOIN students s on groups.id = s.group_id" +
+    public static final String READ_GROUP_BY_STUDENT_ID = "SELECT groups.id, name FROM groups " +
+                                                          "JOIN students s on groups.id = s.group_id " +
                                                           "WHERE s.id = ?;";
 
     private final JdbcTemplate jdbcTemplate;
