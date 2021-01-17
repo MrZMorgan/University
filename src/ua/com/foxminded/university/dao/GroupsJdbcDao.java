@@ -24,11 +24,11 @@ public class GroupsJdbcDao implements GroupsDao {
     public static final String DELETE = "DELETE FROM groups WHERE id = ?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public GroupsJdbcDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void create(Object[] data) {
@@ -36,7 +36,7 @@ public class GroupsJdbcDao implements GroupsDao {
     }
 
     public Group read(int courseId) {
-        Group group = jdbcTemplate.query(READ, new Object[]{courseId}, new GroupMapper())
+        Group group = jdbcTemplate.query(READ, new Object[]{courseId}, new GroupMapper(jdbcTemplate))
                 .stream()
                 .findAny()
                 .orElse(null);
@@ -53,12 +53,12 @@ public class GroupsJdbcDao implements GroupsDao {
     }
 
     public List<Group> read() {
-        return jdbcTemplate.query(READ_ALL, new GroupMapper());
+        return jdbcTemplate.query(READ_ALL, new GroupMapper(jdbcTemplate));
     }
 
     public List<Group> readGroupsRelatedToCourse(int courseId) {
         return jdbcTemplate.query(READ_GROUPS_RELATED_TO_COURSES,
-                new Object[]{courseId}, new GroupMapper());
+                new Object[]{courseId}, new GroupMapper(jdbcTemplate));
     }
 
     public void update(int id, Group groupForQuery) {

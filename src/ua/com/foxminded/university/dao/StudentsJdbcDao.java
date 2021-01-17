@@ -7,8 +7,6 @@ import ua.com.foxminded.university.dao.interfacers.StudentsDao;
 import ua.com.foxminded.university.dao.mappers.StudentMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Student;
-
-import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -25,11 +23,11 @@ public class StudentsJdbcDao implements StudentsDao {
     public static final String DELETE = "DELETE FROM students WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no student with this ID in the database";
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public StudentsJdbcDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void create(Object[] data) {
@@ -41,7 +39,7 @@ public class StudentsJdbcDao implements StudentsDao {
     }
 
     public Student read(int studentId) {
-        Student student = jdbcTemplate.query(READ, new Object[]{studentId}, new StudentMapper())
+        Student student = jdbcTemplate.query(READ, new Object[]{studentId}, new StudentMapper(jdbcTemplate))
                 .stream()
                 .findAny()
                 .orElse(null);
@@ -59,15 +57,15 @@ public class StudentsJdbcDao implements StudentsDao {
 
     public List<Student> readStudentsRelatedToGroup(int groupId) {
         return jdbcTemplate.query(READ_STUDENTS_RELATED_TO_GROUP,
-                new Object[]{groupId}, new StudentMapper());
+                new Object[]{groupId}, new StudentMapper(jdbcTemplate));
     }
 
     public List<Student> readStudentsRelatedToCourse(int courseId) {
-        return jdbcTemplate.query(READ_STUDENTS_RELATED_TO_COURSE, new Object[]{courseId}, new StudentMapper());
+        return jdbcTemplate.query(READ_STUDENTS_RELATED_TO_COURSE, new Object[]{courseId}, new StudentMapper(jdbcTemplate));
     }
 
     public List<Student> read() {
-        return jdbcTemplate.query(READ_ALL, new StudentMapper());
+        return jdbcTemplate.query(READ_ALL, new StudentMapper(jdbcTemplate));
     }
 
     public void update(int id, Student studentForQuery) {

@@ -7,8 +7,6 @@ import ua.com.foxminded.university.dao.interfacers.TeachersDao;
 import ua.com.foxminded.university.dao.mappers.TeacherMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Teacher;
-
-import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -21,11 +19,11 @@ public class TeachersJdbcDao implements TeachersDao {
     public static final String DELETE = "DELETE FROM students WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no teacher with this ID in the database";
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public TeachersJdbcDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void create(Object[] data) {
@@ -36,7 +34,7 @@ public class TeachersJdbcDao implements TeachersDao {
     }
 
     public Teacher read(int studentId) {
-        Teacher teacher = jdbcTemplate.query(READ, new Object[]{studentId}, new TeacherMapper())
+        Teacher teacher = jdbcTemplate.query(READ, new Object[]{studentId}, new TeacherMapper(jdbcTemplate))
                 .stream()
                 .findAny()
                 .orElse(null);
@@ -53,7 +51,7 @@ public class TeachersJdbcDao implements TeachersDao {
     }
 
     public List<Teacher> read() {
-        return jdbcTemplate.query(READ_ALL, new TeacherMapper());
+        return jdbcTemplate.query(READ_ALL, new TeacherMapper(jdbcTemplate));
     }
 
     public void update(int id, Teacher teacherForQuery) {
