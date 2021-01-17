@@ -29,7 +29,7 @@ public class StudentMapper implements RowMapper<Student> {
                 rs.getString("last_name"),
                 rs.getInt("age"),
                 groupsJdbcDao.read(rs.getInt("id")),
-                coursesJdbcDao.readCoursesRelatedToStudent(rs.getInt("student_id"))
+                coursesJdbcDao.readCoursesRelatedToStudent(rs.getInt("id"))
         );
     }
 }

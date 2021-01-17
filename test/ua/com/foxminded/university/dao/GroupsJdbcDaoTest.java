@@ -88,7 +88,6 @@ class GroupsJdbcDaoTest {
     void shouldDeleteGroup() {
         int groupIdToDelete = 2;
 
-        groupsCoursesJdbcDao.deleteGroup(groupIdToDelete);
         groupsJdbcDao.delete(groupIdToDelete);
 
         int expectedTableSize = 1;

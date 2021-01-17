@@ -28,9 +28,9 @@ public class CourseMapper implements RowMapper<Course> {
         return new Course(
                 rs.getInt("id"),
                 rs.getString("name"),
-                teachersJdbcDao.read(rs.getInt("id")),
-                groupsJdbcDao.readGroupsRelatedToCourse(rs.getInt("course_id")),
-                studentsJdbcDao.readStudentsRelatedToCourse(rs.getInt("course_id"))
+                teachersJdbcDao.readTeacherRelatedToCourse(rs.getInt("id")),
+                groupsJdbcDao.readGroupsRelatedToCourse(rs.getInt("id")),
+                studentsJdbcDao.readStudentsRelatedToCourse(rs.getInt("id"))
         );
     }
 }
