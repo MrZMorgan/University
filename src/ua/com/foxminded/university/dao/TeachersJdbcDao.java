@@ -15,7 +15,7 @@ public class TeachersJdbcDao implements TeachersDao {
     public static final String CREATE = "INSERT INTO teachers (first_name, last_name, age) VALUES (?, ?, ?)";
     public static final String READ = "SELECT * FROM teacher WHERE id = ?";
     public static final String READ_TEACHER_RELATED_TO_COURSE = "SELECT first_name, last_name, age FROM teachers " +
-                                                                "JOIN courses course on teachers.id = course.teacher_id  " +
+                                                                "JOIN courses course on teachers.id = course.teacher_id " +
                                                                 "WHERE course.id = ?;";
     public static final String READ_ALL = "SELECT * FROM teachers";
     public static final String UPDATE = "UPDATE students SET first_name = ?, last_name = ?, age = ? WHERE id = ?";
