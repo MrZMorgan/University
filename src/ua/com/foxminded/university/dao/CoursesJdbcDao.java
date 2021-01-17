@@ -16,9 +16,9 @@ public class CoursesJdbcDao implements CoursesDao {
     public static final String READ = "SELECT * FROM courses WHERE id = ?";
     public static final String READ_ALL = "SELECT * FROM courses";
     public static final String READ_ALL_BY_TEACHER_ID = "SELECT * FROM courses WHERE teacher_id = ?";
-    public static final String READ_COURSES_RELATED_TO_TEACHER = "SELECT name, teacher_id FROM courses" +
-                                                                    "JOIN students_courses ON courses.id = students_courses.course_id" +
-                                                                    "WHERE student_id = ?;";
+    public static final String READ_COURSES_RELATED_TO_TEACHER = "SELECT courses.id, name, teacher_id FROM courses" +
+                                                                 "JOIN teachers t on courses.teacher_id = t.id" +
+                                                                 "WHERE teacher_id = ?;";
     public final static String UPDATE_COURSE = "UPDATE course SET name=?, teacher_id=? WHERE id=?";
     public final static String DELETE_COURSE_BY_ID = "DELETE FROM course WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
@@ -61,7 +61,7 @@ public class CoursesJdbcDao implements CoursesDao {
                 new Object[]{teacherId}, new CourseMapper(jdbcTemplate));
     }
 
-    public List<Course> readCoursesRelatedToStudent(int teacherId) {
+    public List<Course> readCoursesByTeacherId(int teacherId) {
         return jdbcTemplate.query(
                 READ_COURSES_RELATED_TO_TEACHER,
                 new Object[]{teacherId}, new CourseMapper(jdbcTemplate));

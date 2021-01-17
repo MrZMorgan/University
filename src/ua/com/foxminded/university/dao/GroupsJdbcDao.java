@@ -22,7 +22,10 @@ public class GroupsJdbcDao implements GroupsDao {
                                                                  "WHERE course_id = ?";
     public static final String UPDATE = "UPDATE groups SET name = ? WHERE id = ?";
     public static final String DELETE = "DELETE FROM groups WHERE id = ?";
-    public final static String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
+    public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
+    public static final String READ_GROUP_BY_STUDENT_ID = "SELECT groups.id, name FROM groups" +
+                                                          "JOIN students s on groups.id = s.group_id" +
+                                                          "WHERE s.id = ?;";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -37,6 +40,23 @@ public class GroupsJdbcDao implements GroupsDao {
 
     public Group read(int groupId) {
         Group group = jdbcTemplate.query(READ, new Object[]{groupId}, new GroupMapper(jdbcTemplate))
+                .stream()
+                .findAny()
+                .orElse(null);
+
+        if (group == null) {
+            try {
+                throw new DAOException(DAO_EXCEPTION_MESSAGE);
+            } catch (DAOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return group;
+    }
+
+    public Group readGroupByStudentId(int studentId) {
+        Group group = jdbcTemplate.query(READ_GROUP_BY_STUDENT_ID, new Object[]{studentId}, new GroupMapper(jdbcTemplate))
                 .stream()
                 .findAny()
                 .orElse(null);
