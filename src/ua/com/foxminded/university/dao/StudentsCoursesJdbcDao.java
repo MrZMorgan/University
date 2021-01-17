@@ -7,6 +7,8 @@ import ua.com.foxminded.university.dao.mappers.StudentCourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.StudentCourse;
 
+import javax.sql.DataSource;
+
 @Repository
 public class StudentsCoursesJdbcDao {
 
@@ -21,8 +23,12 @@ public class StudentsCoursesJdbcDao {
     public static final String DELETE_STUDENT_FROM_COURSE = "DELETE FROM students_courses WHERE student_id=? AND course_id =?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no group-course with this ID in the database";
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     public void create(int studentId, int courseId) {
         jdbcTemplate.update(CREATE, studentId, courseId);

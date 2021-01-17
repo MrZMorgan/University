@@ -8,6 +8,7 @@ import ua.com.foxminded.university.dao.mappers.StudentMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Student;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -24,8 +25,12 @@ public class StudentsJdbcDao implements StudentsDao {
     public static final String DELETE = "DELETE FROM students WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no student with this ID in the database";
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     public void create(Object[] data) {
         String firstName = (String) data[0];

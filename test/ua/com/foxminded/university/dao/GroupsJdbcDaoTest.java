@@ -1,28 +1,27 @@
 package ua.com.foxminded.university.dao;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class CoursesJdbcDaoTest {
+class GroupsJdbcDaoTest {
 
     @Test
-    void shouldCreateCourse() {
+    void shouldCreateGroup() {
     }
 
     @Test
-    void shouldReadCourse() {
+    void shouldReadGroup() {
     }
 
     @Test
-    void shouldReadAllCourses() {
+    void shouldReadAllGroups() {
     }
 
     @Test
-    void shouldUpdateCourse() {
+    void shouldUpdateGroup() {
     }
 
     @Test
-    void shouldDeleteCourse() {
+    void shouldDeleteGroup() {
     }
 }
