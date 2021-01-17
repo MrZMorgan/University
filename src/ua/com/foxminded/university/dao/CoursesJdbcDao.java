@@ -7,8 +7,6 @@ import ua.com.foxminded.university.dao.interfacers.CoursesDao;
 import ua.com.foxminded.university.dao.mappers.CourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Course;
-
-import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -26,11 +24,11 @@ public class CoursesJdbcDao implements CoursesDao {
     public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
 
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public CoursesJdbcDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void create(Object[] data) {
@@ -38,7 +36,7 @@ public class CoursesJdbcDao implements CoursesDao {
     }
 
     public Course read(int courseId) {
-        Course course = jdbcTemplate.query(READ, new Object[]{courseId}, new CourseMapper())
+        Course course = jdbcTemplate.query(READ, new Object[]{courseId}, new CourseMapper(jdbcTemplate))
                 .stream()
                 .findAny()
                 .orElse(null);
@@ -55,18 +53,18 @@ public class CoursesJdbcDao implements CoursesDao {
     }
 
     public List<Course> read() {
-        return jdbcTemplate.query(READ_ALL, new CourseMapper());
+        return jdbcTemplate.query(READ_ALL, new CourseMapper(jdbcTemplate));
     }
 
     public List<Course> readCoursesRelatedToTeacher(int teacherId) {
         return jdbcTemplate.query(READ_ALL_BY_TEACHER_ID,
-                new Object[]{teacherId}, new CourseMapper());
+                new Object[]{teacherId}, new CourseMapper(jdbcTemplate));
     }
 
     public List<Course> readCoursesRelatedToStudent(int studentId) {
         return jdbcTemplate.query(
                 READ_COURSES_RELATED_TO_TEACHER,
-                new Object[]{studentId}, new CourseMapper());
+                new Object[]{studentId}, new CourseMapper(jdbcTemplate));
     }
 
     public void update(int id, Course courseForQuery) {

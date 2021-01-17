@@ -1,10 +1,7 @@
 package ua.com.foxminded.university.dao;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -18,7 +15,7 @@ class GroupsJdbcDaoTest {
     private JdbcTemplate jdbcTemplate;
     private GroupsJdbcDao groupsJdbcDao;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
         embeddedDatabase = new EmbeddedDatabaseBuilder()
                 .addDefaultScripts()
@@ -28,6 +25,11 @@ class GroupsJdbcDaoTest {
 
     @Test
     void shouldCreateGroup() {
+        jdbcTemplate = new JdbcTemplate(embeddedDatabase);
+        groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
+
+        groupsJdbcDao.create(new Object[]{"asd"});
+        assertEquals(1, groupsJdbcDao.read().size());
     }
 
     @Test
@@ -46,8 +48,8 @@ class GroupsJdbcDaoTest {
     void shouldDeleteGroup() {
     }
 
-    @BeforeAll
-    public void tearDown() {
-        embeddedDatabase.shutdown();
-    }
+//    @BeforeEach
+//    public void tearDown() {
+//        embeddedDatabase.shutdown();
+//    }
 }

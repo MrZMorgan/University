@@ -23,11 +23,11 @@ public class StudentsCoursesJdbcDao {
     public static final String DELETE_STUDENT_FROM_COURSE = "DELETE FROM students_courses WHERE student_id=? AND course_id =?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no group-course with this ID in the database";
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public StudentsCoursesJdbcDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void create(int studentId, int courseId) {
