@@ -25,7 +25,7 @@ public class GroupMapper implements RowMapper<Group> {
         return new Group(
                 rs.getInt("id"),
                 rs.getString("name"),
-                studentsJdbcDao.readStudentsRelatedToGroup(rs.getInt("group_id"))
+                studentsJdbcDao.readStudentsRelatedToGroup(rs.getInt("id"))
         );
     }
 }
