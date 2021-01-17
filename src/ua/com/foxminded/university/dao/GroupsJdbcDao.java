@@ -8,6 +8,7 @@ import ua.com.foxminded.university.dao.mappers.GroupMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Group;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -23,8 +24,12 @@ public class GroupsJdbcDao implements GroupsDao {
     public static final String DELETE = "DELETE FROM groups WHERE id = ?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     public void create(Object[] data) {
         jdbcTemplate.update(CREATE, data[0]);

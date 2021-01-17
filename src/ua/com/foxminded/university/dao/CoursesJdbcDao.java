@@ -8,6 +8,7 @@ import ua.com.foxminded.university.dao.mappers.CourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Course;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -24,8 +25,13 @@ public class CoursesJdbcDao implements CoursesDao {
     public final static String DELETE_COURSE_BY_ID = "DELETE FROM course WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
 
-    @Autowired
+
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     public void create(Object[] data) {
         jdbcTemplate.update(CREATE, data[0]);

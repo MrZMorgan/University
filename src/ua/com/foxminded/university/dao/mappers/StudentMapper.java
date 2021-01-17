@@ -1,6 +1,6 @@
 package ua.com.foxminded.university.dao.mappers;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
 import ua.com.foxminded.university.dao.GroupsJdbcDao;
@@ -10,9 +10,10 @@ import java.sql.SQLException;
 
 public class StudentMapper implements RowMapper<Student> {
 
-    private final JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    private final GroupsJdbcDao groupsJdbcDao = new GroupsJdbcDao();
-    private final CoursesJdbcDao coursesJdbcDao = new CoursesJdbcDao();
+    @Autowired
+    private GroupsJdbcDao groupsJdbcDao;
+    @Autowired
+    private CoursesJdbcDao coursesJdbcDao;
 
     @Override
     public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
