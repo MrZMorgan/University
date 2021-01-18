@@ -13,7 +13,7 @@ import java.util.List;
 public class GroupsJdbcDao implements GroupsDao {
 
     public static final String CREATE = "INSERT INTO groups (name) VALUES (?)";
-    public static final String READ = "SELECT FROM groups WHERE id = ?";
+    public static final String READ = "SELECT * FROM groups WHERE id = ?";
     public static final String READ_ALL = "SELECT * FROM groups";
     public static final String READ_GROUPS_RELATED_TO_COURSES = "SELECT * FROM groups " +
                                                                  "JOIN groups_courses ON groups.id = groups_courses.course_id " +
@@ -91,6 +91,9 @@ public class GroupsJdbcDao implements GroupsDao {
 
     @Override
     public void delete(int groupId) {
+        new GroupsCoursesJdbcDao(jdbcTemplate).deleteGroup(groupId);
+        new StudentsJdbcDao(jdbcTemplate).deleteStudentFromGroup(groupId);
+
         jdbcTemplate.update(DELETE, groupId);
     }
 }
