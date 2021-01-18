@@ -5,8 +5,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
 import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.models.Student;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class GroupMapper implements RowMapper<Group> {
 
@@ -19,13 +22,12 @@ public class GroupMapper implements RowMapper<Group> {
 
     @Override
     public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
-
         StudentsJdbcDao studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
 
-        return new Group(
-                rs.getInt("id"),
-                rs.getString("name"),
-                studentsJdbcDao.readStudentsRelatedToGroup(rs.getInt("id"))
-        );
+        int groupId = rs.getInt("id");
+        String groupName = rs.getString("name");
+        List<Student> students = studentsJdbcDao.readStudentsRelatedToGroup(groupId);
+
+        return new Group(groupId, groupName, students);
     }
 }
