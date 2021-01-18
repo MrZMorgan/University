@@ -7,8 +7,13 @@ import ua.com.foxminded.university.dao.GroupsJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
 import ua.com.foxminded.university.dao.TeachersJdbcDao;
 import ua.com.foxminded.university.models.Course;
+import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.models.Student;
+import ua.com.foxminded.university.models.Teacher;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CourseMapper implements RowMapper<Course> {
 
@@ -25,12 +30,13 @@ public class CourseMapper implements RowMapper<Course> {
         StudentsJdbcDao studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
         GroupsJdbcDao groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
 
-        return new Course(
-                rs.getInt("id"),
-                rs.getString("name"),
-                teachersJdbcDao.read(rs.getInt("teacher_id")),
-                groupsJdbcDao.readGroupsRelatedToCourse(rs.getInt("id")),
-                studentsJdbcDao.readStudentsRelatedToCourse(rs.getInt("id"))
-        );
+        int courseId = rs.getInt("id");
+        String courseName = rs.getString("name");
+        int teacherId = rs.getInt("teacher_id");
+        Teacher teacher = teachersJdbcDao.read(teacherId);
+        List<Group> groups = groupsJdbcDao.readGroupsRelatedToCourse(courseId);
+        List<Student> students = studentsJdbcDao.readStudentsRelatedToCourse(courseId);
+
+        return new Course(courseId, courseName, teacher, groups, students);
     }
 }

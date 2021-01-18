@@ -39,7 +39,7 @@ class GroupsJdbcDaoTest {
 
     @Test
     void shouldCreateGroup() {
-        groupsJdbcDao.create(new Object[]{NAME_FOR_TEST});
+        groupsJdbcDao.create(new Group(3, NAME_FOR_TEST, new LinkedList<>()));
 
         int expectedTableSize = 3;
         int actualTableSize = groupsJdbcDao.read().size();
