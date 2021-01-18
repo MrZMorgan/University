@@ -1,4 +1,4 @@
-package ua.com.foxminded.university.dao.interfacers;
+package ua.com.foxminded.university.dao.interfaces;
 
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Teacher;
