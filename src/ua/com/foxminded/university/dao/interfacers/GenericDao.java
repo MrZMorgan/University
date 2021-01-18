@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GenericDao<T> {
 
-    void create(Object[] data);
+    void create(T data);
     T read(int id) throws DAOException;
     List<T> read();
     void update(int id, T objectForQuery);

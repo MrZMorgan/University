@@ -7,7 +7,7 @@ import java.util.List;
 public interface StudentsDao extends GenericDao<Student> {
 
     @Override
-    void create(Object[] data);
+    void create(Student data);
 
     @Override
     Student read(int id) throws DAOException;

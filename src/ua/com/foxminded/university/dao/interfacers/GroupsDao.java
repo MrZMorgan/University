@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GroupsDao extends GenericDao<Group> {
     @Override
-    void create(Object[] data);
+    void create(Group data);
 
     @Override
     Group read(int id) throws DAOException;
