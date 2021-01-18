@@ -14,9 +14,6 @@ public class TeachersJdbcDao implements TeachersDao {
 
     public static final String CREATE = "INSERT INTO teachers (first_name, last_name, age) VALUES (?, ?, ?)";
     public static final String READ = "SELECT * FROM teacher WHERE id = ?";
-    public static final String READ_TEACHER_RELATED_TO_COURSE = "SELECT first_name, last_name, age FROM teachers " +
-                                                                "JOIN courses course on teachers.id = course.teacher_id " +
-                                                                "WHERE course.id = ?;";
     public static final String READ_ALL = "SELECT * FROM teachers";
     public static final String UPDATE = "UPDATE students SET first_name = ?, last_name = ?, age = ? WHERE id = ?";
     public static final String DELETE = "DELETE FROM students WHERE id=?";
@@ -34,23 +31,6 @@ public class TeachersJdbcDao implements TeachersDao {
         String lastName = (String) data[1];
         int age = (int) data[2];
         jdbcTemplate.update(CREATE, firstName, lastName, age);
-    }
-
-    public Teacher readTeacherRelatedToCourse(int courseId) {
-        Teacher teacher =  jdbcTemplate.query(READ_TEACHER_RELATED_TO_COURSE,
-                new Object[]{courseId}, new TeacherMapper(jdbcTemplate))
-                .stream()
-                .findAny().orElse(null);
-
-        if (teacher == null) {
-            try {
-                throw new DAOException(DAO_EXCEPTION_MESSAGE);
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return teacher;
     }
 
     public Teacher read(int teacherId) {

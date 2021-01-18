@@ -14,4 +14,5 @@ public class GroupCourseMapper implements RowMapper<GroupCourse> {
             rs.getInt("course_id")
         );
     }
+
 }
