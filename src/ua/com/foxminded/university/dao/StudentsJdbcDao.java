@@ -30,14 +30,16 @@ public class StudentsJdbcDao implements StudentsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void create(Object[] data) {
-        String firstName = (String) data[0];
-        String lastName = (String) data[1];
-        int age = (int) data[2];
-        int groupId = (int) data[3];
+    @Override
+    public void create(Student data) {
+        String firstName = data.getFirstName();
+        String lastName = data.getLastName();
+        int age = data.getAge();
+        int groupId = data.getId();
         jdbcTemplate.update(CREATE, firstName, lastName, age, groupId);
     }
 
+    @Override
     public Student read(int studentId) {
         Student student = jdbcTemplate.query(READ, new Object[]{studentId}, new StudentMapper(jdbcTemplate))
                 .stream()
@@ -64,10 +66,12 @@ public class StudentsJdbcDao implements StudentsDao {
         return jdbcTemplate.query(READ_STUDENTS_RELATED_TO_COURSE, new Object[]{courseId}, new StudentMapper(jdbcTemplate));
     }
 
+    @Override
     public List<Student> read() {
         return jdbcTemplate.query(READ_ALL, new StudentMapper(jdbcTemplate));
     }
 
+    @Override
     public void update(int id, Student studentForQuery) {
         jdbcTemplate.update(UPDATE,
                 studentForQuery.getFirstName(),
@@ -77,6 +81,7 @@ public class StudentsJdbcDao implements StudentsDao {
                 id);
     }
 
+    @Override
     public void delete(int studentId) {
         jdbcTemplate.update(DELETE, studentId);
     }

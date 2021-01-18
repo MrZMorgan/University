@@ -7,8 +7,6 @@ import ua.com.foxminded.university.dao.interfacers.GroupsDao;
 import ua.com.foxminded.university.dao.mappers.GroupMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Group;
-
-import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -34,10 +32,12 @@ public class GroupsJdbcDao implements GroupsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void create(Object[] data) {
-        jdbcTemplate.update(CREATE, data[0]);
+    @Override
+    public void create(Group data) {
+        jdbcTemplate.update(CREATE, data.getGroupName());
     }
 
+    @Override
     public Group read(int groupId) {
         Group group = jdbcTemplate.query(READ, new Object[]{groupId}, new GroupMapper(jdbcTemplate))
                 .stream()
@@ -72,6 +72,7 @@ public class GroupsJdbcDao implements GroupsDao {
         return group;
     }
 
+    @Override
     public List<Group> read() {
         return jdbcTemplate.query(READ_ALL, new GroupMapper(jdbcTemplate));
     }
@@ -81,12 +82,14 @@ public class GroupsJdbcDao implements GroupsDao {
                 new Object[]{courseId}, new GroupMapper(jdbcTemplate));
     }
 
+    @Override
     public void update(int id, Group groupForQuery) {
         jdbcTemplate.update(UPDATE,
                 groupForQuery.getGroupName(),
                 id);
     }
 
+    @Override
     public void delete(int groupId) {
         jdbcTemplate.update(DELETE, groupId);
     }

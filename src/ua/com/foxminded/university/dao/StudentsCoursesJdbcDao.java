@@ -7,8 +7,6 @@ import ua.com.foxminded.university.dao.mappers.StudentCourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.StudentCourse;
 
-import javax.sql.DataSource;
-
 @Repository
 public class StudentsCoursesJdbcDao {
 

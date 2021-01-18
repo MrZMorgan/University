@@ -31,10 +31,12 @@ public class CoursesJdbcDao implements CoursesDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void create(Object[] data) {
-        jdbcTemplate.update(CREATE, data[0]);
+    @Override
+    public void create(Course data) {
+        jdbcTemplate.update(CREATE, data.getCourseName());
     }
 
+    @Override
     public Course read(int courseId) {
         Course course = jdbcTemplate.query(READ, new Object[]{courseId}, new CourseMapper(jdbcTemplate))
                 .stream()
@@ -52,6 +54,7 @@ public class CoursesJdbcDao implements CoursesDao {
         return course;
     }
 
+    @Override
     public List<Course> read() {
         return jdbcTemplate.query(READ_ALL, new CourseMapper(jdbcTemplate));
     }
@@ -67,6 +70,7 @@ public class CoursesJdbcDao implements CoursesDao {
                 new Object[]{teacherId}, new CourseMapper(jdbcTemplate));
     }
 
+    @Override
     public void update(int id, Course courseForQuery) {
         jdbcTemplate.update(UPDATE_COURSE,
                 courseForQuery.getCourseName(),
@@ -74,6 +78,7 @@ public class CoursesJdbcDao implements CoursesDao {
                 id);
     }
 
+    @Override
     public void delete(int courseId) {
         jdbcTemplate.update(DELETE_COURSE_BY_ID, courseId);
     }
