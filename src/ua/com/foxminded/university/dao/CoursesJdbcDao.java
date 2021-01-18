@@ -3,7 +3,7 @@ package ua.com.foxminded.university.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ua.com.foxminded.university.dao.interfacers.CoursesDao;
+import ua.com.foxminded.university.dao.interfaces.CoursesDao;
 import ua.com.foxminded.university.dao.mappers.CourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Course;

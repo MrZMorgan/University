@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
+import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.Teacher;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TeacherMapper implements RowMapper<Teacher> {
 
@@ -22,12 +24,12 @@ public class TeacherMapper implements RowMapper<Teacher> {
     public Teacher mapRow(ResultSet rs, int rowNum) throws SQLException {
         CoursesJdbcDao coursesJdbcDao = new CoursesJdbcDao(jdbcTemplate);
 
-        return new Teacher(
-                rs.getInt("id"),
-                rs.getString("first_name"),
-                rs.getString("last_name"),
-                rs.getInt("age"),
-                coursesJdbcDao.readCoursesRelatedToTeacher(rs.getInt("id"))
-        );
+        int teacherId = rs.getInt("id");
+        String firstName = rs.getString("first_name");
+        String lastName = rs.getString("last_name");
+        int age = rs.getInt("age");
+        List<Course> courses = coursesJdbcDao.readCoursesRelatedToTeacher(teacherId);
+
+        return new Teacher(teacherId, firstName, lastName, age, courses);
     }
 }
