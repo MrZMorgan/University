@@ -14,4 +14,5 @@ public class StudentCourseMapper implements RowMapper<StudentCourse> {
                 rs.getInt("course_id")
         );
     }
+
 }
