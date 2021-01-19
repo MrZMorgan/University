@@ -16,8 +16,8 @@ public class StudentsJdbcDao implements StudentsDao {
     public static final String READ = "SELECT * FROM courses WHERE id = ?";
     public static final String READ_STUDENTS_RELATED_TO_GROUP = "SELECT * FROM students WHERE group_id = ?";
     public static final String READ_STUDENTS_RELATED_TO_COURSE = "SELECT * FROM students " +
-                                                                  "JOIN students_courses ON students.id = students_courses.student_id " +
-                                                                  "WHERE course_id = ?";
+                                                                 "JOIN students_courses ON students.id = students_courses.student_id " +
+                                                                 "WHERE course_id = ?";
     public static final String READ_ALL = "SELECT * FROM students";
     public static final String DELETE_STUDENT_FROM_GROUP = "UPDATE students SET group_id = null WHERE id = ?";
     public static final String UPDATE = "UPDATE students SET fists_name=?, last_name = ?, age = ?, group_id = ? WHERE id=?";

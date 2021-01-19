@@ -45,6 +45,8 @@ class GroupsJdbcDaoTest {
         int actualTableSize = groupsJdbcDao.read().size();
 
         assertEquals(expectedTableSize, actualTableSize);
+
+        embeddedDatabase.shutdown();
     }
 
     @Test
