@@ -1,5 +1,6 @@
 package ua.com.foxminded.university.dao;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,6 +36,11 @@ class GroupsJdbcDaoTest {
         studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
         groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
         groupsCoursesJdbcDao = new GroupsCoursesJdbcDao(jdbcTemplate);
+    }
+
+    @AfterEach
+    void tearDown() {
+        embeddedDatabase.shutdown();
     }
 
     @Test

@@ -7,15 +7,18 @@ import ua.com.foxminded.university.dao.mappers.StudentCourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.StudentCourse;
 
+import java.util.List;
+
 @Repository
 public class StudentsCoursesJdbcDao {
 
     public static final String CREATE = "INSERT INTO students_courses (student_id, course_id) VALUES (?, ?)";
     public static final String READ = "SELECT * FROM students_courses " +
-            "WHERE student_id = ? " +
-            "AND course_id = ?";
+                                      "WHERE student_id = ? " +
+                                      "AND course_id = ?";
+    public static final String READ_ALL = "SELECT * FROM students_courses";
     public static final String UPDATE_COURSE_ID = "UPDATE students_courses SET course_id=? WHERE course_id=?";
-    public static final String UPDATE_STUDENT_ID = "UPDATE students_courses SET student_id=? WHERE studentId=?";
+    public static final String UPDATE_STUDENT_ID = "UPDATE students_courses SET student_id=? WHERE student_id=?";
     public static final String DELETE_COURSE = "DELETE FROM students_courses WHERE course_id=?";
     public static final String DELETE_STUDENT = "DELETE FROM students_courses WHERE student_id=?";
     public static final String DELETE_STUDENT_FROM_COURSE = "DELETE FROM students_courses WHERE student_id=? AND course_id =?";
@@ -48,6 +51,10 @@ public class StudentsCoursesJdbcDao {
         }
 
         return studentCourse;
+    }
+
+    public List<StudentCourse> read() {
+        return jdbcTemplate.query(READ_ALL, new StudentCourseMapper());
     }
 
     public void updateCourseId(int courseId, int updatedId) {
