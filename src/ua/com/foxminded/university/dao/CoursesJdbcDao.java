@@ -20,6 +20,7 @@ public class CoursesJdbcDao implements CoursesDao {
                                                             "JOIN students_courses sc on courses.id = sc.course_id" +
                                                             "WHERE student_id = ?";
     public final static String UPDATE_COURSE = "UPDATE courses SET name=?, teacher_id=? WHERE id=?";
+    public final static String DELETE_TEACHER_FROM_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
     public final static String DELETE_COURSE_BY_ID = "DELETE FROM courses WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
 
@@ -76,6 +77,10 @@ public class CoursesJdbcDao implements CoursesDao {
                 courseForQuery.getCourseName(),
                 courseForQuery.getTeacher().getId(),
                 id);
+    }
+
+    public void deleteTeacherFromCourses(int teacherId) {
+        jdbcTemplate.update(DELETE_TEACHER_FROM_COURSES, teacherId);
     }
 
     @Override

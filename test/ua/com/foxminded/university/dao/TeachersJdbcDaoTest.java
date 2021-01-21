@@ -9,7 +9,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.Teacher;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +18,6 @@ class TeachersJdbcDaoTest {
 
     private EmbeddedDatabase embeddedDatabase;
     private TeachersJdbcDao teachersJdbcDao;
-    private GroupsJdbcDao groupsJdbcDao;
 
     @BeforeEach
     void setUp() {
