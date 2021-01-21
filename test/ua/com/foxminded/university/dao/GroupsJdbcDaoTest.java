@@ -9,7 +9,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.models.Student;
-
 import java.util.LinkedList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;

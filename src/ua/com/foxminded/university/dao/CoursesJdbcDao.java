@@ -80,6 +80,8 @@ public class CoursesJdbcDao implements CoursesDao {
 
     @Override
     public void delete(int courseId) {
+        new StudentsCoursesJdbcDao(jdbcTemplate).deleteCourse(courseId);
+        new GroupsCoursesJdbcDao(jdbcTemplate).deleteCourse(courseId);
         jdbcTemplate.update(DELETE_COURSE_BY_ID, courseId);
     }
 }

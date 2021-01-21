@@ -8,7 +8,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.models.StudentCourse;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentsCoursesJdbcDaoTest {

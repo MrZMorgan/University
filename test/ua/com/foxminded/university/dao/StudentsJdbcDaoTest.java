@@ -1,6 +1,5 @@
 package ua.com.foxminded.university.dao;
 
-import org.checkerframework.checker.units.qual.s;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.models.Student;
-import ua.com.foxminded.university.models.Teacher;
-
 import java.util.LinkedList;
 import java.util.List;
 

@@ -8,8 +8,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.models.Course;
-import ua.com.foxminded.university.models.Group;
-import ua.com.foxminded.university.models.Student;
 import ua.com.foxminded.university.models.Teacher;
 
 import java.util.LinkedList;
