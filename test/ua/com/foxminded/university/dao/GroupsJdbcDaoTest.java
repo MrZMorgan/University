@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class GroupsJdbcDaoTest {
 
     private final static String NAME_FOR_TEST = "groupNameForTest";
-
     private EmbeddedDatabase embeddedDatabase;
     private GroupsJdbcDao groupsJdbcDao;
 
