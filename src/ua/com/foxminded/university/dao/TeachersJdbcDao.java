@@ -13,7 +13,7 @@ import java.util.List;
 public class TeachersJdbcDao implements TeachersDao {
 
     public static final String CREATE = "INSERT INTO teachers (first_name, last_name, age) VALUES (?, ?, ?)";
-    public static final String READ = "SELECT * FROM teacher WHERE id = ?";
+    public static final String READ = "SELECT * FROM teachers WHERE id = ?";
     public static final String READ_ALL = "SELECT * FROM teachers";
     public static final String UPDATE = "UPDATE students SET first_name = ?, last_name = ?, age = ? WHERE id = ?";
     public static final String DELETE = "DELETE FROM students WHERE id=?";

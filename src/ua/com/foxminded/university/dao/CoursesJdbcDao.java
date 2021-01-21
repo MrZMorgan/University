@@ -19,8 +19,8 @@ public class CoursesJdbcDao implements CoursesDao {
     public static final String READ_COURSES_BY_STUDENT_ID = "SELECT * FROM courses" +
                                                             "JOIN students_courses sc on courses.id = sc.course_id" +
                                                             "WHERE student_id = ?";
-    public final static String UPDATE_COURSE = "UPDATE course SET name=?, teacher_id=? WHERE id=?";
-    public final static String DELETE_COURSE_BY_ID = "DELETE FROM course WHERE id=?";
+    public final static String UPDATE_COURSE = "UPDATE courses SET name=?, teacher_id=? WHERE id=?";
+    public final static String DELETE_COURSE_BY_ID = "DELETE FROM courses WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
 
 

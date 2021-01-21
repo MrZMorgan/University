@@ -19,10 +19,7 @@ class GroupsJdbcDaoTest {
     private final static String NAME_FOR_TEST = "groupNameForTest";
 
     private EmbeddedDatabase embeddedDatabase;
-    private JdbcTemplate jdbcTemplate;
     private GroupsJdbcDao groupsJdbcDao;
-    private StudentsJdbcDao studentsJdbcDao;
-    private GroupsCoursesJdbcDao groupsCoursesJdbcDao;
 
     @BeforeEach
     void setUp() {
@@ -31,11 +28,8 @@ class GroupsJdbcDaoTest {
                 .setType(EmbeddedDatabaseType.H2)
                 .build();
 
-        jdbcTemplate = new JdbcTemplate(embeddedDatabase);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(embeddedDatabase);
         groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
-        studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
-        groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
-        groupsCoursesJdbcDao = new GroupsCoursesJdbcDao(jdbcTemplate);
     }
 
     @AfterEach
@@ -51,8 +45,6 @@ class GroupsJdbcDaoTest {
         int actualTableSize = groupsJdbcDao.read().size();
 
         assertEquals(expectedTableSize, actualTableSize);
-
-        embeddedDatabase.shutdown();
     }
 
     @Test
