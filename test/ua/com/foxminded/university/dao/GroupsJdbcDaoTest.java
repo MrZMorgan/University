@@ -57,7 +57,7 @@ class GroupsJdbcDaoTest {
 
     @Test
     void shouldReadGroup() {
-        List<Student> students = studentsJdbcDao.readStudentsRelatedToGroup(1);
+        List<Student> students = new LinkedList<>();
 
         Group actualGroup = groupsJdbcDao.read(1);
         Group expectedGroup = new Group(1, NAME_FOR_TEST, students);
@@ -70,8 +70,8 @@ class GroupsJdbcDaoTest {
         List<Group> actualGroupsList = groupsJdbcDao.read();
         List<Group> expectedGroupsList = new LinkedList<>();
 
-        List<Student> studentsFromGroup1 = studentsJdbcDao.readStudentsRelatedToGroup(1);
-        List<Student> studentsFromGroup2 = studentsJdbcDao.readStudentsRelatedToGroup(2);
+        List<Student> studentsFromGroup1 = new LinkedList<>();
+        List<Student> studentsFromGroup2 = new LinkedList<>();
 
         expectedGroupsList.add(new Group(1, NAME_FOR_TEST, studentsFromGroup1));
         expectedGroupsList.add(new Group(2, NAME_FOR_TEST, studentsFromGroup2));
@@ -86,7 +86,7 @@ class GroupsJdbcDaoTest {
 
         Group actualUpdatedGroup = groupsJdbcDao.read(1);
 
-        List<Student> students = studentsJdbcDao.readStudentsRelatedToGroup(1);
+        List<Student> students = new LinkedList<>();
         Group expectedUpdatedGroup = new Group(1, NAME_FOR_TEST, students);
 
         assertEquals(expectedUpdatedGroup, actualUpdatedGroup);

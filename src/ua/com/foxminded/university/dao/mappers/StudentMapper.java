@@ -10,6 +10,7 @@ import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.models.Student;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 public class StudentMapper implements RowMapper<Student> {
@@ -31,7 +32,7 @@ public class StudentMapper implements RowMapper<Student> {
         String lastName = rs.getString("last_name");
         int age = rs.getInt("age");
         Group group = groupsJdbcDao.readGroupByStudentId(studentId);
-        List<Course> courses = coursesJdbcDao.readCoursesByStudentId(studentId);
+        List<Course> courses = new LinkedList<>();
 
         return new Student(studentId, firstName, lastName, age, group, courses);
     }

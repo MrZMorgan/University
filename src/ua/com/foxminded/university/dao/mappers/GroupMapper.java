@@ -9,6 +9,7 @@ import ua.com.foxminded.university.models.Student;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GroupMapper implements RowMapper<Group> {
@@ -26,7 +27,7 @@ public class GroupMapper implements RowMapper<Group> {
 
         int groupId = rs.getInt("id");
         String groupName = rs.getString("name");
-        List<Student> students = studentsJdbcDao.readStudentsRelatedToGroup(groupId);
+        List<Student> students = new LinkedList<>();
 
         return new Group(groupId, groupName, students);
     }

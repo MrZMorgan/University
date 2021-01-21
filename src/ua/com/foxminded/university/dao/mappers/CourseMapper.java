@@ -13,6 +13,7 @@ import ua.com.foxminded.university.models.Teacher;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CourseMapper implements RowMapper<Course> {
@@ -34,8 +35,8 @@ public class CourseMapper implements RowMapper<Course> {
         String courseName = rs.getString("name");
         int teacherId = rs.getInt("teacher_id");
         Teacher teacher = teachersJdbcDao.read(teacherId);
-        List<Group> groups = groupsJdbcDao.readGroupsRelatedToCourse(courseId);
-        List<Student> students = studentsJdbcDao.readStudentsRelatedToCourse(courseId);
+        List<Group> groups = new LinkedList<>();
+        List<Student> students = new LinkedList<>();
 
         return new Course(courseId, courseName, teacher, groups, students);
     }

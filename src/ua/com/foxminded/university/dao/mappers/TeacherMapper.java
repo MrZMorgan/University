@@ -8,6 +8,7 @@ import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.Teacher;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TeacherMapper implements RowMapper<Teacher> {
@@ -28,7 +29,7 @@ public class TeacherMapper implements RowMapper<Teacher> {
         String firstName = rs.getString("first_name");
         String lastName = rs.getString("last_name");
         int age = rs.getInt("age");
-        List<Course> courses = coursesJdbcDao.readCoursesRelatedToTeacher(teacherId);
+        List<Course> courses = new LinkedList<>();
 
         return new Teacher(teacherId, firstName, lastName, age, courses);
     }
