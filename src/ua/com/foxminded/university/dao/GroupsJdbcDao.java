@@ -91,6 +91,8 @@ public class GroupsJdbcDao implements GroupsDao {
 
     @Override
     public void delete(int groupId) {
+        new GroupsCoursesJdbcDao(jdbcTemplate).deleteGroup(groupId);
+        new StudentsJdbcDao(jdbcTemplate).deleteStudentFromGroup(groupId);
         jdbcTemplate.update(DELETE, groupId);
     }
 }
