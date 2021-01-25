@@ -74,7 +74,6 @@ public class StudentsJdbcDao implements StudentsDao {
 
     @Override
     public void update(int id, Student studentForQuery) {
-        new StudentsCoursesJdbcDao(jdbcTemplate).updateStudentId(id, studentForQuery.getId());
         jdbcTemplate.update(UPDATE,
                 studentForQuery.getFirstName(),
                 studentForQuery.getLastName(),
@@ -87,11 +86,8 @@ public class StudentsJdbcDao implements StudentsDao {
         jdbcTemplate.update(DELETE_STUDENT_FROM_GROUP, groupId);
     }
 
-
-
     @Override
     public void delete(int studentId) {
-        new StudentsCoursesJdbcDao(jdbcTemplate).deleteStudent(studentId);
         jdbcTemplate.update(DELETE, studentId);
     }
 }

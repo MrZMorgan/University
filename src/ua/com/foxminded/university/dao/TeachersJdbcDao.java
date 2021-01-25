@@ -68,7 +68,6 @@ public class TeachersJdbcDao implements TeachersDao {
 
     @Override
     public void delete(int teacherId) {
-        new CoursesJdbcDao(jdbcTemplate).deleteTeacherFromCourses(teacherId);
         jdbcTemplate.update(DELETE, teacherId);
     }
 }

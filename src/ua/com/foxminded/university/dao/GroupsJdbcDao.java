@@ -20,10 +20,10 @@ public class GroupsJdbcDao implements GroupsDao {
                                                                 "WHERE course_id = ?";
     public static final String UPDATE = "UPDATE groups SET name = ? WHERE id = ?";
     public static final String DELETE = "DELETE FROM groups WHERE id = ?";
-    public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
     public static final String READ_GROUP_BY_STUDENT_ID = "SELECT groups.id, name FROM groups " +
                                                           "JOIN students s on groups.id = s.group_id " +
                                                           "WHERE s.id = ?;";
+    public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -91,8 +91,6 @@ public class GroupsJdbcDao implements GroupsDao {
 
     @Override
     public void delete(int groupId) {
-        new GroupsCoursesJdbcDao(jdbcTemplate).deleteGroup(groupId);
-        new StudentsJdbcDao(jdbcTemplate).deleteStudentFromGroup(groupId);
         jdbcTemplate.update(DELETE, groupId);
     }
 }

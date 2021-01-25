@@ -20,6 +20,7 @@ class StudentsJdbcDaoTest {
     private EmbeddedDatabase embeddedDatabase;
     private StudentsJdbcDao studentsJdbcDao;
     private GroupsJdbcDao groupsJdbcDao;
+    private StudentsCoursesJdbcDao studentsCoursesJdbcDao;
 
     @BeforeEach
     void setUp() {
@@ -31,6 +32,8 @@ class StudentsJdbcDaoTest {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(embeddedDatabase);
         studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
         groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
+        studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
+        studentsCoursesJdbcDao = new StudentsCoursesJdbcDao(jdbcTemplate);
     }
 
     @AfterEach
@@ -73,7 +76,6 @@ class StudentsJdbcDaoTest {
 
     @Test
     void shouldReadAllStudents() {
-
         List<Student> actualStudentsList = studentsJdbcDao.read();
         List<Student> expectedStudentsList = createStudentsListForTest();
 
@@ -102,6 +104,7 @@ class StudentsJdbcDaoTest {
     void shouldDeleteStudent() {
         int studentIdToDelete = 2;
 
+        studentsCoursesJdbcDao.deleteStudent(studentIdToDelete);
         studentsJdbcDao.delete(studentIdToDelete);
 
         int expectedTableSize = 3;
