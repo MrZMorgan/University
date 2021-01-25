@@ -20,9 +20,12 @@ public class CoursesJdbcDao implements CoursesDao {
                                                             "JOIN students_courses sc on courses.id = sc.course_id" +
                                                             "WHERE student_id = ?";
     public final static String UPDATE_COURSE = "UPDATE courses SET name=?, teacher_id=? WHERE id=?";
-    public final static String DELETE_TEACHER_FROM_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
+    public final static String DELETE_TEACHER_FROM_All_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
     public final static String DELETE_COURSE_BY_ID = "DELETE FROM courses WHERE id=?";
     public final static String RENAME_COURSE = "UPDATE courses SET name = ? WHERE id = ?";
+    public final static String DELETE_TEACHER_FROM_COURSE = "UPDATE courses SET teacher_id = null " +
+            "WHERE teacher_id = ? AND id = ?";
+    public final static String ASSIGN_TEACHER_TO_COURSE = "UPDATE courses SET teacher_id = ? WHERE id = ? ";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
 
 
@@ -80,8 +83,8 @@ public class CoursesJdbcDao implements CoursesDao {
                 id);
     }
 
-    public void deleteTeacherFromCourses(int teacherId) {
-        jdbcTemplate.update(DELETE_TEACHER_FROM_COURSES, teacherId);
+    public void deleteTeacherFromAllCourses(int teacherId) {
+        jdbcTemplate.update(DELETE_TEACHER_FROM_All_COURSES, teacherId);
     }
 
     @Override
@@ -91,5 +94,13 @@ public class CoursesJdbcDao implements CoursesDao {
 
     public void renameCourse(int courseIdToRename, String newCourseName) {
         jdbcTemplate.update(RENAME_COURSE, newCourseName, courseIdToRename);
+    }
+
+    public void deleteTeacherFromCourse(int teacherId, int courseId) {
+        jdbcTemplate.update(DELETE_TEACHER_FROM_COURSE, teacherId, courseId);
+    }
+
+    public void assignTeacherToCourse(int teacherId, int courseId) {
+        jdbcTemplate.update(ASSIGN_TEACHER_TO_COURSE, teacherId, courseId);
     }
 }

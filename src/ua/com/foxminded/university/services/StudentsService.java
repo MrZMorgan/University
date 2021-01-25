@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.StudentsCoursesJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
+import ua.com.foxminded.university.models.Student;
 
 @Service
 public class StudentsService {
@@ -41,5 +42,9 @@ public class StudentsService {
 
     public void deleteStudentsFromAllCourses(int studentId) {
         studentsCoursesJdbcDao.deleteStudent(studentId);
+    }
+
+    public void createStudent(Student student) {
+        studentsJdbcDao.create(student);
     }
 }

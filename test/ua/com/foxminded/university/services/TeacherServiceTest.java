@@ -10,6 +10,10 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
 import ua.com.foxminded.university.dao.TeachersJdbcDao;
 import ua.com.foxminded.university.models.Course;
+import ua.com.foxminded.university.models.Teacher;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,5 +55,56 @@ class TeacherServiceTest {
 
         assertEquals(expectedTeachersTableSize, actualTeachersTableSize);
         assertNull(actualCourse.getTeacher());
+    }
+
+    @Test
+    void shouldDeleteTeacherFromCourse() {
+        int teacherId = 2;
+        int courseIdToDelete = 2;
+
+        teacherService.deleteTeacherFromCourse(teacherId, courseIdToDelete);
+
+        assertNull(coursesJdbcDao.read(courseIdToDelete).getTeacher());
+    }
+
+    @Test
+    void shouldAssignTeacherToCourse() {
+        int teacherId = 2;
+        int courseId = 1;
+        teacherService.assignTeacherToCourse(teacherId, courseId);
+
+        int actualTeacherId = coursesJdbcDao.read(courseId).getTeacher().getId();
+
+        assertEquals(teacherId, actualTeacherId);
+    }
+
+    @Test
+    void shouldCreateTeacher() {
+        int id = 3;
+        String firstNameForTest = "firstName";
+        String lastNameForTest = "lastName";
+        int ageForTest = 30;
+        List<Course> coursesListForTest = new LinkedList<>();
+        Teacher teacher = new Teacher(id, firstNameForTest, lastNameForTest, ageForTest, coursesListForTest);
+
+        teacherService.createTeacher(teacher);
+
+        Teacher actualTeacher = teachersJdbcDao.read(3);
+
+        assertEquals(teacher, actualTeacher);
+    }
+
+    @Test
+    void shouldDeleteTeacherFromAllCourses() {
+        int teacherId = 1;
+        int courseId = 2;
+
+        coursesJdbcDao.assignTeacherToCourse(teacherId, courseId);
+        teacherService.deleteTeacherFromAllCourses(teacherId);
+
+        int actualCoursesRelatedToTeacher = coursesJdbcDao.readCoursesRelatedToTeacher(teacherId).size();
+        int expectedCoursesRelatedToTeacher = 0;
+
+        assertEquals(expectedCoursesRelatedToTeacher, actualCoursesRelatedToTeacher);
     }
 }

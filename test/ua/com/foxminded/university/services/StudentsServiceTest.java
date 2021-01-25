@@ -7,10 +7,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import ua.com.foxminded.university.dao.GroupsJdbcDao;
 import ua.com.foxminded.university.dao.StudentsCoursesJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
+import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.models.Student;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +25,7 @@ class StudentsServiceTest {
     private StudentsCoursesJdbcDao studentsCoursesJdbcDao;
     private StudentsJdbcDao studentsJdbcDao;
     private StudentsService studentsService;
+    private GroupsJdbcDao groupsJdbcDao;
 
     @BeforeEach
     void setUp() {
@@ -32,6 +37,7 @@ class StudentsServiceTest {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(embeddedDatabase);
         studentsCoursesJdbcDao = new StudentsCoursesJdbcDao(jdbcTemplate);
         studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
+        groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
         studentsService = new StudentsService(studentsCoursesJdbcDao, studentsJdbcDao);
     }
 
@@ -119,5 +125,23 @@ class StudentsServiceTest {
         actualTableSize = studentsCoursesJdbcDao.read().size();
 
         assertEquals(expectedTableSize, actualTableSize);
+    }
+
+    @Test
+    void shouldCreateStudent() {
+        Group groupForTest = groupsJdbcDao.read(1);
+        List<Course> coursesForTest = new LinkedList<>();
+
+        int studentId = 5;
+        String firstNameForTest = "firstName";
+        String lastNameForTest = "lastName";
+        int ageForTest = 30;
+        Student student = new Student(studentId, firstNameForTest, lastNameForTest, ageForTest, groupForTest, coursesForTest);
+
+        studentsService.createStudent(student);
+
+        Student actualStudent = studentsJdbcDao.read(studentId);
+
+        assertEquals(student, actualStudent);
     }
 }

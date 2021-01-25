@@ -96,7 +96,7 @@ class TeachersJdbcDaoTest {
     void shouldDeleteTeachers() {
         int teacherIdToDelete = 2;
 
-        coursesJdbcDao.deleteTeacherFromCourses(teacherIdToDelete);
+        coursesJdbcDao.deleteTeacherFromAllCourses(teacherIdToDelete);
         teachersJdbcDao.delete(teacherIdToDelete);
 
         int expectedTableSize = 1;
