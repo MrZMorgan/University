@@ -9,6 +9,10 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.dao.StudentsCoursesJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
+import ua.com.foxminded.university.models.Group;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentsServiceTest {
@@ -50,5 +54,70 @@ class StudentsServiceTest {
 
         assertEquals(expectedStudentsTableSize, actualStudentsTableSize);
         assertEquals(expectedStudentsCoursesTableSize, actualStudentsCoursesTableSize);
+    }
+
+    @Test
+    void shouldTransferStudentToAnotherGroup() {
+        int studentId = 1;
+        int newGroupId = 2;
+
+        studentsService.transferStudentToAnotherGroup(studentId, newGroupId);
+
+        int actualGroupId = studentsJdbcDao.read(studentId).getGroup().getGroupId();
+
+        assertEquals(newGroupId, actualGroupId);
+    }
+
+    @Test
+    void shouldDeleteStudentFromGroup() {
+        int studentId = 1;
+
+        studentsService.deleteStudentFromGroup(studentId);
+
+        Group actualGroup = studentsJdbcDao.read(studentId).getGroup();
+
+        assertNull(actualGroup);
+    }
+
+    @Test
+    void shouldAssignStudentToCourse () {
+        int studentId = 1;
+        int courseId = 2;
+
+        studentsService.assignStudentToCourse(studentId, courseId);
+
+        int actualCourseId = studentsCoursesJdbcDao.read(studentId, courseId).getCourseId();
+
+        assertEquals(courseId, actualCourseId);
+    }
+
+    @Test
+    void shouldDeleteStudentFromCourse() {
+        int studentId = 1;
+        int courseId = 1;
+
+        studentsService.deleteStudentFromCourse(studentId, courseId);
+
+        assertNull(studentsCoursesJdbcDao.read(studentId, courseId));
+    }
+
+    @Test
+    void shouldDeleteStudentFromAllCourses() {
+        int studentId = 1;
+        int courseId = 2;
+
+        studentsService.assignStudentToCourse(studentId, courseId);
+
+        int expectedTableSize = 5;
+        int actualTableSize = studentsCoursesJdbcDao.read().size();
+
+        assertEquals(expectedTableSize, actualTableSize);
+
+        studentsService.deleteStudentsFromAllCourses(studentId);
+
+        expectedTableSize = 3;
+        actualTableSize = studentsCoursesJdbcDao.read().size();
+
+        assertEquals(expectedTableSize, actualTableSize);
     }
 }

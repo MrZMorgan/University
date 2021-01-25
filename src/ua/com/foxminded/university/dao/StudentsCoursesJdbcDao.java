@@ -35,7 +35,7 @@ public class StudentsCoursesJdbcDao {
         jdbcTemplate.update(CREATE, studentId, courseId);
     }
 
-    public StudentCourse read(int courseId, int studentId) {
+    public StudentCourse read(int studentId, int courseId) {
         StudentCourse studentCourse = jdbcTemplate.query(READ,
                 new Object[]{studentId, courseId}, new StudentCourseMapper())
                 .stream()
