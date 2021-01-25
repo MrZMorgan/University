@@ -22,6 +22,7 @@ public class CoursesJdbcDao implements CoursesDao {
     public final static String UPDATE_COURSE = "UPDATE courses SET name=?, teacher_id=? WHERE id=?";
     public final static String DELETE_TEACHER_FROM_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
     public final static String DELETE_COURSE_BY_ID = "DELETE FROM courses WHERE id=?";
+    public final static String RENAME_COURSE = "UPDATE courses SET name = ? WHERE id = ?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
 
 
@@ -86,5 +87,9 @@ public class CoursesJdbcDao implements CoursesDao {
     @Override
     public void delete(int courseId) {
         jdbcTemplate.update(DELETE_COURSE_BY_ID, courseId);
+    }
+
+    public void renameCourse(int courseIdToRename, String newCourseName) {
+        jdbcTemplate.update(RENAME_COURSE, newCourseName, courseIdToRename);
     }
 }

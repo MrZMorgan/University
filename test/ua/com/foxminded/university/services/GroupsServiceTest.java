@@ -66,7 +66,7 @@ class GroupsServiceTest {
 
     @Test
     void shouldCreateNewGroup() {
-        String newGroupName = "biology";
+        String newGroupName = "new group";
         Group newGroup = new Group(3, newGroupName, new LinkedList<>());
         groupsService.createGroup(newGroup);
 
@@ -79,7 +79,7 @@ class GroupsServiceTest {
     @Test
     void shouldRenameGroup() {
         int groupIdToRename = 1;
-        String newGroupName = "higher mathematics";
+        String newGroupName = "new group";
 
         groupsService.renameGroup(groupIdToRename, newGroupName);
 

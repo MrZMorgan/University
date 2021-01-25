@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
 import ua.com.foxminded.university.dao.GroupsCoursesJdbcDao;
 import ua.com.foxminded.university.dao.StudentsCoursesJdbcDao;
+import ua.com.foxminded.university.models.Course;
 
 @Service
 public class CoursesService {
@@ -26,5 +27,13 @@ public class CoursesService {
         studentsCoursesJdbcDao.deleteCourse(courseId);
         groupsCoursesJdbcDao.deleteCourse(courseId);
         coursesJdbcDao.delete(courseId);
+    }
+
+    public void createCourse(Course course) {
+        coursesJdbcDao.create(course);
+    }
+
+    public void renameCourse(int courseIdToRename, String newCourseName) {
+        coursesJdbcDao.renameCourse(courseIdToRename, newCourseName);
     }
 }

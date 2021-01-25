@@ -8,6 +8,14 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.dao.*;
+import ua.com.foxminded.university.models.Course;
+import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.models.Student;
+import ua.com.foxminded.university.models.Teacher;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CoursesServiceTest {
@@ -17,6 +25,7 @@ class CoursesServiceTest {
     private GroupsCoursesJdbcDao groupsCoursesJdbcDao;
     private CoursesJdbcDao coursesJdbcDao;
     private CoursesService coursesService;
+    private TeachersJdbcDao teachersJdbcDao;
 
     @BeforeEach
     void setUp() {
@@ -29,6 +38,7 @@ class CoursesServiceTest {
         studentsCoursesJdbcDao = new StudentsCoursesJdbcDao(jdbcTemplate);
         groupsCoursesJdbcDao = new GroupsCoursesJdbcDao(jdbcTemplate);
         coursesJdbcDao = new CoursesJdbcDao(jdbcTemplate);
+        teachersJdbcDao = new TeachersJdbcDao(jdbcTemplate);
         coursesService = new CoursesService(studentsCoursesJdbcDao, groupsCoursesJdbcDao, coursesJdbcDao);
     }
 
@@ -38,8 +48,9 @@ class CoursesServiceTest {
     }
 
     @Test
-    void deleteCourseById() {
+    void shouldDeleteCourseById() {
         int courseIdToDelete = 1;
+
         coursesService.deleteCourseById(courseIdToDelete);
 
         int expectedCourseTableSize = 1;
@@ -54,5 +65,33 @@ class CoursesServiceTest {
         assertEquals(expectedCourseTableSize, actualCourseTableSize);
         assertEquals(expectedGroupCoursesTableSize, actualGroupCoursesTableSize);
         assertEquals(expectedStudentsCoursesTableSize, actualStudentsCoursesTableSize);
+    }
+
+    @Test
+    void shouldCreateCourse() {
+        Teacher teacher = teachersJdbcDao.read(1);
+        String courseName = "chemistry";
+        List<Group> groupsForTest = new LinkedList<>();
+        List<Student> studentsForTest = new LinkedList<>();
+        Course newCourse = new Course(3, courseName, teacher, groupsForTest, studentsForTest);
+
+        coursesService.createCourse(newCourse);
+
+        int expectedTableSize = 3;
+        int actualTableSize = coursesJdbcDao.read().size();
+
+        assertEquals(expectedTableSize, actualTableSize);
+    }
+
+    @Test
+    void shouldRenameCourse() {
+        int courseIdToRename = 1;
+        String courseName = "chemistry";
+
+        coursesService.renameCourse(courseIdToRename, courseName);
+
+        String actualCourseName = coursesJdbcDao.read(courseIdToRename).getCourseName();
+
+        assertEquals(courseName, actualCourseName);
     }
 }

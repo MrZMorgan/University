@@ -37,7 +37,7 @@ class StudentsServiceTest {
     }
 
     @Test
-    void deleteStudentById() {
+    void shouldDeleteStudentById() {
         int studentIdToDelete = 1;
 
         studentsService.deleteStudentById(studentIdToDelete);
