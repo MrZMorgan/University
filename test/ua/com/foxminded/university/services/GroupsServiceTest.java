@@ -8,12 +8,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.dao.*;
-import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.models.Student;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GroupsServiceTest {
@@ -50,9 +45,18 @@ class GroupsServiceTest {
 
         groupsService.deleteGroupById(groupIdToDelete);
 
-        int expectedTableSize = 1;
-        int actualTableSize = groupsJdbcDao.read().size();
+        int expectedGroupsTableSize = 1;
+        int actualGroupsTableSize = groupsJdbcDao.read().size();
 
-        assertEquals(expectedTableSize, actualTableSize);
+        int expectedGroupsCoursesTableSize = 1;
+        int actualGroupsCoursesTableSize = groupsCoursesJdbcDao.read().size();
+
+        Student actualStudent1 = studentsJdbcDao.read(1);
+        Student actualStudent2 = studentsJdbcDao.read(2);
+
+        assertEquals(expectedGroupsTableSize, actualGroupsTableSize);
+        assertEquals(expectedGroupsCoursesTableSize, actualGroupsCoursesTableSize);
+        assertNull(actualStudent1.getGroup());
+        assertNull(actualStudent2.getGroup());
     }
 }
