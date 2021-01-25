@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.GroupsCoursesJdbcDao;
 import ua.com.foxminded.university.dao.GroupsJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
+import ua.com.foxminded.university.models.Group;
 
 @Service
 public class GroupsService {
@@ -28,5 +29,11 @@ public class GroupsService {
         groupsJdbcDao.delete(groupId);
     }
 
+    public void createGroup(Group group) {
+        groupsJdbcDao.create(group);
+    }
 
+    public void renameGroup(int groupIdToRename, String newGroupName) {
+        groupsJdbcDao.renameGroup(groupIdToRename, newGroupName);
+    }
 }

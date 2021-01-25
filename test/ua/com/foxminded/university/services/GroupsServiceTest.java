@@ -8,7 +8,11 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.com.foxminded.university.dao.*;
+import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.models.Student;
+
+import java.util.LinkedList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GroupsServiceTest {
@@ -40,7 +44,7 @@ class GroupsServiceTest {
     }
 
     @Test
-    void deleteGroupById() {
+    void shouldDeleteGroupById() {
         int groupIdToDelete = 1;
 
         groupsService.deleteGroupById(groupIdToDelete);
@@ -58,5 +62,29 @@ class GroupsServiceTest {
         assertEquals(expectedGroupsCoursesTableSize, actualGroupsCoursesTableSize);
         assertNull(actualStudent1.getGroup());
         assertNull(actualStudent2.getGroup());
+    }
+
+    @Test
+    void shouldCreateNewGroup() {
+        String newGroupName = "biology";
+        Group newGroup = new Group(3, newGroupName, new LinkedList<>());
+        groupsService.createGroup(newGroup);
+
+        int expectedTableSize = 3;
+        int actualTableSize = groupsJdbcDao.read().size();
+
+        assertEquals(expectedTableSize, actualTableSize);
+    }
+
+    @Test
+    void shouldRenameGroup() {
+        int groupIdToRename = 1;
+        String newGroupName = "higher mathematics";
+
+        groupsService.renameGroup(groupIdToRename, newGroupName);
+
+        String actualGroupName = groupsJdbcDao.read(1).getGroupName();
+
+        assertEquals(newGroupName, actualGroupName);
     }
 }

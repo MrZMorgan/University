@@ -23,6 +23,7 @@ public class GroupsJdbcDao implements GroupsDao {
     public static final String READ_GROUP_BY_STUDENT_ID = "SELECT groups.id, name FROM groups " +
                                                           "JOIN students s on groups.id = s.group_id " +
                                                           "WHERE s.id = ?;";
+    public static final String RENAME_GROUP = "UPDATE groups SET name = ? WHERE id = ?";
     public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
 
     private final JdbcTemplate jdbcTemplate;
@@ -84,13 +85,15 @@ public class GroupsJdbcDao implements GroupsDao {
 
     @Override
     public void update(int id, Group groupForQuery) {
-        jdbcTemplate.update(UPDATE,
-                groupForQuery.getGroupName(),
-                id);
+        jdbcTemplate.update(UPDATE, groupForQuery.getGroupName(), id);
     }
 
     @Override
     public void delete(int groupId) {
         jdbcTemplate.update(DELETE, groupId);
+    }
+
+    public void renameGroup(int groupIdToRename, String newGroupName) {
+        jdbcTemplate.update(RENAME_GROUP, newGroupName, groupIdToRename);
     }
 }
