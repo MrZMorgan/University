@@ -24,9 +24,9 @@ public class GroupsJdbcDao implements GroupsDao {
                                                           "WHERE s.id = ?;";
     public static final String RENAME_GROUP = "UPDATE groups SET name = ? WHERE id = ?";
     public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
-
     public static final String DELETE = "DELETE FROM groups WHERE id = ?";
     public static final String DELETE_GROUP_FROM_GROUPS_COURSES = "DELETE FROM groups_courses WHERE group_id = ?";
+    public static final String ASSIGN_GROUP_TO_COURSE = "INSERT INTO groups_courses (group_id, course_id) VALUES (?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -98,5 +98,9 @@ public class GroupsJdbcDao implements GroupsDao {
 
     public void renameGroup(int groupIdToRename, String newGroupName) {
         jdbcTemplate.update(RENAME_GROUP, newGroupName, groupIdToRename);
+    }
+
+    public void assignGroupToCourse(int groupId, int courseId) {
+        jdbcTemplate.update(ASSIGN_GROUP_TO_COURSE, groupId, courseId);
     }
 }
