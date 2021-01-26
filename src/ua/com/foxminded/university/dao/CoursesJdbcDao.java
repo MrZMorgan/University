@@ -9,7 +9,6 @@ import ua.com.foxminded.university.dao.mappers.GroupCourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.GroupCourse;
-
 import java.util.List;
 
 @Repository
