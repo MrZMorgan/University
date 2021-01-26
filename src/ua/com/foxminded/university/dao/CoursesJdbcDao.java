@@ -81,10 +81,10 @@ public class CoursesJdbcDao implements CoursesDao {
                 new Object[]{teacherId}, new CourseMapper(jdbcTemplate));
     }
 
-    public List<Course> readCoursesByStudentId(int teacherId) {
+    public List<Course> readCoursesByStudentId(int studentId) {
         return jdbcTemplate.query(
                 READ_COURSES_BY_STUDENT_ID,
-                new Object[]{teacherId}, new CourseMapper(jdbcTemplate));
+                new Object[]{studentId}, new CourseMapper(jdbcTemplate));
     }
 
     @Override
