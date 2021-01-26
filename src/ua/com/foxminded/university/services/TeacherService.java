@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
 import ua.com.foxminded.university.dao.TeachersJdbcDao;
 import ua.com.foxminded.university.models.Teacher;
+import java.util.List;
 
 @Service
 public class TeacherService {
@@ -37,5 +38,17 @@ public class TeacherService {
 
     public void deleteTeacherFromAllCourses(int teacherId) {
         coursesJdbcDao.deleteTeacherFromAllCourses(teacherId);
+    }
+
+    public Teacher readOneRecordFromTable(int teacherId) {
+        return teachersJdbcDao.read(teacherId);
+    }
+
+    public List<Teacher> readTable() {
+        return teachersJdbcDao.read();
+    }
+
+    public void updateTeacherData(int id, Teacher teacherForQuery) {
+        teachersJdbcDao.update(id, teacherForQuery);
     }
 }

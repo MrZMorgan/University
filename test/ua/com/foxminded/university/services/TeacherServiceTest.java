@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
 import ua.com.foxminded.university.dao.TeachersJdbcDao;
 import ua.com.foxminded.university.models.Teacher;
-
 import static org.mockito.Mockito.*;
 
 class TeacherServiceTest {
@@ -56,5 +55,26 @@ class TeacherServiceTest {
         int teacherId = anyInt();
         teacherService.deleteTeacherFromAllCourses(teacherId);
         verify(coursesJdbcDao, times(1)).deleteTeacherFromAllCourses(teacherId);
+    }
+
+    @Test
+    void shouldReadOneRecordFromTable() {
+        int teacherId = anyInt();
+        teacherService.readOneRecordFromTable(teacherId);
+        verify(teachersJdbcDao, times(1)).read(teacherId);
+    }
+
+    @Test
+    void shouldReadTable() {
+        teacherService.readTable();
+        verify(teachersJdbcDao, times(1)).read();
+    }
+
+    @Test
+    void shouldUpdateTeacherData() {
+        int id = 1;
+        Teacher teacherMock = mock(Teacher.class);
+        teacherService.updateTeacherData(id, teacherMock);
+        verify(teachersJdbcDao, times(1)).update(id, teacherMock);
     }
 }
