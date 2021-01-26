@@ -75,4 +75,61 @@ class StudentsServiceTest {
 
         verify(studentsJdbcDao, times(1)).create(studentMock);
     }
+
+    @Test
+    void shouldReadOneRecordFromTable() {
+        int studentId = anyInt();
+        studentsService.readOneRecordFromTable(studentId);
+        verify(studentsJdbcDao, times(1)).read(studentId);
+    }
+
+    @Test
+    void shouldReadStudentsRelatedToGroup() {
+        int groupId = anyInt();
+        studentsService.readStudentsRelatedToGroup(groupId);
+        verify(studentsJdbcDao, times(1)).readStudentsRelatedToGroup(groupId);
+    }
+
+    @Test
+    void shouldReadStudentsRelatedToCourse() {
+        int courseId = anyInt();
+        studentsService.readStudentsRelatedToCourse(courseId);
+        verify(studentsJdbcDao, times(1)).readStudentsRelatedToCourse(courseId);
+    }
+
+    @Test
+    void shouldReadTable() {
+        studentsService.readTable();
+        verify(studentsJdbcDao, times(1)).read();
+    }
+
+    @Test
+    void shouldUpdateStudentData() {
+        int id = 1;
+        Student studentMock = mock(Student.class);
+        studentsService.updateStudentData(id, studentMock);
+        verify(studentsJdbcDao, times(1)).update(id, studentMock);
+    }
+
+    @Test
+    void shouldUpdateStudentId() {
+        int studentId = anyInt();
+        int updatedId = anyInt();
+        studentsService.updateStudentId(studentId, updatedId);
+        verify(studentsJdbcDao, times(1)).updateStudentId(studentId, updatedId);
+    }
+
+    @Test
+    void shouldReadOneStudentCourse() {
+        int studentId = anyInt();
+        int courseId = anyInt();
+        studentsService.readOneStudentCourse(studentId, courseId);
+        verify(studentsJdbcDao, times(1)).readOneStudentCourse(studentId, courseId);
+    }
+
+    @Test
+    void shouldReadAllStudentsCourseRelation() {
+        studentsService.readAllStudentsCourseRelation();
+        verify(studentsJdbcDao, times(1)).readAllStudentsCourseRelation();
+    }
 }
