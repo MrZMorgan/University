@@ -24,7 +24,6 @@ public class TeacherService {
     }
 
     public void deleteTeacherById(int teacherId) {
-        coursesJdbcDao.deleteTeacherFromAllCourses(teacherId);
         teachersJdbcDao.delete(teacherId);
     }
 

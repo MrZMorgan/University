@@ -11,14 +11,12 @@ import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.Teacher;
 import java.util.LinkedList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class TeachersJdbcDaoTest {
 
     private EmbeddedDatabase embeddedDatabase;
     private TeachersJdbcDao teachersJdbcDao;
-    private CoursesJdbcDao coursesJdbcDao;
 
     @BeforeEach
     void setUp() {
@@ -29,7 +27,6 @@ class TeachersJdbcDaoTest {
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(embeddedDatabase);
         teachersJdbcDao = new TeachersJdbcDao(jdbcTemplate);
-        coursesJdbcDao = new CoursesJdbcDao(jdbcTemplate);
     }
 
     @AfterEach
@@ -96,7 +93,6 @@ class TeachersJdbcDaoTest {
     void shouldDeleteTeachers() {
         int teacherIdToDelete = 2;
 
-        coursesJdbcDao.deleteTeacherFromAllCourses(teacherIdToDelete);
         teachersJdbcDao.delete(teacherIdToDelete);
 
         int expectedTableSize = 1;

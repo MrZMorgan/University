@@ -19,12 +19,14 @@ public class GroupsJdbcDao implements GroupsDao {
                                                                 "JOIN groups_courses ON groups.id = groups_courses.course_id " +
                                                                 "WHERE course_id = ?";
     public static final String UPDATE = "UPDATE groups SET name = ? WHERE id = ?";
-    public static final String DELETE = "DELETE FROM groups WHERE id = ?";
     public static final String READ_GROUP_BY_STUDENT_ID = "SELECT groups.id, name FROM groups " +
                                                           "JOIN students s on groups.id = s.group_id " +
                                                           "WHERE s.id = ?;";
     public static final String RENAME_GROUP = "UPDATE groups SET name = ? WHERE id = ?";
     public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
+
+    public static final String DELETE = "DELETE FROM groups WHERE id = ?";
+    public static final String DELETE_GROUP_FROM_GROUPS_COURSES = "DELETE FROM groups_courses WHERE group_id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -90,6 +92,7 @@ public class GroupsJdbcDao implements GroupsDao {
 
     @Override
     public void delete(int groupId) {
+        jdbcTemplate.update(DELETE_GROUP_FROM_GROUPS_COURSES, groupId);
         jdbcTemplate.update(DELETE, groupId);
     }
 

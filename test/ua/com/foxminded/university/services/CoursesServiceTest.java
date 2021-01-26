@@ -39,7 +39,7 @@ class CoursesServiceTest {
         groupsCoursesJdbcDao = new GroupsCoursesJdbcDao(jdbcTemplate);
         coursesJdbcDao = new CoursesJdbcDao(jdbcTemplate);
         teachersJdbcDao = new TeachersJdbcDao(jdbcTemplate);
-        coursesService = new CoursesService(studentsCoursesJdbcDao, groupsCoursesJdbcDao, coursesJdbcDao);
+        coursesService = new CoursesService(coursesJdbcDao);
     }
 
     @AfterEach
@@ -49,22 +49,7 @@ class CoursesServiceTest {
 
     @Test
     void shouldDeleteCourseById() {
-        int courseIdToDelete = 1;
 
-        coursesService.deleteCourseById(courseIdToDelete);
-
-        int expectedCourseTableSize = 1;
-        int actualCourseTableSize = coursesJdbcDao.read().size();
-
-        int expectedGroupCoursesTableSize = 1;
-        int actualGroupCoursesTableSize = groupsCoursesJdbcDao.read().size();
-
-        int expectedStudentsCoursesTableSize = 2;
-        int actualStudentsCoursesTableSize = studentsCoursesJdbcDao.read().size();
-
-        assertEquals(expectedCourseTableSize, actualCourseTableSize);
-        assertEquals(expectedGroupCoursesTableSize, actualGroupCoursesTableSize);
-        assertEquals(expectedStudentsCoursesTableSize, actualStudentsCoursesTableSize);
     }
 
     @Test

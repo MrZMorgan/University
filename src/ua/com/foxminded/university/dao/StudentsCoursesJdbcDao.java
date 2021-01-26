@@ -19,7 +19,6 @@ public class StudentsCoursesJdbcDao {
     public static final String READ_ALL = "SELECT * FROM students_courses";
     public static final String UPDATE_COURSE_ID = "UPDATE students_courses SET course_id=? WHERE course_id=?";
     public static final String UPDATE_STUDENT_ID = "UPDATE students_courses SET student_id=? WHERE student_id=?";
-    public static final String DELETE_COURSE = "DELETE FROM students_courses WHERE course_id=?";
     public static final String DELETE_STUDENT = "DELETE FROM students_courses WHERE student_id=?";
     public static final String DELETE_STUDENT_FROM_COURSE = "DELETE FROM students_courses WHERE student_id=? AND course_id =?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no group-course with this ID in the database";
@@ -67,14 +66,6 @@ public class StudentsCoursesJdbcDao {
         jdbcTemplate.update(UPDATE_STUDENT_ID,
                 updatedId,
                 studentId);
-    }
-
-    public void deleteCourse(int courseId) {
-        jdbcTemplate.update(DELETE_COURSE, courseId);
-    }
-
-    public void deleteStudent(int studentId) {
-        jdbcTemplate.update(DELETE_STUDENT, studentId);
     }
 
     public void deleteStudentFromCourse(int studentId, int courseId) {

@@ -18,8 +18,6 @@ public class GroupsCoursesJdbcDao {
                                       "AND group_id = ?";
     public static final String READ_ALL = "SELECT * FROM groups_courses";
     public static final String UPDATE_COURSE_ID = "UPDATE groups_courses SET course_id = ? WHERE course_id = ? AND group_id = ?";
-    public static final String DELETE_COURSE = "DELETE FROM groups_courses WHERE course_id = ?";
-    public static final String DELETE_GROUP = "DELETE FROM groups_courses WHERE group_id = ?";
     public static final String DELETE_ONE_RECORD = "DELETE FROM groups_courses WHERE group_id = ? AND course_id = ?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no group-course with this ID in the database";
 
@@ -59,17 +57,5 @@ public class GroupsCoursesJdbcDao {
 
     public void updateCourseId(int courseId, int group_id, int updatedId) {
         jdbcTemplate.update(UPDATE_COURSE_ID, updatedId, courseId, group_id);
-    }
-
-    public void deleteCourse(int courseId) {
-        jdbcTemplate.update(DELETE_COURSE, courseId);
-    }
-
-    public void deleteGroup(int groupId) {
-        jdbcTemplate.update(DELETE_GROUP, groupId);
-    }
-
-    public void deleteGroupFromCourse(int groupId, int courseId) {
-        jdbcTemplate.update(DELETE_ONE_RECORD, groupId, courseId);
     }
 }

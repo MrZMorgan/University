@@ -18,7 +18,7 @@ public class TeachersJdbcDao implements TeachersDao {
     public static final String UPDATE = "UPDATE teachers SET first_name = ?, last_name = ?, age = ? WHERE id = ?";
     public static final String DELETE = "DELETE FROM teachers WHERE id=?";
     public final static String DAO_EXCEPTION_MESSAGE = "There is no teacher with this ID in the database";
-
+    public final static String DELETE_TEACHER_FROM_All_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -68,6 +68,7 @@ public class TeachersJdbcDao implements TeachersDao {
 
     @Override
     public void delete(int teacherId) {
+        jdbcTemplate.update(DELETE_TEACHER_FROM_All_COURSES, teacherId);
         jdbcTemplate.update(DELETE, teacherId);
     }
 }

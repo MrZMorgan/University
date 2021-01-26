@@ -10,21 +10,17 @@ import ua.com.foxminded.university.models.Group;
 @Service
 public class GroupsService {
 
-    private GroupsCoursesJdbcDao groupsCoursesJdbcDao;
     private StudentsJdbcDao studentsJdbcDao;
     private GroupsJdbcDao groupsJdbcDao;
 
     @Autowired
-    public GroupsService(GroupsCoursesJdbcDao groupsCoursesJdbcDao,
-                         StudentsJdbcDao studentsJdbcDao,
+    public GroupsService(StudentsJdbcDao studentsJdbcDao,
                          GroupsJdbcDao groupsJdbcDao) {
-        this.groupsCoursesJdbcDao = groupsCoursesJdbcDao;
         this.studentsJdbcDao = studentsJdbcDao;
         this.groupsJdbcDao = groupsJdbcDao;
     }
 
     public void deleteGroupById(int groupId) {
-        groupsCoursesJdbcDao.deleteGroup(groupId);
         studentsJdbcDao.deleteStudentFromGroup(groupId);
         groupsJdbcDao.delete(groupId);
     }

@@ -21,9 +21,13 @@ public class StudentsJdbcDao implements StudentsDao {
     public static final String READ_ALL = "SELECT * FROM students";
     public static final String DELETE_STUDENT_FROM_GROUP = "UPDATE students SET group_id = null WHERE group_id = ?";
     public static final String UPDATE = "UPDATE students SET first_name=?, last_name = ?, age = ?, group_id = ? WHERE id=?";
-    public static final String DELETE = "DELETE FROM students WHERE id=?";
     public static final String TRANSFER_STUDENT_TO_ANOTHER_GROUP = "UPDATE students SET group_id = ? WHERE id = ?";
+
+    public static final String DELETE_STUDENT_FROM_STUDENTS_COURSES = "DELETE FROM students_courses WHERE student_id=?";
+    public static final String DELETE = "DELETE FROM students WHERE id=?";
+
     public static final String DAO_EXCEPTION_MESSAGE = "There is no student with this ID in the database";
+
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -89,6 +93,7 @@ public class StudentsJdbcDao implements StudentsDao {
 
     @Override
     public void delete(int studentId) {
+        jdbcTemplate.update(DELETE_STUDENT_FROM_STUDENTS_COURSES, studentId);
         jdbcTemplate.update(DELETE, studentId);
     }
 

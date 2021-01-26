@@ -21,11 +21,15 @@ public class CoursesJdbcDao implements CoursesDao {
                                                             "WHERE student_id = ?";
     public final static String UPDATE_COURSE = "UPDATE courses SET name=?, teacher_id=? WHERE id=?";
     public final static String DELETE_TEACHER_FROM_All_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
-    public final static String DELETE_COURSE_BY_ID = "DELETE FROM courses WHERE id=?";
     public final static String RENAME_COURSE = "UPDATE courses SET name = ? WHERE id = ?";
     public final static String DELETE_TEACHER_FROM_COURSE = "UPDATE courses SET teacher_id = null " +
-            "WHERE teacher_id = ? AND id = ?";
+                                                            "WHERE teacher_id = ? AND id = ?";
     public final static String ASSIGN_TEACHER_TO_COURSE = "UPDATE courses SET teacher_id = ? WHERE id = ? ";
+
+    public final static String DELETE_COURSE_BY_ID = "DELETE FROM courses WHERE id=?";
+    public static final String DELETE_COURSE_FROM_STUDENTS_COURSES = "DELETE FROM students_courses WHERE course_id=?";
+    public static final String DELETE_COURSE_FROM_GROUPS_COURSES = "DELETE FROM groups_courses WHERE course_id = ?";
+
     public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
 
 
@@ -89,6 +93,8 @@ public class CoursesJdbcDao implements CoursesDao {
 
     @Override
     public void delete(int courseId) {
+        jdbcTemplate.update(DELETE_COURSE_FROM_GROUPS_COURSES, courseId);
+        jdbcTemplate.update(DELETE_COURSE_FROM_STUDENTS_COURSES, courseId);
         jdbcTemplate.update(DELETE_COURSE_BY_ID, courseId);
     }
 

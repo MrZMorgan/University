@@ -99,9 +99,6 @@ class CoursesJdbcDaoTest {
     void shouldDeleteCourse() {
         int courseIdToDelete = 2;
 
-        studentsCoursesJdbcDao.deleteCourse(courseIdToDelete);
-        groupsCoursesJdbcDao.deleteCourse(courseIdToDelete);
-
         coursesJdbcDao.delete(courseIdToDelete);
 
         int expectedTableSize = 1;
