@@ -34,41 +34,41 @@ public class StudentsCoursesJdbcDao {
         jdbcTemplate.update(CREATE, studentId, courseId);
     }
 
-    public StudentCourse read(int studentId, int courseId) {
-        StudentCourse studentCourse = jdbcTemplate.query(READ,
-                new Object[]{studentId, courseId}, new StudentCourseMapper())
-                .stream()
-                .findAny()
-                .orElse(null);
-
-        if (studentCourse == null) {
-            try {
-                throw new DAOException(DAO_EXCEPTION_MESSAGE);
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return studentCourse;
-    }
-
-    public List<StudentCourse> read() {
-        return jdbcTemplate.query(READ_ALL, new StudentCourseMapper());
-    }
-
-    public void updateCourseId(int courseId, int updatedId) {
-        jdbcTemplate.update(UPDATE_COURSE_ID,
-                updatedId,
-                courseId);
-    }
-
-    public void updateStudentId(int studentId, int updatedId) {
-        jdbcTemplate.update(UPDATE_STUDENT_ID,
-                updatedId,
-                studentId);
-    }
-
-    public void deleteStudentFromCourse(int studentId, int courseId) {
-        jdbcTemplate.update(DELETE_STUDENT_FROM_COURSE, studentId, courseId);
-    }
+//    public StudentCourse read(int studentId, int courseId) {
+//        StudentCourse studentCourse = jdbcTemplate.query(READ,
+//                new Object[]{studentId, courseId}, new StudentCourseMapper())
+//                .stream()
+//                .findAny()
+//                .orElse(null);
+//
+//        if (studentCourse == null) {
+//            try {
+//                throw new DAOException(DAO_EXCEPTION_MESSAGE);
+//            } catch (DAOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        return studentCourse;
+//    }
+//
+//    public List<StudentCourse> read() {
+//        return jdbcTemplate.query(READ_ALL, new StudentCourseMapper());
+//    }
+//
+//    public void updateCourseId(int courseId, int updatedId) {
+//        jdbcTemplate.update(UPDATE_COURSE_ID,
+//                updatedId,
+//                courseId);
+//    }
+//
+//    public void updateStudentId(int studentId, int updatedId) {
+//        jdbcTemplate.update(UPDATE_STUDENT_ID,
+//                updatedId,
+//                studentId);
+//    }
+//
+//    public void deleteStudentFromCourse(int studentId, int courseId) {
+//        jdbcTemplate.update(DELETE_STUDENT_FROM_COURSE, studentId, courseId);
+//    }
 }

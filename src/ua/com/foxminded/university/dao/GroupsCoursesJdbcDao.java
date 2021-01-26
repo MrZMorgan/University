@@ -28,34 +28,34 @@ public class GroupsCoursesJdbcDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void create(int groupId, int courseId) {
-        jdbcTemplate.update(CREATE, groupId, courseId);
-    }
-
-    public GroupCourse read(int courseId, int groupId) {
-        GroupCourse groupCourse = jdbcTemplate.query(
-                READ,
-                new Object[]{courseId, groupId}, new GroupCourseMapper())
-                .stream()
-                .findAny()
-                .orElse(null);
-
-        if (groupCourse == null) {
-            try {
-                throw new DAOException(DAO_EXCEPTION_MESSAGE);
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return groupCourse;
-    }
-
-    public List<GroupCourse> read() {
-        return jdbcTemplate.query(READ_ALL, new GroupCourseMapper());
-    }
-
-    public void updateCourseId(int courseId, int group_id, int updatedId) {
-        jdbcTemplate.update(UPDATE_COURSE_ID, updatedId, courseId, group_id);
-    }
+//    public void create(int groupId, int courseId) {
+//        jdbcTemplate.update(CREATE, groupId, courseId);
+//    }
+//
+//    public GroupCourse read(int courseId, int groupId) {
+//        GroupCourse groupCourse = jdbcTemplate.query(
+//                READ,
+//                new Object[]{courseId, groupId}, new GroupCourseMapper())
+//                .stream()
+//                .findAny()
+//                .orElse(null);
+//
+//        if (groupCourse == null) {
+//            try {
+//                throw new DAOException(DAO_EXCEPTION_MESSAGE);
+//            } catch (DAOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        return groupCourse;
+//    }
+//
+//    public List<GroupCourse> read() {
+//        return jdbcTemplate.query(READ_ALL, new GroupCourseMapper());
+//    }
+//
+//    public void updateCourseId(int courseId, int group_id, int updatedId) {
+//        jdbcTemplate.update(UPDATE_COURSE_ID, updatedId, courseId, group_id);
+//    }
 }

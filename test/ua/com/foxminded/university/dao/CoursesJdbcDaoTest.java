@@ -21,8 +21,6 @@ class CoursesJdbcDaoTest {
     private EmbeddedDatabase embeddedDatabase;
     private CoursesJdbcDao coursesJdbcDao;
     private TeachersJdbcDao teachersJdbcDao;
-    private StudentsCoursesJdbcDao studentsCoursesJdbcDao;
-    private GroupsCoursesJdbcDao groupsCoursesJdbcDao;
     private List<Group> groupsForTest = new LinkedList<>();
     private List<Student> studentsForTest = new LinkedList<>();
 
@@ -36,8 +34,6 @@ class CoursesJdbcDaoTest {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(embeddedDatabase);
         coursesJdbcDao = new CoursesJdbcDao(jdbcTemplate);
         teachersJdbcDao = new TeachersJdbcDao(jdbcTemplate);
-        studentsCoursesJdbcDao = new StudentsCoursesJdbcDao(jdbcTemplate);
-        groupsCoursesJdbcDao = new GroupsCoursesJdbcDao(jdbcTemplate);
     }
 
     @AfterEach
