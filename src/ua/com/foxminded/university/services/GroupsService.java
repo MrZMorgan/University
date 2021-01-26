@@ -2,7 +2,6 @@ package ua.com.foxminded.university.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.university.dao.GroupsCoursesJdbcDao;
 import ua.com.foxminded.university.dao.GroupsJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
 import ua.com.foxminded.university.models.Group;
@@ -21,7 +20,7 @@ public class GroupsService {
     }
 
     public void deleteGroupById(int groupId) {
-        studentsJdbcDao.deleteStudentFromGroup(groupId);
+        studentsJdbcDao.deleteStudentsFromGroup(groupId);
         groupsJdbcDao.delete(groupId);
     }
 

@@ -19,12 +19,14 @@ public class StudentsJdbcDao implements StudentsDao {
                                                                  "JOIN students_courses ON students.id = students_courses.student_id " +
                                                                  "WHERE course_id = ?";
     public static final String READ_ALL = "SELECT * FROM students";
-    public static final String DELETE_STUDENT_FROM_GROUP = "UPDATE students SET group_id = null WHERE group_id = ?";
+    public static final String DELETE_STUDENTS_FROM_GROUP = "UPDATE students SET group_id = null WHERE group_id = ?";
     public static final String UPDATE = "UPDATE students SET first_name=?, last_name = ?, age = ?, group_id = ? WHERE id=?";
     public static final String TRANSFER_STUDENT_TO_ANOTHER_GROUP = "UPDATE students SET group_id = ? WHERE id = ?";
 
-    public static final String DELETE_STUDENT_FROM_STUDENTS_COURSES = "DELETE FROM students_courses WHERE student_id=?";
-    public static final String DELETE = "DELETE FROM students WHERE id=?";
+    public static final String DELETE_STUDENT_FROM_ALL_COURSES = "DELETE FROM students_courses WHERE student_id=?";
+    public static final String DELETE_STUDENT_FROM_STUDENTS_TABLE = "DELETE FROM students WHERE id=?";
+    public static final String ASSIGN_STUDENT_TO_COURSE = "INSERT INTO students_courses (student_id, course_id) VALUES (?, ?)";
+    public static final String DELETE_STUDENT_FROM_COURSE = "DELETE FROM students_courses WHERE student_id=? AND course_id =?";
 
     public static final String DAO_EXCEPTION_MESSAGE = "There is no student with this ID in the database";
 
@@ -87,17 +89,29 @@ public class StudentsJdbcDao implements StudentsDao {
                 id);
     }
 
-    public void deleteStudentFromGroup(int groupId) {
-        jdbcTemplate.update(DELETE_STUDENT_FROM_GROUP, groupId);
+    public void deleteStudentsFromGroup(int groupId) {
+        jdbcTemplate.update(DELETE_STUDENTS_FROM_GROUP, groupId);
     }
 
     @Override
     public void delete(int studentId) {
-        jdbcTemplate.update(DELETE_STUDENT_FROM_STUDENTS_COURSES, studentId);
-        jdbcTemplate.update(DELETE, studentId);
+        deleteStudentFromAllCourses(studentId);
+        jdbcTemplate.update(DELETE_STUDENT_FROM_STUDENTS_TABLE, studentId);
+    }
+
+    public void deleteStudentFromAllCourses(int studentId) {
+        jdbcTemplate.update(DELETE_STUDENT_FROM_ALL_COURSES, studentId);
     }
 
     public void changeStudentGroup(int studentId, int groupId) {
         jdbcTemplate.update(TRANSFER_STUDENT_TO_ANOTHER_GROUP, groupId, studentId);
+    }
+
+    public void assignStudentToCourse(int studentId, int courseId) {
+        jdbcTemplate.update(ASSIGN_STUDENT_TO_COURSE, studentId, courseId);
+    }
+
+    public void deleteStudentFromCourse(int studentId, int courseId) {
+        jdbcTemplate.update(DELETE_STUDENT_FROM_COURSE, studentId, courseId);
     }
 }

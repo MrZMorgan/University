@@ -23,21 +23,21 @@ public class StudentsService {
         studentsJdbcDao.changeStudentGroup(studentId, groupId);
     }
 
-//    public void deleteStudentFromGroup() {
-//        studentsJdbcDao.deleteStudentFromGroup();
-//    }
+    public void deleteStudentFromGroup(int groupId) {
+        studentsJdbcDao.deleteStudentsFromGroup(groupId);
+    }
 
-//    public void assignStudentToCourse(int studentId, int courseId) {
-//        studentsCoursesJdbcDao.create(studentId, courseId);
-//    }
-//
-//    public void deleteStudentFromCourse(int studentId, int courseId) {
-//        studentsCoursesJdbcDao.deleteStudentFromCourse(studentId, courseId);
-//    }
-//
-//    public void deleteStudentsFromAllCourses(int studentId) {
-//        studentsCoursesJdbcDao.deleteStudent(studentId);
-//    }
+    public void assignStudentToCourse(int studentId, int courseId) {
+        studentsJdbcDao.assignStudentToCourse(studentId, courseId);
+    }
+
+    public void deleteStudentFromCourse(int studentId, int courseId) {
+        studentsJdbcDao.deleteStudentFromCourse(studentId, courseId);
+    }
+
+    public void deleteStudentsFromAllCourses(int studentId) {
+        studentsJdbcDao.deleteStudentFromAllCourses(studentId);
+    }
 
     public void createStudent(Student student) {
         studentsJdbcDao.create(student);

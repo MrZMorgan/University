@@ -2,7 +2,6 @@ package ua.com.foxminded.university.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import ua.com.foxminded.university.dao.*;
 import ua.com.foxminded.university.models.Course;
 import static org.mockito.Mockito.*;
