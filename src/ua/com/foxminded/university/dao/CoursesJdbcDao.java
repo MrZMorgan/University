@@ -5,8 +5,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.interfaces.CoursesDao;
 import ua.com.foxminded.university.dao.mappers.CourseMapper;
+import ua.com.foxminded.university.dao.mappers.GroupCourseMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.models.Course;
+import ua.com.foxminded.university.models.GroupCourse;
 import java.util.List;
 
 @Repository
@@ -20,10 +22,23 @@ public class CoursesJdbcDao implements CoursesDao {
                                                             "JOIN students_courses sc on courses.id = sc.course_id" +
                                                             "WHERE student_id = ?";
     public final static String UPDATE_COURSE = "UPDATE courses SET name=?, teacher_id=? WHERE id=?";
-    public final static String DELETE_TEACHER_FROM_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
+    public final static String DELETE_TEACHER_FROM_All_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
+    public final static String RENAME_COURSE = "UPDATE courses SET name = ? WHERE id = ?";
+    public final static String DELETE_TEACHER_FROM_COURSE = "UPDATE courses SET teacher_id = null " +
+                                                            "WHERE teacher_id = ? AND id = ?";
+    public final static String ASSIGN_TEACHER_TO_COURSE = "UPDATE courses SET teacher_id = ? WHERE id = ? ";
     public final static String DELETE_COURSE_BY_ID = "DELETE FROM courses WHERE id=?";
-    public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
+    public static final String DELETE_COURSE_FROM_STUDENTS_COURSES = "DELETE FROM students_courses WHERE course_id=?";
+    public static final String DELETE_COURSE_FROM_GROUPS_COURSES = "DELETE FROM groups_courses WHERE course_id = ?";
+    public static final String UPDATE_COURSE_ID_IN_STUDENTS_COURSES_TABLE = "UPDATE students_courses SET course_id=? WHERE course_id=?";
+    public static final String UPDATE_COURSE_ID_IN_GROUPS_COURSES_TABLE = "UPDATE groups_courses SET course_id = ? WHERE course_id = ? AND group_id = ?";
+    public static final String READ_ONE_GROUPS_COURSE = "SELECT * FROM groups_courses " +
+                                                        "WHERE course_id = ? " +
+                                                        "AND group_id = ?";
+    public static final String READ_ALL_GROUPS_COURSES_RELATION = "SELECT * FROM groups_courses";
 
+    public final static String DAO_EXCEPTION_MESSAGE = "There is no course with this ID in the database";
+    public final static String DAO_EXCEPTION_MESSAGE_GROUPS_COURSE = "There is no group-course with this ID in the database";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -65,10 +80,10 @@ public class CoursesJdbcDao implements CoursesDao {
                 new Object[]{teacherId}, new CourseMapper(jdbcTemplate));
     }
 
-    public List<Course> readCoursesByStudentId(int teacherId) {
+    public List<Course> readCoursesByStudentId(int studentId) {
         return jdbcTemplate.query(
                 READ_COURSES_BY_STUDENT_ID,
-                new Object[]{teacherId}, new CourseMapper(jdbcTemplate));
+                new Object[]{studentId}, new CourseMapper(jdbcTemplate));
     }
 
     @Override
@@ -79,14 +94,54 @@ public class CoursesJdbcDao implements CoursesDao {
                 id);
     }
 
-    public void deleteTeacherFromCourses(int teacherId) {
-        jdbcTemplate.update(DELETE_TEACHER_FROM_COURSES, teacherId);
+    public void deleteTeacherFromAllCourses(int teacherId) {
+        jdbcTemplate.update(DELETE_TEACHER_FROM_All_COURSES, teacherId);
     }
 
     @Override
     public void delete(int courseId) {
-        new StudentsCoursesJdbcDao(jdbcTemplate).deleteCourse(courseId);
-        new GroupsCoursesJdbcDao(jdbcTemplate).deleteCourse(courseId);
+        jdbcTemplate.update(DELETE_COURSE_FROM_GROUPS_COURSES, courseId);
+        jdbcTemplate.update(DELETE_COURSE_FROM_STUDENTS_COURSES, courseId);
         jdbcTemplate.update(DELETE_COURSE_BY_ID, courseId);
+    }
+
+    public void renameCourse(int courseIdToRename, String newCourseName) {
+        jdbcTemplate.update(RENAME_COURSE, newCourseName, courseIdToRename);
+    }
+
+    public void deleteTeacherFromCourse(int teacherId, int courseId) {
+        jdbcTemplate.update(DELETE_TEACHER_FROM_COURSE, teacherId, courseId);
+    }
+
+    public void assignTeacherToCourse(int teacherId, int courseId) {
+        jdbcTemplate.update(ASSIGN_TEACHER_TO_COURSE, teacherId, courseId);
+    }
+
+    public void updateCourseId(int courseId, int updatedId, int group_id) {
+        jdbcTemplate.update(UPDATE_COURSE_ID_IN_STUDENTS_COURSES_TABLE, updatedId, courseId);
+        jdbcTemplate.update(UPDATE_COURSE_ID_IN_GROUPS_COURSES_TABLE, updatedId, courseId, group_id);
+    }
+
+    public GroupCourse readOneGroupsCourse(int courseId, int groupId) {
+        GroupCourse groupCourse = jdbcTemplate.query(
+                READ_ONE_GROUPS_COURSE,
+                new Object[]{courseId, groupId}, new GroupCourseMapper())
+                .stream()
+                .findAny()
+                .orElse(null);
+
+        if (groupCourse == null) {
+            try {
+                throw new DAOException(DAO_EXCEPTION_MESSAGE_GROUPS_COURSE);
+            } catch (DAOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return groupCourse;
+    }
+
+    public List<GroupCourse> readAllGroupsCoursesRelation() {
+        return jdbcTemplate.query(READ_ALL_GROUPS_COURSES_RELATION, new GroupCourseMapper());
     }
 }

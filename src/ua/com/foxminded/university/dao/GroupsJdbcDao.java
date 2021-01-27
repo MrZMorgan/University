@@ -19,11 +19,14 @@ public class GroupsJdbcDao implements GroupsDao {
                                                                 "JOIN groups_courses ON groups.id = groups_courses.course_id " +
                                                                 "WHERE course_id = ?";
     public static final String UPDATE = "UPDATE groups SET name = ? WHERE id = ?";
-    public static final String DELETE = "DELETE FROM groups WHERE id = ?";
-    public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
     public static final String READ_GROUP_BY_STUDENT_ID = "SELECT groups.id, name FROM groups " +
                                                           "JOIN students s on groups.id = s.group_id " +
                                                           "WHERE s.id = ?;";
+    public static final String RENAME_GROUP = "UPDATE groups SET name = ? WHERE id = ?";
+    public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
+    public static final String DELETE = "DELETE FROM groups WHERE id = ?";
+    public static final String DELETE_GROUP_FROM_GROUPS_COURSES = "DELETE FROM groups_courses WHERE group_id = ?";
+    public static final String ASSIGN_GROUP_TO_COURSE = "INSERT INTO groups_courses (group_id, course_id) VALUES (?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -84,15 +87,20 @@ public class GroupsJdbcDao implements GroupsDao {
 
     @Override
     public void update(int id, Group groupForQuery) {
-        jdbcTemplate.update(UPDATE,
-                groupForQuery.getGroupName(),
-                id);
+        jdbcTemplate.update(UPDATE, groupForQuery.getGroupName(), id);
     }
 
     @Override
     public void delete(int groupId) {
-        new GroupsCoursesJdbcDao(jdbcTemplate).deleteGroup(groupId);
-        new StudentsJdbcDao(jdbcTemplate).deleteStudentFromGroup(groupId);
+        jdbcTemplate.update(DELETE_GROUP_FROM_GROUPS_COURSES, groupId);
         jdbcTemplate.update(DELETE, groupId);
+    }
+
+    public void renameGroup(int groupIdToRename, String newGroupName) {
+        jdbcTemplate.update(RENAME_GROUP, newGroupName, groupIdToRename);
+    }
+
+    public void assignGroupToCourse(int groupId, int courseId) {
+        jdbcTemplate.update(ASSIGN_GROUP_TO_COURSE, groupId, courseId);
     }
 }

@@ -11,7 +11,6 @@ import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.models.Teacher;
 import java.util.LinkedList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class TeachersJdbcDaoTest {

@@ -18,6 +18,7 @@ class GroupsJdbcDaoTest {
     private final static String NAME_FOR_TEST = "groupNameForTest";
     private EmbeddedDatabase embeddedDatabase;
     private GroupsJdbcDao groupsJdbcDao;
+    private StudentsJdbcDao studentsJdbcDao;
 
     @BeforeEach
     void setUp() {
@@ -28,6 +29,7 @@ class GroupsJdbcDaoTest {
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(embeddedDatabase);
         groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
+        studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
     }
 
     @AfterEach
@@ -86,6 +88,7 @@ class GroupsJdbcDaoTest {
     void shouldDeleteGroup() {
         int groupIdToDelete = 2;
 
+        studentsJdbcDao.deleteStudentsFromGroup(groupIdToDelete);
         groupsJdbcDao.delete(groupIdToDelete);
 
         int expectedTableSize = 1;

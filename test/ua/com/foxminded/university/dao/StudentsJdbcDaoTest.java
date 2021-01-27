@@ -12,7 +12,6 @@ import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.models.Student;
 import java.util.LinkedList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentsJdbcDaoTest {
@@ -31,6 +30,7 @@ class StudentsJdbcDaoTest {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(embeddedDatabase);
         studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
         groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
+        studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
     }
 
     @AfterEach
@@ -73,7 +73,6 @@ class StudentsJdbcDaoTest {
 
     @Test
     void shouldReadAllStudents() {
-
         List<Student> actualStudentsList = studentsJdbcDao.read();
         List<Student> expectedStudentsList = createStudentsListForTest();
 
