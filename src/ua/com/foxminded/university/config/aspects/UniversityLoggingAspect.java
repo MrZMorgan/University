@@ -15,7 +15,7 @@ public class UniversityLoggingAspect {
                    throwing = "exception")
     public void afterThrowingExceptionLoggingAdvice(JoinPoint joinPoint,
                                                     Throwable exception) {
-        Logger logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringTypeName());
+        Logger logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
         logger.info(exception.getMessage());
     }
 }
