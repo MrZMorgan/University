@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class UniversityLoggingAspect {
 
-    public static final String argMessage = "Check this input to find the error: ";
+    public static final String ARG_MESSAGE = "Check this input to find the error: ";
 
     @AfterThrowing(pointcut = "execution(* *(..))",
                    throwing = "exception")
@@ -23,7 +23,7 @@ public class UniversityLoggingAspect {
         Object[] methodArgs = joinPoint.getArgs();
 
         for (Object o : methodArgs) {
-            logger.debug(argMessage + o.toString());
+            logger.debug(ARG_MESSAGE + o.toString());
         }
     }
 }
