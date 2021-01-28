@@ -11,11 +11,19 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class UniversityLoggingAspect {
 
+    public static final String argMessage = "Check this input to find the error: ";
+
     @AfterThrowing(pointcut = "execution(* *(..))",
                    throwing = "exception")
     public void afterThrowingExceptionLoggingAdvice(JoinPoint joinPoint,
                                                     Throwable exception) {
         Logger logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
         logger.info(exception.getMessage());
+
+        Object[] methodArgs = joinPoint.getArgs();
+
+        for (Object o : methodArgs) {
+            logger.debug(argMessage + o.toString());
+        }
     }
 }
