@@ -15,9 +15,9 @@ public class UniversityLoggingAspect {
     private Logger logger;
 
     @Pointcut("execution(* *(..))")
-    public void allAddMethods(){}
+    public void allMethods(){}
 
-    @AfterThrowing(pointcut = "allAddMethods()",
+    @AfterThrowing(pointcut = "allMethods()",
                    throwing = "exception")
     public void afterThrowingExceptionLoggingAdvice(JoinPoint joinPoint,
                                                     Throwable exception) {
@@ -25,7 +25,7 @@ public class UniversityLoggingAspect {
         logger.info(exception.getMessage());
     }
 
-    @Before("allAddMethods()")
+    @Before("allMethods()")
     public void afterAllMethodsLoggingInputArgsAdvice(JoinPoint joinPoint) {
         logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
         Object[] methodArgs = joinPoint.getArgs();
