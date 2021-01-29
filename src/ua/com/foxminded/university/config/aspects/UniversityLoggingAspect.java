@@ -1,8 +1,7 @@
 package ua.com.foxminded.university.config.aspects;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,14 +12,22 @@ public class UniversityLoggingAspect {
 
     public static final String ARG_MESSAGE = "Check this input to find the error: ";
     public static final String SEPARATOR = ", ";
+    private Logger logger;
 
-    @AfterThrowing(pointcut = "execution(* *(..))",
+    @Pointcut("execution(* *(..))")
+    public void allAddMethods(){}
+
+    @AfterThrowing(pointcut = "allAddMethods()",
                    throwing = "exception")
     public void afterThrowingExceptionLoggingAdvice(JoinPoint joinPoint,
                                                     Throwable exception) {
-        Logger logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
+        logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
         logger.info(exception.getMessage());
+    }
 
+    @Before("allAddMethods()")
+    public void afterAllMethodsLoggingInputArgsAdvice(JoinPoint joinPoint) {
+        logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
         Object[] methodArgs = joinPoint.getArgs();
 
         for (Object o : methodArgs) {
