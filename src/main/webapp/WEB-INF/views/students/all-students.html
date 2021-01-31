@@ -8,22 +8,26 @@
 
 <h2>All students</h2>
 
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Age</th>
-        <th>Group</th>
-    </tr>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Age</th>
+            <th>Group</th>
+        </tr>
+    </thead>
 
-    <tr th:each="student: ${allStudents}">
-        <td th:text="${student.getId()}" />
-        <td th:text="${student.getFirstName()}"/>
-        <td th:text="${student.getLastName()}"/>
-        <td th:text="${student.getAge()}"/>
-        <td th:text="${student.getGroup().getName()}"/>
-    </tr>
+    <tbody>
+        <tr th:each="student: ${allStudents}">
+            <td th:text="${student.getId()}" />
+            <td th:text="${student.getFirstName()}"/>
+            <td th:text="${student.getLastName()}"/>
+            <td th:text="${student.getAge()}"/>
+            <td th:text="${student.getGroup().getName()}"/>
+        </tr>
+    </tbody>
 </table>
 
 <br>

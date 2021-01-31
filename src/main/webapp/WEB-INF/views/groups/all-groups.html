@@ -8,16 +8,20 @@
 
 <h2>All groups</h2>
 
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-    </tr>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    </thead>
 
-    <tr th:each="group: ${allGroups}">
-        <td th:text="${group.getId()}" />
-        <td th:text="${group.getName()}"/>
-    </tr>
+    <tbody>
+        <tr th:each="group: ${allGroups}">
+            <td th:text="${group.getId()}" />
+            <td th:text="${group.getName()}"/>
+        </tr>
+    </tbody>
 </table>
 
 <br>

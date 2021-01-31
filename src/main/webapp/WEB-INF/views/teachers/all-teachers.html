@@ -8,21 +8,24 @@
 
 <h2>All teachers</h2>
 
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Age</th>
-    </tr>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Age</th>
+        </tr>
+    </thead>
 
-    <tr th:each="teacher: ${allTeachers}">
-        <td th:text="${teacher.getId()}" />
-        <td th:text="${teacher.getFirstName()}"/>
-        <td th:text="${teacher.getLastName()}"/>
-        <td th:text="${teacher.getAge()}"/>
-    </tr>
-
+    <tbody>
+        <tr th:each="teacher: ${allTeachers}">
+            <td th:text="${teacher.getId()}" />
+            <td th:text="${teacher.getFirstName()}"/>
+            <td th:text="${teacher.getLastName()}"/>
+            <td th:text="${teacher.getAge()}"/>
+        </tr>
+    </tbody>
 </table>
 
 <br>
