@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -17,6 +18,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("ua.com.foxminded.university")
+@EnableWebMvc
 @EnableAspectJAutoProxy
 public class AppSpringConfig implements WebMvcConfigurer {
 
