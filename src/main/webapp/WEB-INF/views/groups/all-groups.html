@@ -5,11 +5,16 @@
 
 <h2>All groups</h2>
 
-<div th:each="group : ${allGroups}">
-    <p th:text="group.getId()">Id</p>
-    <p th:text="group.getName()">Name</p>
-</div>
 
+
+<table>
+
+    <div th:each="group : ${allGroups}">
+        <p th:text="group.getId()">Id</p>
+        <p th:text="group.getName()">Name</p>
+    </div>
+
+</table>
 
 </body>
 

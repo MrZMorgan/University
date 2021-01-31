@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class UniversityLoggingAspect {
 
-    public static final String ARG_MESSAGE = "Check this input to find the error: ";
+    public static final String ARG_MESSAGE = "Method input data: ";
     public static final String SEPARATOR = ", ";
     private Logger logger;
 
