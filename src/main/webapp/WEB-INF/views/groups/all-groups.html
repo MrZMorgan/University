@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>All groups</title>
-</head>
 
 <body>
+
+<h2>All groups</h2>
 
 <div th:each="group : ${allGroups}">
     <p th:text="group.getId()">Id</p>

@@ -1,4 +1,4 @@
-package ua.com.foxminded.university.config.aspects;
+package ua.com.foxminded.university.aspects;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -14,7 +14,7 @@ public class UniversityLoggingAspect {
     public static final String SEPARATOR = ", ";
     private Logger logger;
 
-    @Pointcut("execution(* *(..))")
+    @Pointcut("execution(ua.com.foxminded.university.* *(..))")
     public void allMethods(){}
 
     @AfterThrowing(pointcut = "allMethods()",
