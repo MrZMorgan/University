@@ -53,8 +53,8 @@ class TeachersJdbcDaoTest {
     @Test
     void shouldReadTeacher() {
         int id = 1;
-        String firstNameForTest = "firstName1";
-        String lastNameForTest = "lastName1";
+        String firstNameForTest = "Ivan";
+        String lastNameForTest = "Smirnov";
         int ageForTest = 20;
         List<Course> coursesListForTest = new LinkedList<>();
 
@@ -75,8 +75,8 @@ class TeachersJdbcDaoTest {
     @Test
     void shouldUpdateTeacher() {
         int id = 1;
-        String firstNameForTest = "firstNameForTest";
-        String lastNameForTest = "lastNameForTest";
+        String firstNameForTest = "Ivan";
+        String lastNameForTest = "Smirnov";
         int ageForTest = 28;
         List<Course> coursesListForTest = new LinkedList<>();
 
@@ -105,15 +105,15 @@ class TeachersJdbcDaoTest {
         List<Teacher> teachers = new LinkedList<>();
 
         int teacher1Id = 1;
-        String teacher1FirstName = "firstName1";
-        String teacher1LastName = "lastName1";
+        String teacher1FirstName = "Ivan";
+        String teacher1LastName = "Smirnov";
         int teacher1Age = 20;
         List<Course> teacher1CourseList = new LinkedList<>();
         Teacher teacher1 = new Teacher(teacher1Id, teacher1FirstName, teacher1LastName, teacher1Age, teacher1CourseList);
 
         int teacher2Id = 2;
-        String teacher2FirstName = "firstName2";
-        String teacher2LastName = "lastName2";
+        String teacher2FirstName = "Oleg";
+        String teacher2LastName = "Sidorov";
         int teacher2Age = 25;
         List<Course> teacher2CourseList = new LinkedList<>();
         Teacher teacher2 = new Teacher(teacher2Id, teacher2FirstName, teacher2LastName, teacher2Age, teacher2CourseList);

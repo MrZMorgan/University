@@ -6,22 +6,12 @@
 
 <body>
 
-<h2>All groups</h2>
+<h2>University</h2>
 
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-    </tr>
-
-    <tr th:each="group: ${allGroups}">
-        <td th:text="${group.getId()}" />
-        <td th:text="${group.getName()}"/>
-    </tr>
-</table>
-
-<br>
-<a href="/">Back to main page</a>
+<a href="/groups">Groups data</a> <br>
+<a href="/courses">Courses data</a> <br>
+<a href="/teachers">Teachers data</a> <br>
+<a href="/students">Students data</a> <br>
 
 </body>
 

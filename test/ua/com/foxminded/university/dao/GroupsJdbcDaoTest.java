@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GroupsJdbcDaoTest {
 
-    private final static String NAME_FOR_TEST = "groupNameForTest";
+    private final static String NAME_FOR_TEST = "GS-10-1";
+    private final static String NAME_FOR_TEST_2 = "ERB-11-2";
     private EmbeddedDatabase embeddedDatabase;
     private GroupsJdbcDao groupsJdbcDao;
     private StudentsJdbcDao studentsJdbcDao;
@@ -66,7 +67,7 @@ class GroupsJdbcDaoTest {
         List<Student> studentsFromGroup2 = new LinkedList<>();
 
         expectedGroupsList.add(new Group(1, NAME_FOR_TEST, studentsFromGroup1));
-        expectedGroupsList.add(new Group(2, NAME_FOR_TEST, studentsFromGroup2));
+        expectedGroupsList.add(new Group(2, NAME_FOR_TEST_2, studentsFromGroup2));
 
         assertEquals(expectedGroupsList, actualGroupsList);
     }
