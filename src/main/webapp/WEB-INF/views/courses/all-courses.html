@@ -6,17 +6,19 @@
 
 <body>
 
-<h2>All groups</h2>
+<h2>All courses</h2>
 
 <table>
     <tr>
         <th>Id</th>
         <th>Name</th>
+        <th>Teacher</th>
     </tr>
 
-    <tr th:each="group: ${allGroups}">
-        <td th:text="${group.getId()}" />
-        <td th:text="${group.getName()}"/>
+    <tr th:each="course: ${allCourses}">
+        <td th:text="${course.getId()}" />
+        <td th:text="${course.getName()}"/>
+        <td th:text="${course.getTeacher().getFirstName() + ' ' + course.getTeacher().getLastName()}"/>
     </tr>
 </table>
 

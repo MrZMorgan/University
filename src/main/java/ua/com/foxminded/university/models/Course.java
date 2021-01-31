@@ -11,8 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Course {
 
-    private int courseId;
-    private String courseName;
+    private int id;
+    private String name;
     private Teacher teacher;
     private List<Group> groups;
     private List<Student> students;
