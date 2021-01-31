@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All groups</title>
+</head>
+
+<body>
+
+<div th:each="group : ${allGroups}">
+    <p th:text="group.getId()">Id</p>
+    <p th:text="group.getName()">Name</p>
+</div>
+
+
+</body>
+
+</html>

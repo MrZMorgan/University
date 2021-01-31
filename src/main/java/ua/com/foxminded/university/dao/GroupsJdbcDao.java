@@ -37,7 +37,7 @@ public class GroupsJdbcDao implements GroupsDao {
 
     @Override
     public void create(Group data) {
-        jdbcTemplate.update(CREATE, data.getGroupName());
+        jdbcTemplate.update(CREATE, data.getName());
     }
 
     @Override
@@ -87,7 +87,7 @@ public class GroupsJdbcDao implements GroupsDao {
 
     @Override
     public void update(int id, Group groupForQuery) {
-        jdbcTemplate.update(UPDATE, groupForQuery.getGroupName(), id);
+        jdbcTemplate.update(UPDATE, groupForQuery.getName(), id);
     }
 
     @Override

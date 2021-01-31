@@ -8,7 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Group {
 
-    private final int groupId;
-    private String groupName;
+    private final int id;
+    private String name;
     private List<Student> students;
 }
