@@ -13,6 +13,7 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Operations</th>
         </tr>
     </thead>
 
@@ -20,6 +21,11 @@
         <tr th:each="group: ${allGroups}">
             <td th:text="${group.getId()}" />
             <td th:text="${group.getName()}"/>
+            <td>
+                <form th:action="@{/groups/{id}(id=${group.getId()})}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
     </tbody>
 </table>

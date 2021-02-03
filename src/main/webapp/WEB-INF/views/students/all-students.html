@@ -16,6 +16,7 @@
             <th>Lastname</th>
             <th>Age</th>
             <th>Group</th>
+            <th>Operations</th>
         </tr>
     </thead>
 
@@ -26,6 +27,11 @@
             <td th:text="${student.getLastName()}"/>
             <td th:text="${student.getAge()}"/>
             <td th:text="${student.getGroup().getName()}"/>
+            <td>
+                <form th:action="@{/students/{id}(id=${student.getId()})}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
     </tbody>
 </table>
