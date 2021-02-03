@@ -50,7 +50,7 @@ public class StudentsJdbcDao implements StudentsDao {
         String firstName = data.getFirstName();
         String lastName = data.getLastName();
         int age = data.getAge();
-        int groupId = data.getGroup().getGroupId();
+        int groupId = data.getGroup().getId();
         jdbcTemplate.update(CREATE, firstName, lastName, age, groupId);
     }
 
@@ -91,7 +91,7 @@ public class StudentsJdbcDao implements StudentsDao {
                 studentForQuery.getFirstName(),
                 studentForQuery.getLastName(),
                 studentForQuery.getAge(),
-                studentForQuery.getGroup().getGroupId(),
+                studentForQuery.getGroup().getId(),
                 id);
     }
 

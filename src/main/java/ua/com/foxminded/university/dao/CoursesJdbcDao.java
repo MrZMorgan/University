@@ -49,7 +49,7 @@ public class CoursesJdbcDao implements CoursesDao {
 
     @Override
     public void create(Course data) {
-        jdbcTemplate.update(CREATE, data.getCourseName());
+        jdbcTemplate.update(CREATE, data.getName());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class CoursesJdbcDao implements CoursesDao {
     @Override
     public void update(int id, Course courseForQuery) {
         jdbcTemplate.update(UPDATE_COURSE,
-                courseForQuery.getCourseName(),
+                courseForQuery.getName(),
                 courseForQuery.getTeacher().getId(),
                 id);
     }

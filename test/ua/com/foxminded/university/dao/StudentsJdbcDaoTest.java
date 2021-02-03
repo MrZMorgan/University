@@ -59,8 +59,8 @@ class StudentsJdbcDaoTest {
     void shouldReadStudent() {
         List<Course> coursesForTest = new LinkedList<>();
 
-        String student1FirstName = "firstName1";
-        String student1LastName = "lastName1";
+        String student1FirstName = "Egor";
+        String student1LastName = "Anchutin";
         int student1Age = 20;
         int student1GroupId = 1;
         Group student1group = groupsJdbcDao.read(student1GroupId);
@@ -84,8 +84,8 @@ class StudentsJdbcDaoTest {
         Group groupForTest = groupsJdbcDao.read(1);
         List<Course> coursesForTest = new LinkedList<>();
 
-        String firstNameForTest = "firstName";
-        String lastNameForTest = "lastName";
+        String firstNameForTest = "Egor";
+        String lastNameForTest = "Anchutin";
         int ageForTest = 30;
 
         Student studentToUpdate = new Student(1, firstNameForTest, lastNameForTest, ageForTest, groupForTest, coursesForTest);
@@ -114,29 +114,29 @@ class StudentsJdbcDaoTest {
 
         List<Course> coursesForTest = new LinkedList<>();
 
-        String student1FirstName = "firstName1";
-        String student1LastName = "lastName1";
+        String student1FirstName = "Egor";
+        String student1LastName = "Anchutin";
         int student1Age = 20;
         int student1GroupId = 1;
         Group student1group = groupsJdbcDao.read(student1GroupId);
         Student student1 = new Student(1, student1FirstName, student1LastName, student1Age, student1group, coursesForTest);
 
-        String student2FirstName = "firstName2";
-        String student2LastName = "lastName2";
+        String student2FirstName = "Guinea";
+        String student2LastName = "Pig";
         int student2Age = 21;
         int student2GroupId = 1;
         Group student2group = groupsJdbcDao.read(student2GroupId);
         Student student2 = new Student(2, student2FirstName, student2LastName, student2Age, student2group, coursesForTest);
 
-        String student3FirstName = "firstName3";
-        String student3LastName = "lastName3";
+        String student3FirstName = "Olga";
+        String student3LastName = "Petrova";
         int student3Age = 23;
         int student3GroupId = 2;
         Group student3group = groupsJdbcDao.read(student3GroupId);
         Student student3 = new Student(3, student3FirstName, student3LastName, student3Age, student3group, coursesForTest);
 
-        String student4FirstName = "firstName4";
-        String student4LastName = "lastName4";
+        String student4FirstName = "Yaroslava";
+        String student4LastName = "Igorevna";
         int student4Age = 24;
         int student4GroupId = 2;
         Group student4group = groupsJdbcDao.read(student4GroupId);

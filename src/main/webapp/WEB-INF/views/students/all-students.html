@@ -1,0 +1,38 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+<body>
+
+<h2>All students</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Age</th>
+            <th>Group</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="student: ${allStudents}">
+            <td th:text="${student.getId()}" />
+            <td th:text="${student.getFirstName()}"/>
+            <td th:text="${student.getLastName()}"/>
+            <td th:text="${student.getAge()}"/>
+            <td th:text="${student.getGroup().getName()}"/>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/">Back to main page</a>
+
+</body>
+
+</html>
