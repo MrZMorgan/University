@@ -14,6 +14,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Teacher</th>
+            <th>Operations</th>
         </tr>
     </thead>
 
@@ -22,6 +23,11 @@
             <td th:text="${course.getId()}" />
             <td th:text="${course.getName()}"/>
             <td th:text="${course.getTeacher().getFirstName() + ' ' + course.getTeacher().getLastName()}"/>
+            <td>
+                <form th:action="@{/courses/{id}(id=${course.getId()})}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
     </tbody>
 </table>
