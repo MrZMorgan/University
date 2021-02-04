@@ -44,4 +44,17 @@ public class GroupsController {
         groupsService.createGroup(group);
         return "redirect:/groups";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editGroup(Model model, @PathVariable("id") int id) {
+        model.addAttribute("group", groupsService.readOneRecordFromTable(id));
+        return "groups/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("group") Group group,
+                         @PathVariable("id") int id) {
+        groupsService.updateGroupData(id, group);
+        return "redirect:/groups";
+    }
 }

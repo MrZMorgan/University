@@ -46,4 +46,17 @@ public class CoursesController {
         coursesService.createCourse(course);
         return "redirect:/courses";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editCourse(Model model, @PathVariable("id") int id) {
+        model.addAttribute("course", coursesService.readOneRecordFromTable(id));
+        return "courses/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("course") Course course,
+                         @PathVariable("id") int id) {
+        coursesService.renameCourse(id, course.getName());
+        return "redirect:/courses";
+    }
 }

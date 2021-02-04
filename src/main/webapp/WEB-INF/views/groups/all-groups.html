@@ -28,6 +28,7 @@
                 <form th:method="DELETE" th:action="@{/groups/{id}(id=${group.getId()})}">
                     <button type="submit">Delete</button>
                 </form>
+                <a th:href="@{/groups/{id}/edit(id=${group.getId()})}">Edit</a>
             </td>
         </tr>
     </tbody>
