@@ -45,4 +45,17 @@ public class TeachersController {
         teacherService.createTeacher(teacher);
         return "redirect:/teachers";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editTeacher(Model model, @PathVariable("id") int id) {
+        model.addAttribute("teacher", teacherService.readOneRecordFromTable(id));
+        return "teachers/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String updateTeacher(@ModelAttribute("teacher") Teacher teacher,
+                                @PathVariable("id") int id) {
+        teacherService.updateTeacherData(id, teacher);
+        return "redirect:/teachers";
+    }
 }

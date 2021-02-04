@@ -54,9 +54,9 @@ public class CoursesController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("course") Course course,
+    public String updateGroup(@ModelAttribute("course") Course course,
                          @PathVariable("id") int id) {
-        coursesService.renameCourse(id, course.getName());
+        coursesService.updateCourseData(id, course);
         return "redirect:/courses";
     }
 }

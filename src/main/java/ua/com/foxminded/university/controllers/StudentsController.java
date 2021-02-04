@@ -46,4 +46,17 @@ public class StudentsController {
         studentsService.createStudent(student);
         return "redirect:/students";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editStudent(Model model, @PathVariable("id") int id) {
+        model.addAttribute("student", studentsService.readOneRecordFromTable(id));
+        return "students/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String updateStudent(@ModelAttribute("student") Student student,
+                                @PathVariable("id") int id) {
+        studentsService.updateStudentData(id, student);
+        return "redirect:/students";
+    }
 }

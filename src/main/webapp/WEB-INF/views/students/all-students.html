@@ -34,6 +34,7 @@
                 <form th:method="DELETE" th:action="@{/students/{id}(id=${student.getId()})}">
                     <button type="submit">Delete</button>
                 </form>
+                <a th:href="@{/students/{id}/edit(id=${student.getId()})}">Edit</a>
             </td>
         </tr>
     </tbody>

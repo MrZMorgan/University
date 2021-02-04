@@ -52,7 +52,7 @@ public class GroupsController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("group") Group group,
+    public String updateGroup(@ModelAttribute("group") Group group,
                          @PathVariable("id") int id) {
         groupsService.updateGroupData(id, group);
         return "redirect:/groups";
