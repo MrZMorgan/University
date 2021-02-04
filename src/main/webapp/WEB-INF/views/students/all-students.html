@@ -40,7 +40,16 @@
 </table>
 
 <br>
-<a href="/">Back to main page</a>
+
+<form th:action="@{/students/new}">
+    <button type="submit">Create new student</button>
+</form>
+
+<br>
+
+<form th:action="@{/}">
+    <button type="submit">Back to main page</button>
+</form>
 
 </body>
 

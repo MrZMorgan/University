@@ -34,7 +34,16 @@
 </table>
 
 <br>
-<a href="/">Back to main page</a>
+
+<form th:action="@{/groups/new}">
+    <button type="submit">Create new group</button>
+</form>
+
+<br>
+
+<form th:action="@{/}">
+    <button type="submit">Back to main page</button>
+</form>
 
 </body>
 

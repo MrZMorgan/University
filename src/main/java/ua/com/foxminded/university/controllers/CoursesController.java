@@ -35,4 +35,15 @@ public class CoursesController {
         coursesService.deleteCourseById(id);
         return "redirect:/courses";
     }
+
+    @GetMapping("/new")
+    public String newCourse(@ModelAttribute("course") Course course) {
+        return "courses/new";
+    }
+
+    @PostMapping()
+    public String createCourse(@ModelAttribute("course") Course course) {
+        coursesService.createCourse(course);
+        return "redirect:/courses";
+    }
 }

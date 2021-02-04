@@ -3,10 +3,8 @@ package ua.com.foxminded.university.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.models.Student;
 import ua.com.foxminded.university.models.Teacher;
 import ua.com.foxminded.university.services.StudentsService;
@@ -35,6 +33,17 @@ public class StudentsController {
     @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable int id) {
         studentsService.deleteStudentById(id);
+        return "redirect:/students";
+    }
+
+    @GetMapping("/new")
+    public String newStudent(@ModelAttribute("student") Student student) {
+        return "students/new";
+    }
+
+    @PostMapping()
+    public String createStudent(@ModelAttribute("student") Student student) {
+        studentsService.createStudent(student);
         return "redirect:/students";
     }
 }
