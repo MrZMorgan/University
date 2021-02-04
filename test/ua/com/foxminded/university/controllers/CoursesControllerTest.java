@@ -10,14 +10,15 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ua.com.foxminded.university.config.AppSpringConfig;
+import ua.com.foxminded.university.config.TestConfig;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = AppSpringConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 class CoursesControllerTest {
 
     @Autowired
@@ -31,7 +32,7 @@ class CoursesControllerTest {
     }
 
     @Test
-    void testShowAllGroups() throws Exception {
+    void testShowAllCourses() throws Exception {
         String courseControllerRequestMapping = "/courses";
         String view = "courses/all-courses";
         String courseNameFromPage = "economy";
@@ -40,5 +41,44 @@ class CoursesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name(view))
                 .andExpect(content().string(containsString(courseNameFromPage)));
+    }
+
+
+    @Test
+    void deleteCourse() throws Exception {
+        String courseControllerRequestMapping = "/courses/1";
+        String view = "redirect:/courses";
+
+        mockMvc.perform(delete(courseControllerRequestMapping))
+                .andExpect(view().name(view))
+                .andExpect(status().is3xxRedirection())
+        ;
+    }
+
+    @Test
+    void createCourse() throws Exception {
+        String courseControllerRequestMapping = "/courses/new";
+        String view = "courses/new";
+
+        mockMvc.perform(get(courseControllerRequestMapping))
+                .andExpect(status().isOk())
+                .andExpect(view().name(view));
+
+        courseControllerRequestMapping = "/courses";
+        view = "courses/all-courses";
+
+        mockMvc.perform(get(courseControllerRequestMapping))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name(view));
+    }
+
+    @Test
+    void editCourse() throws Exception {
+        String courseControllerRequestMapping = "/courses/1/edit";
+        String view = "courses/edit";
+
+        mockMvc.perform(get(courseControllerRequestMapping))
+                .andExpect(status().isOk())
+                .andExpect(view().name(view));
     }
 }

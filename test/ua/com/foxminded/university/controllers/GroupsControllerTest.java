@@ -11,13 +11,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.university.config.AppSpringConfig;
+import ua.com.foxminded.university.config.TestConfig;
+
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = AppSpringConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 class GroupsControllerTest {
 
     @Autowired
@@ -40,5 +43,43 @@ class GroupsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name(view))
                 .andExpect(content().string(containsString(groupNameFromPage)));
+    }
+
+    @Test
+    void deleteGroup() throws Exception {
+        String groupsControllerRequestMapping = "/groups/1";
+        String view = "redirect:/groups";
+
+        mockMvc.perform(delete(groupsControllerRequestMapping))
+                .andExpect(view().name(view))
+                .andExpect(status().is3xxRedirection())
+        ;
+    }
+
+    @Test
+    void createGroup() throws Exception {
+        String groupsControllerRequestMapping = "/groups/new";
+        String view = "groups/new";
+
+        mockMvc.perform(get(groupsControllerRequestMapping))
+                .andExpect(status().isOk())
+                .andExpect(view().name(view));
+
+        groupsControllerRequestMapping = "/groups";
+        view = "groups/all-groups";
+
+        mockMvc.perform(get(groupsControllerRequestMapping))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name(view));
+    }
+
+    @Test
+    void editGroup() throws Exception {
+        String groupsControllerRequestMapping = "/groups/1/edit";
+        String view = "groups/edit";
+
+        mockMvc.perform(get(groupsControllerRequestMapping))
+                .andExpect(status().isOk())
+                .andExpect(view().name(view));
     }
 }
