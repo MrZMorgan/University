@@ -13,7 +13,6 @@ import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.university.config.TestConfig;
 import ua.com.foxminded.university.models.Course;
 import ua.com.foxminded.university.services.CoursesService;
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -24,9 +23,7 @@ class CoursesControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-
     private MockMvc mockMvc;
-
     @Autowired
     private CoursesService coursesService;
 
@@ -44,7 +41,6 @@ class CoursesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name(view));
     }
-
 
     @Test
     void deleteCourse() throws Exception {

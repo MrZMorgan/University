@@ -10,22 +10,22 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ua.com.foxminded.university.config.AppSpringConfig;
 import ua.com.foxminded.university.config.TestConfig;
-
-import static org.hamcrest.Matchers.containsString;
+import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.services.GroupsService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = AppSpringConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 class GroupsControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-
+    @Autowired
+    private GroupsService groupsService;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -37,12 +37,10 @@ class GroupsControllerTest {
     void testShowAllGroups() throws Exception {
         String groupsControllerRequestMapping = "/groups";
         String view = "groups/all-groups";
-        String groupNameFromPage = "ERB-11-2";
 
         this.mockMvc.perform(get(groupsControllerRequestMapping))
                 .andExpect(status().isOk())
-                .andExpect(view().name(view))
-                .andExpect(content().string(containsString(groupNameFromPage)));
+                .andExpect(view().name(view));
     }
 
     @Test
@@ -78,8 +76,12 @@ class GroupsControllerTest {
         String groupsControllerRequestMapping = "/groups/1/edit";
         String view = "groups/edit";
 
+        String expectedModelAttributeName = "group";
+        Group expectedGroup = groupsService.readOneRecordFromTable(1);
+
         mockMvc.perform(get(groupsControllerRequestMapping))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute(expectedModelAttributeName, expectedGroup))
                 .andExpect(view().name(view));
     }
 }

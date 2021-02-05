@@ -10,22 +10,22 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ua.com.foxminded.university.config.AppSpringConfig;
 import ua.com.foxminded.university.config.TestConfig;
-
-import static org.hamcrest.Matchers.containsString;
+import ua.com.foxminded.university.models.Student;
+import ua.com.foxminded.university.services.StudentsService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = AppSpringConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 class StudentsControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-
+    @Autowired
+    private StudentsService studentsService;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -37,12 +37,10 @@ class StudentsControllerTest {
     void testShowAllStudents() throws Exception {
         String studentsControllerRequestMapping = "/students";
         String view = "students/all-students";
-        String studentNameFromPage = "Olga";
 
         this.mockMvc.perform(get(studentsControllerRequestMapping))
                 .andExpect(status().isOk())
-                .andExpect(view().name(view))
-                .andExpect(content().string(containsString(studentNameFromPage)));
+                .andExpect(view().name(view));
     }
 
     @Test
@@ -77,8 +75,12 @@ class StudentsControllerTest {
         String studentsControllerRequestMapping = "/students/1/edit";
         String view = "students/edit";
 
+        String expectedModelAttributeName = "student";
+        Student expectedStudent = studentsService.readOneRecordFromTable(1);
+
         mockMvc.perform(get(studentsControllerRequestMapping))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute(expectedModelAttributeName, expectedStudent))
                 .andExpect(view().name(view));
     }
 }

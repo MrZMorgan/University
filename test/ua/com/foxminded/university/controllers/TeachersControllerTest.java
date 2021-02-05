@@ -10,22 +10,22 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ua.com.foxminded.university.config.AppSpringConfig;
 import ua.com.foxminded.university.config.TestConfig;
-
-import static org.hamcrest.Matchers.containsString;
+import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.services.TeacherService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = AppSpringConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 class TeachersControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-
+    @Autowired
+    private TeacherService teacherService;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -41,8 +41,7 @@ class TeachersControllerTest {
 
         this.mockMvc.perform(get(teacherControllerRequestMapping))
                 .andExpect(status().isOk())
-                .andExpect(view().name(view))
-                .andExpect(content().string(containsString(teacherNameFromPage)));
+                .andExpect(view().name(view));
     }
 
     @Test
@@ -77,8 +76,12 @@ class TeachersControllerTest {
         String teacherControllerRequestMapping = "/teachers/1/edit";
         String view = "teachers/edit";
 
+        String expectedModelAttributeName = "teacher";
+        Teacher expectedTeacher = teacherService.readOneRecordFromTable(1);
+
         mockMvc.perform(get(teacherControllerRequestMapping))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute(expectedModelAttributeName, expectedTeacher))
                 .andExpect(view().name(view));
     }
 }
