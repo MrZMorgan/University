@@ -3,10 +3,8 @@ package ua.com.foxminded.university.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.models.Student;
-import ua.com.foxminded.university.models.Teacher;
 import ua.com.foxminded.university.services.StudentsService;
 
 import java.util.List;
@@ -28,5 +26,35 @@ public class StudentsController {
         model.addAttribute("allStudents", students);
 
         return "students/all-students";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteStudent(@PathVariable int id) {
+        studentsService.deleteStudentById(id);
+        return "redirect:/students";
+    }
+
+    @GetMapping("/new")
+    public String newStudent(@ModelAttribute("student") Student student) {
+        return "students/new";
+    }
+
+    @PostMapping()
+    public String createStudent(@ModelAttribute("student") Student student) {
+        studentsService.createStudent(student);
+        return "redirect:/students";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editStudent(Model model, @PathVariable("id") int id) {
+        model.addAttribute("student", studentsService.readOneRecordFromTable(id));
+        return "students/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String updateStudent(@ModelAttribute("student") Student student,
+                                @PathVariable("id") int id) {
+        studentsService.updateStudentData(id, student);
+        return "redirect:/students";
     }
 }
