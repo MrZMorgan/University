@@ -53,7 +53,7 @@ public class CoursesController {
 
     @PatchMapping("/{id}")
     public String updateGroup(@ModelAttribute("course") Course course,
-                         @PathVariable("id") int id) {
+                              @PathVariable("id") int id) {
         coursesService.updateCourseData(id, course);
         return "redirect:/courses";
     }

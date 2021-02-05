@@ -11,7 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.university.config.TestConfig;
-
+import ua.com.foxminded.university.models.Course;
+import ua.com.foxminded.university.services.CoursesService;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -26,21 +27,22 @@ class CoursesControllerTest {
 
     private MockMvc mockMvc;
 
+    @Autowired
+    private CoursesService coursesService;
+
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
     void testShowAllCourses() throws Exception {
         String courseControllerRequestMapping = "/courses";
         String view = "courses/all-courses";
-        String courseNameFromPage = "economy";
 
         this.mockMvc.perform(get(courseControllerRequestMapping))
                 .andExpect(status().isOk())
-                .andExpect(view().name(view))
-                .andExpect(content().string(containsString(courseNameFromPage)));
+                .andExpect(view().name(view));
     }
 
 
@@ -76,9 +78,13 @@ class CoursesControllerTest {
     void editCourse() throws Exception {
         String courseControllerRequestMapping = "/courses/1/edit";
         String view = "courses/edit";
+        String expectedModelAttributeName = "course";
+
+        Course expectedCourse = coursesService.readOneRecordFromTable(1);
 
         mockMvc.perform(get(courseControllerRequestMapping))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute(expectedModelAttributeName, expectedCourse))
                 .andExpect(view().name(view));
     }
 }
