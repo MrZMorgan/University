@@ -23,9 +23,9 @@ class CoursesControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-    private MockMvc mockMvc;
     @Autowired
     private CoursesService coursesService;
+    private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
@@ -72,11 +72,11 @@ class CoursesControllerTest {
 
     @Test
     void editCourse() throws Exception {
-        String courseControllerRequestMapping = "/courses/1/edit";
+        String courseControllerRequestMapping = "/courses/2/edit";
         String view = "courses/edit";
         String expectedModelAttributeName = "course";
 
-        Course expectedCourse = coursesService.readOneRecordFromTable(1);
+        Course expectedCourse = coursesService.readOneRecordFromTable(2);
 
         mockMvc.perform(get(courseControllerRequestMapping))
                 .andExpect(status().isOk())

@@ -73,11 +73,11 @@ class TeachersControllerTest {
 
     @Test
     void editStudent() throws Exception {
-        String teacherControllerRequestMapping = "/teachers/1/edit";
+        String teacherControllerRequestMapping = "/teachers/2/edit";
         String view = "teachers/edit";
 
         String expectedModelAttributeName = "teacher";
-        Teacher expectedTeacher = teacherService.readOneRecordFromTable(1);
+        Teacher expectedTeacher = teacherService.readOneRecordFromTable(2);
 
         mockMvc.perform(get(teacherControllerRequestMapping))
                 .andExpect(status().isOk())

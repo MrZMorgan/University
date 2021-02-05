@@ -73,11 +73,11 @@ class GroupsControllerTest {
 
     @Test
     void editGroup() throws Exception {
-        String groupsControllerRequestMapping = "/groups/1/edit";
+        String groupsControllerRequestMapping = "/groups/2/edit";
         String view = "groups/edit";
 
         String expectedModelAttributeName = "group";
-        Group expectedGroup = groupsService.readOneRecordFromTable(1);
+        Group expectedGroup = groupsService.readOneRecordFromTable(2);
 
         mockMvc.perform(get(groupsControllerRequestMapping))
                 .andExpect(status().isOk())
