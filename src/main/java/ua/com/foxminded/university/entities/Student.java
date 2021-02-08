@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "students")
@@ -43,4 +42,14 @@ public class Student {
                joinColumns = @JoinColumn(name = "student_id"),
                inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> courses;
+
+    public Student(String firstName,
+                   String lastName,
+                   int age,
+                   Group group) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.group = group;
+    }
 }

@@ -1,14 +1,11 @@
 package ua.com.foxminded.university.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "courses")
@@ -22,11 +19,10 @@ public class Course {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "id")
     @ManyToOne(cascade = {CascadeType.PERSIST,
-                          CascadeType.DETACH,
-                          CascadeType.REFRESH,
-                          CascadeType.MERGE})
+            CascadeType.DETACH,
+            CascadeType.REFRESH,
+            CascadeType.MERGE})
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
@@ -47,4 +43,12 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> students;
+
+
+    public Course(String name,
+                  Teacher teacher) {
+        this.name = name;
+        this.teacher = teacher;
+    }
 }
+

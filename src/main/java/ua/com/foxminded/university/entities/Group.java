@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "groups")
@@ -26,6 +25,19 @@ public class Group {
                           CascadeType.DETACH,
                           CascadeType.REFRESH,
                           CascadeType.MERGE},
-            mappedBy = "students")
+            mappedBy = "group")
     private List<Student> students;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,
+            CascadeType.DETACH,
+            CascadeType.REFRESH,
+            CascadeType.MERGE})
+    @JoinTable(name = "groups_courses",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> courses;
+
+    public Group(String name) {
+        this.name = name;
+    }
 }

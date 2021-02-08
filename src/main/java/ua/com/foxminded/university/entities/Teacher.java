@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "teachers")
@@ -32,6 +31,12 @@ public class Teacher {
                           CascadeType.DETACH,
                           CascadeType.REFRESH,
                           CascadeType.MERGE},
-            mappedBy = "courses")
+            mappedBy = "teacher")
     private List<Course> courses;
+
+    public Teacher(String firstName, String lastName, int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
 }
