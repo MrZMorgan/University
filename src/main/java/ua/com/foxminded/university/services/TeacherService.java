@@ -28,8 +28,8 @@ public class TeacherService {
         teachersJdbcDao.delete(teacherId);
     }
 
-    public void deleteTeacherFromCourse(int teacherId, int courseId) {
-        coursesJdbcDao.deleteTeacherFromCourse(teacherId, courseId);
+    public void deleteTeacherFromCourse(int courseId) {
+        coursesJdbcDao.deleteTeacherFromCourse(courseId);
     }
 
     public void assignTeacherToCourse(int teacherId, int courseId) {

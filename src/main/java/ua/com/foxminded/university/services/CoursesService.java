@@ -49,7 +49,7 @@ public class CoursesService {
         coursesJdbcDao.update(id, courseForQuery);
     }
 
-    public void updateCourseId(int courseId, int updatedId, int group_id) {
-        coursesJdbcDao.updateCourseId(courseId, updatedId, group_id);
+    public void updateCourseId(int courseId, int updatedId) {
+        coursesJdbcDao.updateCourseId(courseId, updatedId);
     }
 }

@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
 import ua.com.foxminded.university.entities.Student;
-import ua.com.foxminded.university.entities.StudentCourse;
-
 import java.util.List;
 
 @Service
@@ -67,13 +65,5 @@ public class StudentsService {
 
     public void updateStudentId(int studentId, int updatedId) {
         studentsJdbcDao.updateStudentId(studentId, updatedId);
-    }
-
-    public StudentCourse readOneStudentCourse(int studentId, int courseId) {
-        return studentsJdbcDao.readOneStudentCourse(studentId, courseId);
-    }
-
-    public List<StudentCourse> readAllStudentsCourseRelation() {
-        return studentsJdbcDao.readAllStudentsCourseRelation();
     }
 }
