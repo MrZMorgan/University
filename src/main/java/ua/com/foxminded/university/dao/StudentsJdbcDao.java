@@ -7,8 +7,8 @@ import ua.com.foxminded.university.dao.interfaces.StudentsDao;
 import ua.com.foxminded.university.dao.mappers.StudentCourseMapper;
 import ua.com.foxminded.university.dao.mappers.StudentMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
-import ua.com.foxminded.university.models.Student;
-import ua.com.foxminded.university.models.StudentCourse;
+import ua.com.foxminded.university.entities.Student;
+import ua.com.foxminded.university.entities.StudentCourse;
 import java.util.List;
 
 @Repository

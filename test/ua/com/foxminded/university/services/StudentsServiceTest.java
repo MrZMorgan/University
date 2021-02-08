@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
-import ua.com.foxminded.university.models.Student;
+import ua.com.foxminded.university.entities.Student;
 
 class StudentsServiceTest {
 

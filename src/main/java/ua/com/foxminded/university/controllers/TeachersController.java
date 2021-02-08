@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.services.TeacherService;
 
 import java.util.List;

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
-import ua.com.foxminded.university.models.Group;
-import ua.com.foxminded.university.models.Student;
+import ua.com.foxminded.university.entities.Group;
+import ua.com.foxminded.university.entities.Student;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

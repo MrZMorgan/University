@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.GroupsJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
-import ua.com.foxminded.university.models.Course;
-import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.entities.Group;
 
 import java.util.List;
 

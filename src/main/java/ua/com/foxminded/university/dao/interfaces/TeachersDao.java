@@ -1,7 +1,7 @@
 package ua.com.foxminded.university.dao.interfaces;
 
 import ua.com.foxminded.university.exceptions.DAOException;
-import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.entities.Teacher;
 import java.util.List;
 
 public interface TeachersDao extends GenericDao<Teacher> {

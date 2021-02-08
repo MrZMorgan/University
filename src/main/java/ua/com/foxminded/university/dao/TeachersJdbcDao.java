@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.interfaces.TeachersDao;
 import ua.com.foxminded.university.dao.mappers.TeacherMapper;
 import ua.com.foxminded.university.exceptions.DAOException;
-import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.entities.Teacher;
 import java.util.List;
 
 @Repository

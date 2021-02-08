@@ -6,10 +6,10 @@ import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.dao.GroupsJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
 import ua.com.foxminded.university.dao.TeachersJdbcDao;
-import ua.com.foxminded.university.models.Course;
-import ua.com.foxminded.university.models.Group;
-import ua.com.foxminded.university.models.Student;
-import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.entities.Course;
+import ua.com.foxminded.university.entities.Group;
+import ua.com.foxminded.university.entities.Student;
+import ua.com.foxminded.university.entities.Teacher;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

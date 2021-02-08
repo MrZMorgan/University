@@ -3,8 +3,7 @@ package ua.com.foxminded.university.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
-import ua.com.foxminded.university.models.Course;
-import ua.com.foxminded.university.models.GroupCourse;
+import ua.com.foxminded.university.entities.Course;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
 import ua.com.foxminded.university.dao.TeachersJdbcDao;
-import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.entities.Teacher;
 import java.util.List;
 
 @Service
