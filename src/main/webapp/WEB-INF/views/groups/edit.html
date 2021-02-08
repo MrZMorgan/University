@@ -6,27 +6,18 @@
       rel="stylesheet"
       integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
       crossorigin="anonymous">
-
+<head>
+    <meta charset="UTF-8">
+    <title>Edit course data</title>
+</head>
 <body>
 
-<h2>University</h2>
-
-<form th:action="@{/groups}">
-    <button type="submit">Groups table</button>
-</form>
-
-<form th:action="@{/courses}">
-    <button type="submit">Courses table</button>
-</form>
-
-<form th:action="@{/teachers}">
-    <button type="submit">Teachers table</button>
-</form>
-
-<form th:action="@{/students}">
-    <button type="submit">Students table</button>
+<form th:method="PATCH" th:action="@{/groups/{id}(id=${group.getId()})}" th:object="${group}">
+    <label for="name">Enter new group name:</label>
+    <input type="text" th:field="*{name}" id="name">
+    <br/>
+    <input type="submit" value="Edit">
 </form>
 
 </body>
-
 </html>

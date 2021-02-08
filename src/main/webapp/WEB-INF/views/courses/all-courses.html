@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous">
 
 <body>
 
@@ -14,6 +17,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Teacher</th>
+            <th>Operations</th>
         </tr>
     </thead>
 
@@ -22,12 +26,27 @@
             <td th:text="${course.getId()}" />
             <td th:text="${course.getName()}"/>
             <td th:text="${course.getTeacher().getFirstName() + ' ' + course.getTeacher().getLastName()}"/>
+            <td>
+                <form th:method="DELETE" th:action="@{/courses/{id}(id=${course.getId()})}">
+                    <button type="submit">Delete</button>
+                </form>
+                <a th:href="@{/courses/{id}/edit(id=${course.getId()})}">Edit</a>
+            </td>
         </tr>
     </tbody>
 </table>
 
 <br>
-<a href="/">Back to main page</a>
+
+<form th:action="@{/courses/new}">
+    <button type="submit">Create new course</button>
+</form>
+
+<br>
+
+<form th:action="@{/}">
+    <button type="submit">Back to main page</button>
+</form>
 
 </body>
 

@@ -7,13 +7,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 @Configuration
@@ -23,6 +26,7 @@ import javax.sql.DataSource;
 public class AppSpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
+    private final static String DATA_SOURCE_JNDI_NAME = "java:comp/env/jdbc/UniversityDB";
 
     @Autowired
     public AppSpringConfig(ApplicationContext applicationContext) {
@@ -55,12 +59,14 @@ public class AppSpringConfig implements WebMvcConfigurer {
 
     @Bean
     public DataSource dataSource()   {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        DataSource dataSource = null;
 
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/university");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("1234");
+        try {
+            Context context = new InitialContext();
+            dataSource = (DataSource) context.lookup(DATA_SOURCE_JNDI_NAME);
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
 
         return dataSource;
     }

@@ -32,8 +32,8 @@ class UniversityControllerTest {
 
     @Test
     void testShowStudentMenu() throws Exception {
-        String teacherControllerRequestMapping = "/teachers";
-        String view = "teachers/all-teachers";
+        String teacherControllerRequestMapping = "/";
+        String view = "university";
 
         this.mockMvc.perform(get(teacherControllerRequestMapping))
                 .andExpect(status().isOk())

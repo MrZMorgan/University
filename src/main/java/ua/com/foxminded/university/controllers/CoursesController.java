@@ -3,12 +3,9 @@ package ua.com.foxminded.university.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.models.Course;
-import ua.com.foxminded.university.models.Group;
 import ua.com.foxminded.university.services.CoursesService;
-import ua.com.foxminded.university.services.GroupsService;
 
 import java.util.List;
 
@@ -24,10 +21,40 @@ public class CoursesController {
     }
 
     @GetMapping()
-    private String showAllGroups(Model model) {
+    private String showAllCourses(Model model) {
         List<Course> courses = coursesService.readTable();
         model.addAttribute("allCourses", courses);
 
         return "courses/all-courses";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteCourse(@PathVariable int id) {
+        coursesService.deleteCourseById(id);
+        return "redirect:/courses";
+    }
+
+    @GetMapping("/new")
+    public String newCourse(@ModelAttribute("course") Course course) {
+        return "courses/new";
+    }
+
+    @PostMapping()
+    public String createCourse(@ModelAttribute("course") Course course) {
+        coursesService.createCourse(course);
+        return "redirect:/courses";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editCourse(Model model, @PathVariable("id") int id) {
+        model.addAttribute("course", coursesService.readOneRecordFromTable(id));
+        return "courses/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String updateGroup(@ModelAttribute("course") Course course,
+                              @PathVariable("id") int id) {
+        coursesService.updateCourseData(id, course);
+        return "redirect:/courses";
     }
 }
