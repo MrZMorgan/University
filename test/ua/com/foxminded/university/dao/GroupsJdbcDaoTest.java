@@ -1,46 +1,33 @@
 package ua.com.foxminded.university.dao;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import ua.com.foxminded.university.config.TestConfig;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.entities.Student;
+import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = TestConfig.class)
 class GroupsJdbcDaoTest {
 
     private final static String NAME_FOR_TEST = "GS-10-1";
     private final static String NAME_FOR_TEST_2 = "ERB-11-2";
-    private EmbeddedDatabase embeddedDatabase;
+    @Autowired
     private GroupsJdbcDao groupsJdbcDao;
+    @Autowired
     private StudentsJdbcDao studentsJdbcDao;
 
-    @BeforeEach
-    void setUp() {
-        embeddedDatabase = new EmbeddedDatabaseBuilder()
-                .addDefaultScripts()
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(embeddedDatabase);
-        groupsJdbcDao = new GroupsJdbcDao(jdbcTemplate);
-        studentsJdbcDao = new StudentsJdbcDao(jdbcTemplate);
-    }
-
-    @AfterEach
-    void tearDown() {
-        embeddedDatabase.shutdown();
-    }
-
     @Test
+    @Transactional
     void shouldCreateGroup() {
-        groupsJdbcDao.create(new Group(3, NAME_FOR_TEST, new LinkedList<>()));
+        groupsJdbcDao.create(new Group(NAME_FOR_TEST));
 
         int expectedTableSize = 3;
         int actualTableSize = groupsJdbcDao.read().size();
@@ -49,16 +36,18 @@ class GroupsJdbcDaoTest {
     }
 
     @Test
+    @Transactional
     void shouldReadGroup() {
         List<Student> students = new LinkedList<>();
 
         Group actualGroup = groupsJdbcDao.read(1);
-        Group expectedGroup = new Group(1, NAME_FOR_TEST, students);
+        Group expectedGroup = new Group(NAME_FOR_TEST);
 
         assertEquals(expectedGroup, actualGroup);
     }
 
     @Test
+    @Transactional
     void shouldReadAllGroups() {
         List<Group> actualGroupsList = groupsJdbcDao.read();
         List<Group> expectedGroupsList = new LinkedList<>();
@@ -66,26 +55,28 @@ class GroupsJdbcDaoTest {
         List<Student> studentsFromGroup1 = new LinkedList<>();
         List<Student> studentsFromGroup2 = new LinkedList<>();
 
-        expectedGroupsList.add(new Group(1, NAME_FOR_TEST, studentsFromGroup1));
-        expectedGroupsList.add(new Group(2, NAME_FOR_TEST_2, studentsFromGroup2));
+        expectedGroupsList.add(new Group(NAME_FOR_TEST));
+        expectedGroupsList.add(new Group(NAME_FOR_TEST_2));
 
         assertEquals(expectedGroupsList, actualGroupsList);
     }
 
     @Test
+    @Transactional
     void shouldUpdateGroup() {
-        Group groupToUpdate = new Group(1, NAME_FOR_TEST, new LinkedList<>());
+        Group groupToUpdate = new Group(NAME_FOR_TEST);
         groupsJdbcDao.update(2, groupToUpdate);
 
         Group actualUpdatedGroup = groupsJdbcDao.read(1);
 
         List<Student> students = new LinkedList<>();
-        Group expectedUpdatedGroup = new Group(1, NAME_FOR_TEST, students);
+        Group expectedUpdatedGroup = new Group(NAME_FOR_TEST);
 
         assertEquals(expectedUpdatedGroup, actualUpdatedGroup);
     }
 
     @Test
+    @Transactional
     void shouldDeleteGroup() {
         int groupIdToDelete = 2;
 
