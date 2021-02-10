@@ -67,9 +67,8 @@ public class GroupsJdbcDao implements GroupsDao {
     @Override
     public void delete(int groupId) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Group> query = session.createQuery("delete from Group where id =:groupId")
-                .setParameter("groupId", groupId);
-        query.executeUpdate();
+        Group group = session.get(Group.class, groupId);
+        session.delete(group);
     }
 
     public void renameGroup(int groupIdToRename, String newGroupName) {

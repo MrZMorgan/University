@@ -92,7 +92,6 @@ class CoursesJdbcDaoTest {
         assertEquals(expectedTableSize, actualTableSize);
     }
 
-    @Transactional
     Course expectedFirstGroup() {
         Teacher teacherForTest = teachersJdbcDao.read(1);
 
@@ -114,7 +113,6 @@ class CoursesJdbcDaoTest {
         return expectedCourse;
     }
 
-    @Transactional
     Course expectedSecondGroup() {
         Teacher teacherForTest = teachersJdbcDao.read(2);
 

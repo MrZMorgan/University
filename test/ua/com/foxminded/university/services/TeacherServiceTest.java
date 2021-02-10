@@ -29,7 +29,6 @@ class TeacherServiceTest {
 
     @Test
     void shouldDeleteTeacherFromCourse() {
-        int teacherId = anyInt();
         int courseIdToDelete = anyInt();
         teacherService.deleteTeacherFromCourse(courseIdToDelete);
         verify(coursesJdbcDao, times(1)).deleteTeacherFromCourse(courseIdToDelete);

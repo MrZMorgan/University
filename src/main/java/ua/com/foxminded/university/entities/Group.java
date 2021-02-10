@@ -22,10 +22,7 @@ public class Group {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = {CascadeType.PERSIST,
-                          CascadeType.DETACH,
-                          CascadeType.REFRESH,
-                          CascadeType.MERGE},
+    @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "group")
     private List<Student> students;
 

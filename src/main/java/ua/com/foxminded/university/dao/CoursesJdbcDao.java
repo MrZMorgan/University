@@ -78,11 +78,8 @@ public class CoursesJdbcDao implements CoursesDao {
     @Override
     public void delete(int courseId) {
         Session session = sessionFactory.getCurrentSession();
-
-        Query<Course> query = session.createQuery("delete from Course where id =:courseId")
-                .setParameter("courseId", courseId);
-
-        query.executeUpdate();
+        Course course = session.get(Course.class, courseId);
+        session.delete(course);
     }
 
     public void renameCourse(int courseIdToRename, String newCourseName) {

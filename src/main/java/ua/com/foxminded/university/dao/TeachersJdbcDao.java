@@ -55,8 +55,7 @@ public class TeachersJdbcDao implements TeachersDao {
     @Override
     public void delete(int teacherId) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Teacher> query = session.createQuery("delete from Teacher where id =:teacherId")
-                .setParameter("teacherId", teacherId);
-        query.executeUpdate();
+        Teacher teacher = session.get(Teacher.class, teacherId);
+        session.delete(teacher);
     }
 }

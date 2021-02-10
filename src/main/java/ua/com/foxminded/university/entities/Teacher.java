@@ -28,10 +28,7 @@ public class Teacher {
     @Column(name = "age")
     private int age;
 
-    @OneToMany(cascade = {CascadeType.PERSIST,
-                          CascadeType.DETACH,
-                          CascadeType.REFRESH,
-                          CascadeType.MERGE},
+    @OneToMany(cascade = {CascadeType.ALL},
             mappedBy = "teacher")
     private List<Course> courses;
 

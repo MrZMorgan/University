@@ -77,7 +77,6 @@ class CoursesServiceTest {
     void shouldUpdateCourseId() {
         int courseId = anyInt();
         int updatedId = anyInt();
-        int group_id = anyInt();
         coursesService.updateCourseId(courseId, updatedId);
         verify(coursesJdbcDaoMock, times(1)).updateCourseId(courseId, updatedId);
     }

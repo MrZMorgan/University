@@ -19,6 +19,8 @@ class TeachersJdbcDaoTest {
 
     @Autowired
     private TeachersJdbcDao teachersJdbcDao;
+    @Autowired
+    private CoursesJdbcDao coursesJdbcDao;
 
     @Test
     @Transactional
@@ -38,13 +40,7 @@ class TeachersJdbcDaoTest {
     @Test
     @Transactional
     void shouldReadTeacher() {
-        int id = 1;
-        String firstNameForTest = "Ivan";
-        String lastNameForTest = "Smirnov";
-        int ageForTest = 20;
-        List<Course> coursesListForTest = new LinkedList<>();
-
-        Teacher expectedTeacher = new Teacher(firstNameForTest, lastNameForTest, ageForTest);
+        Teacher expectedTeacher = firstExpectedTeacher();
         Teacher actualTeacher = teachersJdbcDao.read(1);
 
         assertEquals(expectedTeacher, actualTeacher);
@@ -91,22 +87,32 @@ class TeachersJdbcDaoTest {
         assertEquals(expectedTableSize, actualTableSize);
     }
 
+    private Teacher firstExpectedTeacher() {
+        int teacherId = 1;
+        String teacherFirstName = "Ivan";
+        String teacher1LastName = "Smirnov";
+        int teacherAge = 20;
+        List<Course> teacherCourseList = coursesJdbcDao.readCoursesRelatedToTeacher(teacherId);
+        Teacher teacher = new Teacher(teacherFirstName, teacher1LastName, teacherAge);
+        teacher.setId(teacherId);
+        teacher.setCourses(teacherCourseList);
+
+        return teacher;
+    }
+
     private List<Teacher> createTeachersListForTest() {
         List<Teacher> teachers = new LinkedList<>();
 
-        int teacher1Id = 1;
-        String teacher1FirstName = "Ivan";
-        String teacher1LastName = "Smirnov";
-        int teacher1Age = 20;
-        List<Course> teacher1CourseList = new LinkedList<>();
-        Teacher teacher1 = new Teacher(teacher1FirstName, teacher1LastName, teacher1Age);
+        Teacher teacher1 = firstExpectedTeacher();
 
         int teacher2Id = 2;
         String teacher2FirstName = "Oleg";
         String teacher2LastName = "Sidorov";
         int teacher2Age = 25;
-        List<Course> teacher2CourseList = new LinkedList<>();
+        List<Course> teacher2CourseList = coursesJdbcDao.readCoursesRelatedToTeacher(teacher2Id);
         Teacher teacher2 = new Teacher(teacher2FirstName, teacher2LastName, teacher2Age);
+        teacher2.setId(2);
+        teacher2.setCourses(teacher2CourseList);
 
         teachers.add(teacher1);
         teachers.add(teacher2);
