@@ -2,6 +2,7 @@ package ua.com.foxminded.university.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 

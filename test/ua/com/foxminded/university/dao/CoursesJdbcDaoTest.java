@@ -13,7 +13,6 @@ import ua.com.foxminded.university.entities.Teacher;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,9 +33,9 @@ class CoursesJdbcDaoTest {
     @Test
     @Transactional
     void shouldCreateCourse() {
-        Teacher teacher = teachersJdbcDao.read(1);
-
-        coursesJdbcDao.create(new Course(COURSE_NAME_FOR_TEST, teacher));
+        Course newCourse = new Course();
+        newCourse.setName(COURSE_NAME_FOR_TEST);
+        coursesJdbcDao.create(newCourse);
 
         int expectedTableSize = 3;
         int actualTableSize = coursesJdbcDao.read().size();
@@ -93,6 +92,7 @@ class CoursesJdbcDaoTest {
         assertEquals(expectedTableSize, actualTableSize);
     }
 
+    @Transactional
     Course expectedFirstGroup() {
         Teacher teacherForTest = teachersJdbcDao.read(1);
 
@@ -114,6 +114,7 @@ class CoursesJdbcDaoTest {
         return expectedCourse;
     }
 
+    @Transactional
     Course expectedSecondGroup() {
         Teacher teacherForTest = teachersJdbcDao.read(2);
 
