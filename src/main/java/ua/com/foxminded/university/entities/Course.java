@@ -1,9 +1,13 @@
 package ua.com.foxminded.university.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -49,6 +53,27 @@ public class Course {
                   Teacher teacher) {
         this.name = name;
         this.teacher = teacher;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return id == course.id && name.equals(course.name) && Objects.equals(teacher, course.teacher) && Objects.equals(groups, course.groups) && Objects.equals(students, course.students);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, teacher, groups, students);
     }
 }
 

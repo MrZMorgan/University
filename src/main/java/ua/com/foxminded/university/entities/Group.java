@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -39,5 +40,26 @@ public class Group {
 
     public Group(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return id == group.id && name.equals(group.name) && Objects.equals(students, group.students) && Objects.equals(courses, group.courses);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, students, courses);
     }
 }
