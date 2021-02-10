@@ -24,7 +24,6 @@ public class GroupsService {
 
     @Transactional
     public void deleteGroupById(int groupId) {
-        studentsJdbcDao.deleteStudentsFromGroup(groupId);
         groupsJdbcDao.delete(groupId);
     }
 

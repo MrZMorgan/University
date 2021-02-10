@@ -70,9 +70,9 @@ public class StudentsJdbcDao implements StudentsDao {
 
     public void deleteStudentsFromGroup(int groupId) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Student> query = session.createQuery("update Student set group.id = null where group.id =:groupId")
-                .setParameter("groupId", groupId);
-        query.executeUpdate();
+        Group group = session.get(Group.class, groupId);
+        group.setStudents(null);
+        session.saveOrUpdate(group);
     }
 
     @Override

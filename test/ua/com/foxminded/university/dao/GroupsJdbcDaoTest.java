@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ua.com.foxminded.university.config.TestConfig;
+import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.entities.Student;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +25,8 @@ class GroupsJdbcDaoTest {
     private GroupsJdbcDao groupsJdbcDao;
     @Autowired
     private StudentsJdbcDao studentsJdbcDao;
+    @Autowired
+    private CoursesJdbcDao coursesJdbcDao;
 
     @Test
     @Transactional
@@ -38,10 +42,8 @@ class GroupsJdbcDaoTest {
     @Test
     @Transactional
     void shouldReadGroup() {
-        List<Student> students = new LinkedList<>();
-
         Group actualGroup = groupsJdbcDao.read(1);
-        Group expectedGroup = new Group(NAME_FOR_TEST);
+        Group expectedGroup = expectedFirstGroup();
 
         assertEquals(expectedGroup, actualGroup);
     }
@@ -52,11 +54,8 @@ class GroupsJdbcDaoTest {
         List<Group> actualGroupsList = groupsJdbcDao.read();
         List<Group> expectedGroupsList = new LinkedList<>();
 
-        List<Student> studentsFromGroup1 = new LinkedList<>();
-        List<Student> studentsFromGroup2 = new LinkedList<>();
-
-        expectedGroupsList.add(new Group(NAME_FOR_TEST));
-        expectedGroupsList.add(new Group(NAME_FOR_TEST_2));
+        expectedGroupsList.add(expectedFirstGroup());
+        expectedGroupsList.add(expectedSecondGroup());
 
         assertEquals(expectedGroupsList, actualGroupsList);
     }
@@ -68,9 +67,7 @@ class GroupsJdbcDaoTest {
         groupsJdbcDao.update(2, groupToUpdate);
 
         Group actualUpdatedGroup = groupsJdbcDao.read(1);
-
-        List<Student> students = new LinkedList<>();
-        Group expectedUpdatedGroup = new Group(NAME_FOR_TEST);
+        Group expectedUpdatedGroup = expectedFirstGroup();
 
         assertEquals(expectedUpdatedGroup, actualUpdatedGroup);
     }
@@ -78,14 +75,61 @@ class GroupsJdbcDaoTest {
     @Test
     @Transactional
     void shouldDeleteGroup() {
-        int groupIdToDelete = 2;
+        int groupIdToDelete = 1;
 
-        studentsJdbcDao.deleteStudentsFromGroup(groupIdToDelete);
         groupsJdbcDao.delete(groupIdToDelete);
 
         int expectedTableSize = 1;
         int actualTableSize = groupsJdbcDao.read().size();
 
         assertEquals(expectedTableSize, actualTableSize);
+    }
+
+    Group expectedFirstGroup() {
+        int groupId = 1;
+        String groupName = "GS-10-1";
+
+        Group group = new Group();
+        group.setId(1);
+        group.setName(groupName);
+
+        Student student1 = studentsJdbcDao.read(1);
+        Student student2 = studentsJdbcDao.read(2);
+        List<Student> studentsFromFirstGroup = new ArrayList<>();
+        studentsFromFirstGroup.add(student1);
+        studentsFromFirstGroup.add(student2);
+
+        Course course1 = coursesJdbcDao.read(1);
+        List<Course> coursesFromFirstGroup = new ArrayList<>();
+        coursesFromFirstGroup.add(course1);
+
+        group.setCourses(coursesFromFirstGroup);
+        group.setStudents(studentsFromFirstGroup);
+
+        return group;
+    }
+
+    Group expectedSecondGroup() {
+        int groupId = 2;
+        String groupName = "ERB-11-2";
+
+        Group group = new Group();
+        group.setId(2);
+        group.setName(groupName);
+
+        Student student1 = studentsJdbcDao.read(3);
+        Student student2 = studentsJdbcDao.read(4);
+        List<Student> studentsFromFirstGroup = new ArrayList<>();
+        studentsFromFirstGroup.add(student1);
+        studentsFromFirstGroup.add(student2);
+
+        Course course1 = coursesJdbcDao.read(2);
+        List<Course> coursesFromFirstGroup = new ArrayList<>();
+        coursesFromFirstGroup.add(course1);
+
+        group.setCourses(coursesFromFirstGroup);
+        group.setStudents(studentsFromFirstGroup);
+
+        return group;
     }
 }
