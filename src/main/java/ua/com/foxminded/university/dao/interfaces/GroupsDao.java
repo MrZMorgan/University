@@ -1,7 +1,7 @@
 package ua.com.foxminded.university.dao.interfaces;
 
 import ua.com.foxminded.university.exceptions.DAOException;
-import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.entities.Group;
 import java.util.List;
 
 public interface GroupsDao extends GenericDao<Group> {

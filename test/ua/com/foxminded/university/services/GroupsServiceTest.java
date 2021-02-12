@@ -3,7 +3,7 @@ package ua.com.foxminded.university.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.com.foxminded.university.dao.*;
-import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.entities.Group;
 import static org.mockito.Mockito.*;
 
 class GroupsServiceTest {

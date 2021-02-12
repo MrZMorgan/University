@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.com.foxminded.university.dao.CoursesJdbcDao;
 import ua.com.foxminded.university.dao.TeachersJdbcDao;
-import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.entities.Teacher;
 import static org.mockito.Mockito.*;
 
 class TeacherServiceTest {
@@ -29,10 +29,9 @@ class TeacherServiceTest {
 
     @Test
     void shouldDeleteTeacherFromCourse() {
-        int teacherId = anyInt();
         int courseIdToDelete = anyInt();
-        teacherService.deleteTeacherFromCourse(teacherId, courseIdToDelete);
-        verify(coursesJdbcDao, times(1)).deleteTeacherFromCourse(teacherId, courseIdToDelete);
+        teacherService.deleteTeacherFromCourse(courseIdToDelete);
+        verify(coursesJdbcDao, times(1)).deleteTeacherFromCourse(courseIdToDelete);
     }
 
     @Test

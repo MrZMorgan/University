@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.GroupsJdbcDao;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
-import ua.com.foxminded.university.models.Course;
-import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.entities.Group;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -22,31 +22,37 @@ public class GroupsService {
         this.groupsJdbcDao = groupsJdbcDao;
     }
 
+    @Transactional
     public void deleteGroupById(int groupId) {
-        studentsJdbcDao.deleteStudentsFromGroup(groupId);
         groupsJdbcDao.delete(groupId);
     }
 
+    @Transactional
     public void createGroup(Group group) {
         groupsJdbcDao.create(group);
     }
 
+    @Transactional
     public void renameGroup(int groupIdToRename, String newGroupName) {
         groupsJdbcDao.renameGroup(groupIdToRename, newGroupName);
     }
 
+    @Transactional
     public Group readOneRecordFromTable(int groupId) {
         return groupsJdbcDao.read(groupId);
     }
 
+    @Transactional
     public List<Group> readTable() {
         return groupsJdbcDao.read();
     }
 
+    @Transactional
     public void updateGroupData(int id, Group groupForQuery) {
         groupsJdbcDao.update(id, groupForQuery);
     }
 
+    @Transactional
     public void assignGroupToCourse(int groupId, int courseId) {
         groupsJdbcDao.assignGroupToCourse(groupId, courseId);
     }

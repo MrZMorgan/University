@@ -1,74 +1,61 @@
 package ua.com.foxminded.university.dao;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.interfaces.TeachersDao;
-import ua.com.foxminded.university.dao.mappers.TeacherMapper;
-import ua.com.foxminded.university.exceptions.DAOException;
-import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.entities.Teacher;
 import java.util.List;
 
 @Repository
 public class TeachersJdbcDao implements TeachersDao {
 
-    public static final String CREATE = "INSERT INTO teachers (first_name, last_name, age) VALUES (?, ?, ?)";
-    public static final String READ = "SELECT * FROM teachers WHERE id = ?";
-    public static final String READ_ALL = "SELECT * FROM teachers";
-    public static final String UPDATE = "UPDATE teachers SET first_name = ?, last_name = ?, age = ? WHERE id = ?";
-    public static final String DELETE = "DELETE FROM teachers WHERE id=?";
-    public static final String DAO_EXCEPTION_MESSAGE = "There is no teacher with this ID in the database";
-    public static final String DELETE_TEACHER_FROM_All_COURSES = "UPDATE courses SET teacher_id = null WHERE teacher_id = ?";
-    private final JdbcTemplate jdbcTemplate;
+    private SessionFactory sessionFactory;
 
     @Autowired
-    public TeachersJdbcDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public TeachersJdbcDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void create(Teacher data) {
-        String firstName = data.getFirstName();
-        String lastName = data.getLastName();
-        int age = data.getAge();
-        jdbcTemplate.update(CREATE, firstName, lastName, age);
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(data);
     }
 
     @Override
     public Teacher read(int teacherId) {
-        Teacher teacher = jdbcTemplate.query(READ, new Object[]{teacherId}, new TeacherMapper(jdbcTemplate))
-                .stream()
-                .findAny()
-                .orElse(null);
-
-        if (teacher == null) {
-            try {
-                throw new DAOException(DAO_EXCEPTION_MESSAGE);
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return teacher;
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Teacher.class, teacherId);
     }
 
     @Override
     public List<Teacher> read() {
-        return jdbcTemplate.query(READ_ALL, new TeacherMapper(jdbcTemplate));
+        Session session = sessionFactory.getCurrentSession();
+        Query<Teacher> query = session.createQuery("from Teacher", Teacher.class);
+        List<Teacher> teachers = query.getResultList();
+        return teachers;
     }
 
     @Override
     public void update(int id, Teacher teacherForQuery) {
-        jdbcTemplate.update(UPDATE,
-                teacherForQuery.getFirstName(),
-                teacherForQuery.getLastName(),
-                teacherForQuery.getAge(),
-                id);
+        Teacher teacher = read(id);
+        teacher.setId(teacherForQuery.getId());
+        teacher.setFirstName(teacherForQuery.getFirstName());
+        teacher.setLastName(teacherForQuery.getLastName());
+        teacher.setCourses(teacherForQuery.getCourses());
+        teacher.setAge(teacherForQuery.getAge());
+
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(teacher);
     }
 
     @Override
     public void delete(int teacherId) {
-        jdbcTemplate.update(DELETE_TEACHER_FROM_All_COURSES, teacherId);
-        jdbcTemplate.update(DELETE, teacherId);
+        Session session = sessionFactory.getCurrentSession();
+        Teacher teacher = session.get(Teacher.class, teacherId);
+        session.delete(teacher);
     }
 }

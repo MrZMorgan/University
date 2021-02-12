@@ -11,8 +11,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.university.config.TestConfig;
-import ua.com.foxminded.university.models.Course;
+import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.services.CoursesService;
+
+import javax.transaction.Transactional;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -71,6 +74,7 @@ class CoursesControllerTest {
     }
 
     @Test
+    @Transactional
     void editCourse() throws Exception {
         String courseControllerRequestMapping = "/courses/2/edit";
         String view = "courses/edit";

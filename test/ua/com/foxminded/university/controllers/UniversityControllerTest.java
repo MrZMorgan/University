@@ -10,14 +10,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ua.com.foxminded.university.config.AppSpringConfig;
+import ua.com.foxminded.university.config.TestConfig;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = AppSpringConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 class UniversityControllerTest {
 
     @Autowired
@@ -32,8 +32,8 @@ class UniversityControllerTest {
 
     @Test
     void testShowStudentMenu() throws Exception {
-        String teacherControllerRequestMapping = "/";
-        String view = "university";
+        String teacherControllerRequestMapping = "/teachers";
+        String view = "teachers/all-teachers";
 
         this.mockMvc.perform(get(teacherControllerRequestMapping))
                 .andExpect(status().isOk())

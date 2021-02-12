@@ -3,7 +3,7 @@ package ua.com.foxminded.university.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.com.foxminded.university.dao.*;
-import ua.com.foxminded.university.models.Course;
+import ua.com.foxminded.university.entities.Course;
 import static org.mockito.Mockito.*;
 
 class CoursesServiceTest {
@@ -77,8 +77,7 @@ class CoursesServiceTest {
     void shouldUpdateCourseId() {
         int courseId = anyInt();
         int updatedId = anyInt();
-        int group_id = anyInt();
-        coursesService.updateCourseId(courseId, updatedId, group_id);
-        verify(coursesJdbcDaoMock, times(1)).updateCourseId(courseId, updatedId, group_id);
+        coursesService.updateCourseId(courseId, updatedId);
+        verify(coursesJdbcDaoMock, times(1)).updateCourseId(courseId, updatedId);
     }
 }
