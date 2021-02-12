@@ -1,106 +1,88 @@
 package ua.com.foxminded.university.dao;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.interfaces.GroupsDao;
-import ua.com.foxminded.university.dao.mappers.GroupMapper;
-import ua.com.foxminded.university.exceptions.DAOException;
-import ua.com.foxminded.university.models.Group;
+import ua.com.foxminded.university.entities.Course;
+import ua.com.foxminded.university.entities.Student;
+import ua.com.foxminded.university.entities.Group;
 import java.util.List;
 
 @Repository
 public class GroupsJdbcDao implements GroupsDao {
 
-    public static final String CREATE = "INSERT INTO groups (name) VALUES (?)";
-    public static final String READ = "SELECT * FROM groups WHERE id = ?";
-    public static final String READ_ALL = "SELECT * FROM groups";
-    public static final String READ_GROUPS_RELATED_TO_COURSES = "SELECT * FROM groups " +
-                                                                "JOIN groups_courses ON groups.id = groups_courses.course_id " +
-                                                                "WHERE course_id = ?";
-    public static final String UPDATE = "UPDATE groups SET name = ? WHERE id = ?";
-    public static final String READ_GROUP_BY_STUDENT_ID = "SELECT groups.id, name FROM groups " +
-                                                          "JOIN students s on groups.id = s.group_id " +
-                                                          "WHERE s.id = ?;";
-    public static final String RENAME_GROUP = "UPDATE groups SET name = ? WHERE id = ?";
-    public static final String DAO_EXCEPTION_MESSAGE = "There is no group with this ID in the database";
-    public static final String DELETE = "DELETE FROM groups WHERE id = ?";
-    public static final String DELETE_GROUP_FROM_GROUPS_COURSES = "DELETE FROM groups_courses WHERE group_id = ?";
-    public static final String ASSIGN_GROUP_TO_COURSE = "INSERT INTO groups_courses (group_id, course_id) VALUES (?, ?)";
-
-    private final JdbcTemplate jdbcTemplate;
+    private SessionFactory sessionFactory;
 
     @Autowired
-    public GroupsJdbcDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public GroupsJdbcDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void create(Group data) {
-        jdbcTemplate.update(CREATE, data.getName());
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(data);
     }
 
     @Override
     public Group read(int groupId) {
-        Group group = jdbcTemplate.query(READ, new Object[]{groupId}, new GroupMapper(jdbcTemplate))
-                .stream()
-                .findAny()
-                .orElse(null);
-
-        if (group == null) {
-            try {
-                throw new DAOException(DAO_EXCEPTION_MESSAGE);
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return group;
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Group.class, groupId);
     }
 
     public Group readGroupByStudentId(int studentId) {
-        Group group = jdbcTemplate.query(READ_GROUP_BY_STUDENT_ID, new Object[]{studentId}, new GroupMapper(jdbcTemplate))
-                .stream()
-                .findAny()
-                .orElse(null);
-
-        if (group == null) {
-            try {
-                throw new DAOException(DAO_EXCEPTION_MESSAGE);
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        }
-
+        Session session = sessionFactory.getCurrentSession();
+        Student student = session.get(Student.class, studentId);
+        Group group = student.getGroup();
         return group;
     }
 
     @Override
     public List<Group> read() {
-        return jdbcTemplate.query(READ_ALL, new GroupMapper(jdbcTemplate));
+        Session session = sessionFactory.getCurrentSession();
+        Query<Group> query = session.createQuery("from Group", Group.class);
+        List<Group> groups = query.getResultList();
+        return groups;
     }
 
     public List<Group> readGroupsRelatedToCourse(int courseId) {
-        return jdbcTemplate.query(READ_GROUPS_RELATED_TO_COURSES,
-                new Object[]{courseId}, new GroupMapper(jdbcTemplate));
+        Session session = sessionFactory.getCurrentSession();
+        Course course = session.get(Course.class, courseId);
+        return course.getGroups();
     }
 
     @Override
     public void update(int id, Group groupForQuery) {
-        jdbcTemplate.update(UPDATE, groupForQuery.getName(), id);
+        Session session = sessionFactory.getCurrentSession();
+        Group group = session.get(Group.class, id);
+        group.setId(groupForQuery.getId());
+        group.setName(groupForQuery.getName());
+        group.setStudents(groupForQuery.getStudents());
+        session.saveOrUpdate(group);
     }
 
     @Override
     public void delete(int groupId) {
-        jdbcTemplate.update(DELETE_GROUP_FROM_GROUPS_COURSES, groupId);
-        jdbcTemplate.update(DELETE, groupId);
+        Session session = sessionFactory.getCurrentSession();
+        Group group = session.get(Group.class, groupId);
+        session.delete(group);
     }
 
     public void renameGroup(int groupIdToRename, String newGroupName) {
-        jdbcTemplate.update(RENAME_GROUP, newGroupName, groupIdToRename);
+        Session session = sessionFactory.getCurrentSession();
+        Group group = session.get(Group.class, groupIdToRename);
+        group.setName(newGroupName);
+        session.saveOrUpdate(group);
     }
 
     public void assignGroupToCourse(int groupId, int courseId) {
-        jdbcTemplate.update(ASSIGN_GROUP_TO_COURSE, groupId, courseId);
+        Session session = sessionFactory.getCurrentSession();
+        Group group = session.get(Group.class, groupId);
+        Course course = session.get(Course.class, courseId);
+        course.getGroups().add(group);
+        session.saveOrUpdate(course);
     }
 }

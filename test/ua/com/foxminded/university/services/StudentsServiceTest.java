@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import ua.com.foxminded.university.dao.StudentsJdbcDao;
-import ua.com.foxminded.university.models.Student;
+import ua.com.foxminded.university.entities.Student;
 
 class StudentsServiceTest {
 
@@ -117,19 +117,5 @@ class StudentsServiceTest {
         int updatedId = anyInt();
         studentsService.updateStudentId(studentId, updatedId);
         verify(studentsJdbcDao, times(1)).updateStudentId(studentId, updatedId);
-    }
-
-    @Test
-    void shouldReadOneStudentCourse() {
-        int studentId = anyInt();
-        int courseId = anyInt();
-        studentsService.readOneStudentCourse(studentId, courseId);
-        verify(studentsJdbcDao, times(1)).readOneStudentCourse(studentId, courseId);
-    }
-
-    @Test
-    void shouldReadAllStudentsCourseRelation() {
-        studentsService.readAllStudentsCourseRelation();
-        verify(studentsJdbcDao, times(1)).readAllStudentsCourseRelation();
     }
 }

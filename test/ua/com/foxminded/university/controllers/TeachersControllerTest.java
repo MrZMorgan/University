@@ -11,8 +11,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.university.config.TestConfig;
-import ua.com.foxminded.university.models.Teacher;
+import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.services.TeacherService;
+
+import javax.transaction.Transactional;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,7 +40,6 @@ class TeachersControllerTest {
     void testShowAllTeacher() throws Exception {
         String teacherControllerRequestMapping = "/teachers";
         String view = "teachers/all-teachers";
-        String teacherNameFromPage = "Oleg";
 
         this.mockMvc.perform(get(teacherControllerRequestMapping))
                 .andExpect(status().isOk())
@@ -72,6 +74,7 @@ class TeachersControllerTest {
     }
 
     @Test
+    @Transactional
     void editStudent() throws Exception {
         String teacherControllerRequestMapping = "/teachers/2/edit";
         String view = "teachers/edit";
