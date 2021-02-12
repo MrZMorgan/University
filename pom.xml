@@ -15,8 +15,8 @@
   <packaging>war</packaging>
   <name>FoxmindedUniversity</name>
   <build>
-    <sourceDirectory>src</sourceDirectory>
-<!--    <testSourceDirectory>test</testSourceDirectory>-->
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
 
     <plugins>
       <plugin>
