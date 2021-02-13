@@ -1,13 +1,12 @@
 package ua.com.foxminded.university.dao;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.interfaces.TeachersDao;
 import ua.com.foxminded.university.entities.Teacher;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -22,20 +21,17 @@ public class TeachersJdbcDao implements TeachersDao {
 
     @Override
     public void create(Teacher data) {
-        Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(data);
+        entityManager.merge(data);
     }
 
     @Override
     public Teacher read(int teacherId) {
-        Session session = entityManager.unwrap(Session.class);
-        return session.get(Teacher.class, teacherId);
+        return entityManager.find(Teacher.class, teacherId);
     }
 
     @Override
     public List<Teacher> read() {
-        Session session = entityManager.unwrap(Session.class);
-        Query<Teacher> query = session.createQuery("from Teacher", Teacher.class);
+        Query query = entityManager.createQuery("from Teacher", Teacher.class);
         List<Teacher> teachers = query.getResultList();
         return teachers;
     }
@@ -49,14 +45,13 @@ public class TeachersJdbcDao implements TeachersDao {
         teacher.setCourses(teacherForQuery.getCourses());
         teacher.setAge(teacherForQuery.getAge());
 
-        Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(teacher);
+        entityManager.merge(teacher);
     }
 
     @Override
     public void delete(int teacherId) {
-        Session session = entityManager.unwrap(Session.class);
-        Teacher teacher = session.get(Teacher.class, teacherId);
-        session.delete(teacher);
+        Query query = entityManager.createQuery("delete from Teacher where id=:teacherId");
+        query.setParameter("teacherId", teacherId);
+        query.executeUpdate();
     }
 }

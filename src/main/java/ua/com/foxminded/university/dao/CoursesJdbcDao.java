@@ -1,7 +1,5 @@
 package ua.com.foxminded.university.dao;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ua.com.foxminded.university.dao.interfaces.CoursesDao;
@@ -10,6 +8,7 @@ import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.entities.Course;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -24,90 +23,79 @@ public class CoursesJdbcDao implements CoursesDao {
 
     @Override
     public void create(Course data) {
-        Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(data);
+        entityManager.merge(data);
     }
 
     @Override
     public Course read(int courseId) {
-        Session session = entityManager.unwrap(Session.class);
-        return session.get(Course.class, courseId);
+        return entityManager.find(Course.class, courseId);
     }
 
     @Override
     public List<Course> read() {
-        Session session = entityManager.unwrap(Session.class);
-        Query<Course> query = session.createQuery("from Course", Course.class);
+        Query query = entityManager.createQuery("from Course", Course.class);
         List<Course> courses = query.getResultList();
         return courses;
     }
 
     public List<Course> readCoursesRelatedToTeacher(int teacherId) {
-        Session session = entityManager.unwrap(Session.class);
-        Query<Course> query = session.createQuery("from Course where teacher.id =:teacherId")
-                .setParameter("teacherId", teacherId);
-        List<Course> courses = query.getResultList();
+        Teacher teacher = entityManager.find(Teacher.class, teacherId);
+        List<Course> courses = teacher.getCourses();
         return courses;
     }
 
     public List<Course> readCoursesByStudentId(int studentId) {
-        Session session = entityManager.unwrap(Session.class);
-        Student student = session.get(Student.class, studentId);
+        Student student = entityManager.find(Student.class, studentId);
         return student.getCourses();
     }
 
     @Override
     public void update(int id, Course courseForQuery) {
-        Session session = entityManager.unwrap(Session.class);
-        Course course = session.get(Course.class, id);
+        Course course = entityManager.find(Course.class, id);
         course.setId(courseForQuery.getId());
         course.setName(courseForQuery.getName());
         course.setTeacher(courseForQuery.getTeacher());
         course.setGroups(courseForQuery.getGroups());
         course.setStudents(courseForQuery.getStudents());
-        session.saveOrUpdate(course);
+        entityManager.merge(course);
     }
 
     public void deleteTeacherFromAllCourses(int teacherId) {
-        Session session = entityManager.unwrap(Session.class);
-        Teacher teacher = session.get(Teacher.class, teacherId);
-        teacher.setCourses(null);
-        session.saveOrUpdate(teacher);
+        Teacher teacher = entityManager.find(Teacher.class, teacherId);
+        List<Course> courses = teacher.getCourses();
+        courses.clear();
+        entityManager.merge(teacher);
     }
 
     @Override
     public void delete(int courseId) {
-        Session session = entityManager.unwrap(Session.class);
-        Course course = session.get(Course.class, courseId);
-        session.delete(course);
+        Query query = entityManager.createQuery("delete from Course where id=:courseId");
+        query.setParameter("courseId", courseId);
+        query.executeUpdate();
     }
 
     public void renameCourse(int courseIdToRename, String newCourseName) {
-        Session session = entityManager.unwrap(Session.class);
-        Course course = session.get(Course.class, courseIdToRename);
+        Course course = entityManager.find(Course.class, courseIdToRename);
         course.setName(newCourseName);
-        session.saveOrUpdate(course);
+        entityManager.merge(course);
     }
 
     public void deleteTeacherFromCourse(int courseId) {
-        Session session = entityManager.unwrap(Session.class);
-        Course course = session.get(Course.class, courseId);
+        Course course = entityManager.find(Course.class, courseId);
         course.setTeacher(null);
-        session.saveOrUpdate(course);
+        entityManager.merge(course);
     }
 
     public void assignTeacherToCourse(int teacherId, int courseId) {
-        Session session = entityManager.unwrap(Session.class);
-        Course course = session.get(Course.class, courseId);
-        Teacher teacher = session.get(Teacher.class, teacherId);
+        Course course = entityManager.find(Course.class, courseId);
+        Teacher teacher = entityManager.find(Teacher.class, teacherId);
         course.setTeacher(teacher);
-        session.saveOrUpdate(course);
+        entityManager.merge(course);
     }
 
     public void updateCourseId(int courseId, int updatedId) {
-        Session session = entityManager.unwrap(Session.class);
-        Course course = session.get(Course.class, courseId);
+        Course course = entityManager.find(Course.class, courseId);
         course.setId(updatedId);
-        session.saveOrUpdate(course);
+        entityManager.merge(course);
     }
 }
