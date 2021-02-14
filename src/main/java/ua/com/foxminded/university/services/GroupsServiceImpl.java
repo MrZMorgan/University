@@ -3,7 +3,7 @@ package ua.com.foxminded.university.services;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.university.dao.interfaces.GroupsRepository;
+import ua.com.foxminded.university.dao.GroupsRepository;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
