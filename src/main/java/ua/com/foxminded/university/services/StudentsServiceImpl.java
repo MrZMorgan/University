@@ -9,6 +9,7 @@ import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.services.interfaces.CoursesService;
+import ua.com.foxminded.university.services.interfaces.GroupsService;
 import ua.com.foxminded.university.services.interfaces.StudentsService;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,7 @@ import java.util.Optional;
 public class StudentsServiceImpl implements StudentsService {
 
     private StudentsRepository studentsRepository;
-    private GroupsServiceImpl groupsService;
+    private GroupsService groupsService;
     private CoursesService coursesService;
 
     @Autowired

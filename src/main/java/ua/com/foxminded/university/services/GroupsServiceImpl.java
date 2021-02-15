@@ -7,6 +7,7 @@ import ua.com.foxminded.university.dao.GroupsRepository;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.exceptions.DAOException;
+import ua.com.foxminded.university.services.interfaces.CoursesService;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class GroupsServiceImpl implements GroupsService {
 
     private GroupsRepository groupsRepository;
-    private CoursesServiceImpl coursesService;
+    private CoursesService coursesService;
 
     @Autowired
     public GroupsServiceImpl(GroupsRepository groupsRepository,

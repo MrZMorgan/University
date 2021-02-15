@@ -18,5 +18,6 @@ public interface TeacherService {
     public Teacher readOneRecordFromTable(int teacherId);
 
     public List<Teacher> readTable();
+
     public void updateTeacherData(int id, Teacher teacherForQuery);
 }
