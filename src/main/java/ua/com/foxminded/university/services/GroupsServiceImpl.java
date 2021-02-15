@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.GroupsRepository;
+import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
@@ -14,10 +15,13 @@ import java.util.Optional;
 public class GroupsServiceImpl implements GroupsService {
 
     private GroupsRepository groupsRepository;
+    private CoursesServiceImpl coursesService;
 
     @Autowired
-    public GroupsServiceImpl(GroupsRepository groupsRepository) {
+    public GroupsServiceImpl(GroupsRepository groupsRepository,
+                             CoursesServiceImpl coursesService) {
         this.groupsRepository = groupsRepository;
+        this.coursesService = coursesService;
     }
 
     @Override
@@ -66,6 +70,10 @@ public class GroupsServiceImpl implements GroupsService {
 
     @Override
     public void assignGroupToCourse(int groupId, int courseId) {
-
+        Group group = readOneRecordFromTable(groupId);
+        Course course = coursesService.readOneRecordFromTable(courseId);
+        List<Course> courses = group.getCourses();
+        courses.add(course);
+        groupsRepository.save(group);
     }
 }

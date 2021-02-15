@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.CoursesRepository;
 import ua.com.foxminded.university.entities.Course;
+import ua.com.foxminded.university.entities.Student;
+import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.services.interfaces.CoursesService;
 import java.util.List;
@@ -14,12 +16,17 @@ import java.util.Optional;
 public class CoursesServiceImpl implements CoursesService {
 
     private CoursesRepository coursesRepository;
+    private TeacherServiceImpl teacherService;
+    private StudentsServiceImpl studentsService;
 
     @Autowired
-    public CoursesServiceImpl(CoursesRepository coursesRepository) {
+    public CoursesServiceImpl(CoursesRepository coursesRepository,
+                              TeacherServiceImpl teacherService,
+                              StudentsServiceImpl studentsService) {
         this.coursesRepository = coursesRepository;
+        this.teacherService = teacherService;
+        this.studentsService = studentsService;
     }
-
 
     @Override
     public void deleteCourseById(int courseId) {
@@ -58,12 +65,16 @@ public class CoursesServiceImpl implements CoursesService {
 
     @Override
     public List<Course> readCoursesRelatedToTeacher(int teacherId) {
-        return null;
+        Teacher teacher = teacherService.readOneRecordFromTable(teacherId);
+        List<Course> courses = teacher.getCourses();
+        return courses;
     }
 
     @Override
     public List<Course> readCoursesByStudentId(int studentId) {
-        return null;
+        Student student = studentsService.readOneRecordFromTable(studentId);
+        List<Course> courses = student.getCourses();
+        return courses;
     }
 
     @Override
