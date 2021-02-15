@@ -5,23 +5,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Group;
-import ua.com.foxminded.university.services.GroupsService;
+import ua.com.foxminded.university.services.GroupsServiceImpl;
 import java.util.List;
 
 @Controller
 @RequestMapping("/groups")
 public class GroupsController {
 
-    private GroupsService groupsService;
+    private GroupsServiceImpl groupsServiceImpl;
 
     @Autowired
-    public GroupsController(GroupsService groupsService) {
-        this.groupsService = groupsService;
+    public GroupsController(GroupsServiceImpl groupsServiceImpl) {
+        this.groupsServiceImpl = groupsServiceImpl;
     }
 
     @GetMapping()
     private String showAllGroups(Model model) {
-        List<Group> groups = groupsService.readTable();
+        List<Group> groups = groupsServiceImpl.readTable();
         model.addAttribute("allGroups", groups);
 
         return "groups/all-groups";
@@ -29,7 +29,7 @@ public class GroupsController {
 
     @DeleteMapping("/{id}")
     public String deleteGroup(@PathVariable int id) {
-        groupsService.deleteGroupById(id);
+        groupsServiceImpl.deleteGroupById(id);
         return "redirect:/groups";
     }
 
@@ -40,20 +40,20 @@ public class GroupsController {
 
     @PostMapping()
     public String createGroups(@ModelAttribute("group") Group group) {
-        groupsService.createGroup(group);
+        groupsServiceImpl.createGroup(group);
         return "redirect:/groups";
     }
 
     @GetMapping("/{id}/edit")
     public String editGroup(Model model, @PathVariable("id") int id) {
-        model.addAttribute("group", groupsService.readOneRecordFromTable(id));
+        model.addAttribute("group", groupsServiceImpl.readOneRecordFromTable(id));
         return "groups/edit";
     }
 
     @PatchMapping("/{id}")
     public String updateGroup(@ModelAttribute("group") Group group,
                          @PathVariable("id") int id) {
-        groupsService.updateGroupData(id, group);
+        groupsServiceImpl.updateGroupData(id, group);
         return "redirect:/groups";
     }
 }
