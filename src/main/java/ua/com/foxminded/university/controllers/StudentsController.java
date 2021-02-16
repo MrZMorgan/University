@@ -5,24 +5,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Student;
-import ua.com.foxminded.university.services.StudentsService;
-
+import ua.com.foxminded.university.services.StudentsServiceImpl;
 import java.util.List;
 
 @Controller
 @RequestMapping("/students")
 public class StudentsController {
 
-    private StudentsService studentsService;
+    private StudentsServiceImpl studentsServiceImpl;
 
     @Autowired
-    public StudentsController(StudentsService studentsService) {
-        this.studentsService = studentsService;
+    public StudentsController(StudentsServiceImpl studentsServiceImpl) {
+        this.studentsServiceImpl = studentsServiceImpl;
     }
 
     @GetMapping()
     private String showAllStudents(Model model) {
-        List<Student> students = studentsService.readTable();
+        List<Student> students = studentsServiceImpl.readTable();
         model.addAttribute("allStudents", students);
 
         return "students/all-students";
@@ -30,7 +29,7 @@ public class StudentsController {
 
     @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable int id) {
-        studentsService.deleteStudentById(id);
+        studentsServiceImpl.deleteStudentById(id);
         return "redirect:/students";
     }
 
@@ -41,20 +40,20 @@ public class StudentsController {
 
     @PostMapping()
     public String createStudent(@ModelAttribute("student") Student student) {
-        studentsService.createStudent(student);
+        studentsServiceImpl.createStudent(student);
         return "redirect:/students";
     }
 
     @GetMapping("/{id}/edit")
     public String editStudent(Model model, @PathVariable("id") int id) {
-        model.addAttribute("student", studentsService.readOneRecordFromTable(id));
+        model.addAttribute("student", studentsServiceImpl.readOneRecordFromTable(id));
         return "students/edit";
     }
 
     @PatchMapping("/{id}")
     public String updateStudent(@ModelAttribute("student") Student student,
                                 @PathVariable("id") int id) {
-        studentsService.updateStudentData(id, student);
+        studentsServiceImpl.updateStudentData(id, student);
         return "redirect:/students";
     }
 }
