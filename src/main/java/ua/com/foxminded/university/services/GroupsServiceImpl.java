@@ -3,11 +3,11 @@ package ua.com.foxminded.university.services;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.foxminded.university.dao.CoursesRepository;
 import ua.com.foxminded.university.dao.GroupsRepository;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.exceptions.DAOException;
-import ua.com.foxminded.university.services.interfaces.CoursesService;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
 import java.util.List;
 import java.util.Optional;
@@ -16,13 +16,13 @@ import java.util.Optional;
 public class GroupsServiceImpl implements GroupsService {
 
     private GroupsRepository groupsRepository;
-    private CoursesService coursesService;
+    private CoursesRepository coursesRepository;
 
     @Autowired
     public GroupsServiceImpl(GroupsRepository groupsRepository,
-                             CoursesServiceImpl coursesService) {
+                             CoursesRepository coursesRepository) {
         this.groupsRepository = groupsRepository;
-        this.coursesService = coursesService;
+        this.coursesRepository = coursesRepository;
     }
 
     @Override
@@ -70,9 +70,16 @@ public class GroupsServiceImpl implements GroupsService {
     }
 
     @Override
+    @SneakyThrows
     public void assignGroupToCourse(int groupId, int courseId) {
         Group group = readOneRecordFromTable(groupId);
-        Course course = coursesService.readOneRecordFromTable(courseId);
+        Course course;
+        Optional<Course> optional = coursesRepository.findById(courseId);
+        if (optional.isPresent()) {
+            course = optional.get();
+        } else {
+            throw new DAOException(courseId);
+        }
         List<Course> courses = group.getCourses();
         courses.add(course);
         groupsRepository.save(group);

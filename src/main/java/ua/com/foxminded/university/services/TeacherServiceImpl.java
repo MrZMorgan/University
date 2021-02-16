@@ -3,6 +3,7 @@ package ua.com.foxminded.university.services;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.foxminded.university.dao.CoursesRepository;
 import ua.com.foxminded.university.dao.TeachersRepository;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Teacher;
@@ -16,13 +17,13 @@ import java.util.Optional;
 public class TeacherServiceImpl implements TeacherService {
 
     private TeachersRepository teachersRepository;
-    private CoursesService coursesService;
+    private CoursesRepository coursesRepository;
 
     @Autowired
     public TeacherServiceImpl(TeachersRepository teachersRepository,
-                              CoursesService coursesService) {
+                              CoursesRepository coursesRepository) {
         this.teachersRepository = teachersRepository;
-        this.coursesService = coursesService;
+        this.coursesRepository = coursesRepository;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void deleteTeacherFromCourse(int courseId) {
-        Course course = coursesService.readOneRecordFromTable(courseId);
+        Course course = readOneCourse(courseId);
         Teacher teacher = course.getTeacher();
         teacher.getCourses().remove(course);
         teachersRepository.save(teacher);
@@ -45,7 +46,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void assignTeacherToCourse(int teacherId, int courseId) {
-        Course course = coursesService.readOneRecordFromTable(courseId);
+        Course course = readOneCourse(courseId);
         Teacher teacher = readOneRecordFromTable(teacherId);
         List<Course> courses = teacher.getCourses();
         courses.add(course);
@@ -86,5 +87,17 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setLastName(teacherForQuery.getLastName());
         teacher.setCourses(teacherForQuery.getCourses());
         teachersRepository.save(teacher);
+    }
+
+    @SneakyThrows
+    public Course readOneCourse(int courseId) {
+        Course course;
+        Optional<Course> optional = coursesRepository.findById(courseId);
+        if (optional.isPresent()) {
+            course = optional.get();
+        } else {
+            throw new DAOException(courseId);
+        }
+        return course;
     }
 }

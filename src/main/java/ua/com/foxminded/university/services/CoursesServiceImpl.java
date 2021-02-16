@@ -4,13 +4,13 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.CoursesRepository;
+import ua.com.foxminded.university.dao.TeachersRepository;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.exceptions.DAOException;
 import ua.com.foxminded.university.services.interfaces.CoursesService;
 import ua.com.foxminded.university.services.interfaces.StudentsService;
-import ua.com.foxminded.university.services.interfaces.TeacherService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,15 +19,15 @@ import java.util.Optional;
 public class CoursesServiceImpl implements CoursesService {
 
     private CoursesRepository coursesRepository;
-    private TeacherService teacherService;
+    private TeachersRepository teachersRepository;
     private StudentsService studentsService;
 
     @Autowired
     public CoursesServiceImpl(CoursesRepository coursesRepository,
-                              TeacherServiceImpl teacherService,
+                              TeachersRepository teachersRepository,
                               StudentsServiceImpl studentsService) {
         this.coursesRepository = coursesRepository;
-        this.teacherService = teacherService;
+        this.teachersRepository = teachersRepository;
         this.studentsService = studentsService;
     }
 
@@ -67,8 +67,15 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
+    @SneakyThrows
     public List<Course> readCoursesRelatedToTeacher(int teacherId) {
-        Teacher teacher = teacherService.readOneRecordFromTable(teacherId);
+        Teacher teacher;
+        Optional<Teacher> optional = teachersRepository.findById(teacherId);
+        if (optional.isPresent()) {
+            teacher = optional.get();
+        } else {
+            throw new DAOException(teacherId);
+        }
         List<Course> courses = teacher.getCourses();
         return courses;
     }

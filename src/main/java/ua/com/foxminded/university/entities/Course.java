@@ -1,12 +1,9 @@
 package ua.com.foxminded.university.entities;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +19,7 @@ public class Course {
     private int id;
 
     @Column(name = "name")
+    @NotBlank(message = "Name should not be empty")
     private String name;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,

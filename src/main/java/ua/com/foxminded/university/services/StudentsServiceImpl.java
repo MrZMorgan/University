@@ -3,6 +3,8 @@ package ua.com.foxminded.university.services;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.foxminded.university.dao.CoursesRepository;
+import ua.com.foxminded.university.dao.GroupsRepository;
 import ua.com.foxminded.university.dao.StudentsRepository;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
@@ -18,16 +20,16 @@ import java.util.Optional;
 public class StudentsServiceImpl implements StudentsService {
 
     private StudentsRepository studentsRepository;
-    private GroupsService groupsService;
-    private CoursesService coursesService;
+    private GroupsRepository groupsRepository;
+    private CoursesRepository coursesRepository;
 
-    @Autowired
+
     public StudentsServiceImpl(StudentsRepository studentsRepository,
-                               GroupsServiceImpl groupsService,
-                               CoursesService coursesService) {
+                               GroupsRepository groupsRepository,
+                               CoursesRepository coursesRepository) {
         this.studentsRepository = studentsRepository;
-        this.groupsService = groupsService;
-        this.coursesService = coursesService;
+        this.groupsRepository = groupsRepository;
+        this.coursesRepository = coursesRepository;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class StudentsServiceImpl implements StudentsService {
     @Override
     public void transferStudentToAnotherGroup(int studentId, int groupId) {
         Student student = readOneRecordFromTable(studentId);
-        Group group = groupsService.readOneRecordFromTable(groupId);
+        Group group = readOneGroup(groupId);
         student.setGroup(group);
         studentsRepository.save(student);
     }
@@ -51,7 +53,7 @@ public class StudentsServiceImpl implements StudentsService {
     @Override
     public void assignStudentToCourse(int studentId, int courseId) {
         Student student = readOneRecordFromTable(studentId);
-        Course course = coursesService.readOneRecordFromTable(courseId);
+        Course course = readOneCourse(courseId);
         List<Course> courses = student.getCourses();
         courses.add(course);
         studentsRepository.save(student);
@@ -59,7 +61,7 @@ public class StudentsServiceImpl implements StudentsService {
 
     @Override
     public void deleteStudentFromCourse(int studentId, int courseId) {
-        Course course = coursesService.readOneRecordFromTable(courseId);
+        Course course = readOneCourse(courseId);
         Student student = readOneRecordFromTable(studentId);
         List<Course> courses = student.getCourses();
         courses.remove(course);
@@ -94,14 +96,14 @@ public class StudentsServiceImpl implements StudentsService {
 
     @Override
     public List<Student> readStudentsRelatedToGroup(int groupId) {
-        Group group = groupsService.readOneRecordFromTable(groupId);
+        Group group = readOneGroup(groupId);
         List<Student> students = group.getStudents();
         return students;
     }
 
     @Override
     public List<Student> readStudentsRelatedToCourse(int courseId) {
-        Course course = coursesService.readOneRecordFromTable(courseId);
+        Course course = readOneCourse(courseId);
         List<Student> students = course.getStudents();
         return students;
     }
@@ -128,4 +130,29 @@ public class StudentsServiceImpl implements StudentsService {
         student.setId(studentId);
         studentsRepository.save(student);
     }
+
+    @SneakyThrows
+    public Group readOneGroup(int groupId) {
+        Group group;
+        Optional<Group> optional = groupsRepository.findById(groupId);
+        if (optional.isPresent()) {
+            group = optional.get();
+        } else {
+            throw new DAOException(groupId);
+        }
+        return group;
+    }
+
+    @SneakyThrows
+    public Course readOneCourse(int courseId) {
+        Course course;
+        Optional<Course> optional = coursesRepository.findById(courseId);
+        if (optional.isPresent()) {
+            course = optional.get();
+        } else {
+            throw new DAOException(courseId);
+        }
+        return course;
+    }
+
 }
