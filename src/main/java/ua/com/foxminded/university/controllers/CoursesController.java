@@ -3,11 +3,13 @@ package ua.com.foxminded.university.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.services.CoursesServiceImpl;
 import ua.com.foxminded.university.services.interfaces.CoursesService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -41,7 +43,11 @@ public class CoursesController {
     }
 
     @PostMapping()
-    public String createCourse(@ModelAttribute("course") Course course) {
+    public String createCourse(@ModelAttribute("course") @Valid Course course,
+                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "courses/new";
+        }
         coursesServiceImpl.createCourse(course);
         return "redirect:/courses";
     }
@@ -53,8 +59,12 @@ public class CoursesController {
     }
 
     @PatchMapping("/{id}")
-    public String updateGroup(@ModelAttribute("course") Course course,
+    public String updateGroup(@ModelAttribute("course") @Valid Course course,
+                              BindingResult bindingResult,
                               @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()) {
+            return "courses/edit";
+        }
         coursesServiceImpl.updateCourseData(id, course);
         return "redirect:/courses";
     }

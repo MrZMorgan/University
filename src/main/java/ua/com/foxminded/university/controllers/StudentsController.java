@@ -3,11 +3,13 @@ package ua.com.foxminded.university.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.services.StudentsServiceImpl;
 import ua.com.foxminded.university.services.interfaces.StudentsService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -41,7 +43,11 @@ public class StudentsController {
     }
 
     @PostMapping()
-    public String createStudent(@ModelAttribute("student") Student student) {
+    public String createStudent(@ModelAttribute("student") @Valid Student student,
+                                BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "students/new";
+        }
         studentsServiceImpl.createStudent(student);
         return "redirect:/students";
     }
@@ -53,8 +59,12 @@ public class StudentsController {
     }
 
     @PatchMapping("/{id}")
-    public String updateStudent(@ModelAttribute("student") Student student,
+    public String updateStudent(@ModelAttribute("student") @Valid Student student,
+                                BindingResult bindingResult,
                                 @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()) {
+            return "students/edit";
+        }
         studentsServiceImpl.updateStudentData(id, student);
         return "redirect:/students";
     }
