@@ -15,6 +15,7 @@
 <form th:method="POST" th:action="@{/groups}" th:object="${group}">
     <label for="name">Enter new group name:</label>
     <input type="text" th:field="*{name}" id="name">
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
     <br/>
     <input type="submit" value="Create">
 </form>

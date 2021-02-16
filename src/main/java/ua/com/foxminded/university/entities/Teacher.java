@@ -1,10 +1,10 @@
 package ua.com.foxminded.university.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,12 +20,15 @@ public class Teacher {
     private int id;
 
     @Column(name = "first_name")
+    @NotBlank(message = "Lastname should not be empty")
     private String firstName;
 
     @Column(name = "last_name")
+    @NotBlank(message = "Lastname should not be empty")
     private String lastName;
 
     @Column(name = "age")
+    @Min(value = 0, message = "Age should be greater than 0")
     private int age;
 
     @OneToMany(cascade = {CascadeType.ALL},

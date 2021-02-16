@@ -3,16 +3,20 @@ package ua.com.foxminded.university.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.services.GroupsServiceImpl;
+import ua.com.foxminded.university.services.interfaces.GroupsService;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/groups")
 public class GroupsController {
 
-    private GroupsServiceImpl groupsServiceImpl;
+    private GroupsService groupsServiceImpl;
 
     @Autowired
     public GroupsController(GroupsServiceImpl groupsServiceImpl) {
@@ -39,7 +43,11 @@ public class GroupsController {
     }
 
     @PostMapping()
-    public String createGroups(@ModelAttribute("group") Group group) {
+    public String createGroups(@ModelAttribute("group") @Valid Group group,
+                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "groups/new";
+        }
         groupsServiceImpl.createGroup(group);
         return "redirect:/groups";
     }
@@ -51,8 +59,12 @@ public class GroupsController {
     }
 
     @PatchMapping("/{id}")
-    public String updateGroup(@ModelAttribute("group") Group group,
+    public String updateGroup(@ModelAttribute("group") @Valid Group group,
+                         BindingResult bindingResult,
                          @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()) {
+            return "groups/edit";
+        }
         groupsServiceImpl.updateGroupData(id, group);
         return "redirect:/groups";
     }

@@ -1,10 +1,9 @@
 package ua.com.foxminded.university.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +19,7 @@ public class Group {
     private int id;
 
     @Column(name = "name")
+    @NotBlank(message = "Name should not be empty")
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL,

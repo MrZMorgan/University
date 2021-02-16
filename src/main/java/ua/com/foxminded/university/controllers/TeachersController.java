@@ -3,16 +3,20 @@ package ua.com.foxminded.university.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.services.TeacherServiceImpl;
+import ua.com.foxminded.university.services.interfaces.TeacherService;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/teachers")
 public class TeachersController {
 
-    private TeacherServiceImpl teacherServiceImpl;
+    private TeacherService teacherServiceImpl;
 
     @Autowired
     public TeachersController(TeacherServiceImpl teacherServiceImpl) {
@@ -39,7 +43,11 @@ public class TeachersController {
     }
 
     @PostMapping()
-    public String createTeacher(@ModelAttribute("teacher") Teacher teacher) {
+    public String createTeacher(@ModelAttribute("teacher") @Valid Teacher teacher,
+                                BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "teachers/new";
+        }
         teacherServiceImpl.createTeacher(teacher);
         return "redirect:/teachers";
     }
@@ -51,8 +59,12 @@ public class TeachersController {
     }
 
     @PatchMapping("/{id}")
-    public String updateTeacher(@ModelAttribute("teacher") Teacher teacher,
+    public String updateTeacher(@ModelAttribute("teacher") @Valid Teacher teacher,
+                                BindingResult bindingResult,
                                 @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()) {
+            return "teachers/edit";
+        }
         teacherServiceImpl.updateTeacherData(id, teacher);
         return "redirect:/teachers";
     }
