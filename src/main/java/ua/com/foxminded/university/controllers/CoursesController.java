@@ -6,13 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.services.CoursesServiceImpl;
+import ua.com.foxminded.university.services.interfaces.CoursesService;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/courses")
 public class CoursesController {
 
-    private CoursesServiceImpl coursesServiceImpl;
+    private CoursesService coursesServiceImpl;
 
     @Autowired
     public CoursesController(CoursesServiceImpl coursesServiceImpl) {

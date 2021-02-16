@@ -6,13 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.services.TeacherServiceImpl;
+import ua.com.foxminded.university.services.interfaces.TeacherService;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/teachers")
 public class TeachersController {
 
-    private TeacherServiceImpl teacherServiceImpl;
+    private TeacherService teacherServiceImpl;
 
     @Autowired
     public TeachersController(TeacherServiceImpl teacherServiceImpl) {

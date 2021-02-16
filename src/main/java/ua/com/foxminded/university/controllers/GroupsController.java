@@ -6,13 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.services.GroupsServiceImpl;
+import ua.com.foxminded.university.services.interfaces.GroupsService;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/groups")
 public class GroupsController {
 
-    private GroupsServiceImpl groupsServiceImpl;
+    private GroupsService groupsServiceImpl;
 
     @Autowired
     public GroupsController(GroupsServiceImpl groupsServiceImpl) {

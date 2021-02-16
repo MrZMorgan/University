@@ -6,13 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.services.StudentsServiceImpl;
+import ua.com.foxminded.university.services.interfaces.StudentsService;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/students")
 public class StudentsController {
 
-    private StudentsServiceImpl studentsServiceImpl;
+    private StudentsService studentsServiceImpl;
 
     @Autowired
     public StudentsController(StudentsServiceImpl studentsServiceImpl) {
