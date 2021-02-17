@@ -1,10 +1,10 @@
 package ua.com.foxminded.university.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.services.CoursesServiceImpl;
 import ua.com.foxminded.university.services.interfaces.CoursesService;
@@ -12,7 +12,7 @@ import ua.com.foxminded.university.services.interfaces.CoursesService;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/courses")
 public class CoursesController {
 
@@ -24,48 +24,48 @@ public class CoursesController {
     }
 
     @GetMapping()
-    private String showAllCourses(Model model) {
+    private ModelAndView showAllCourses(Model model) {
         List<Course> courses = coursesServiceImpl.readTable();
         model.addAttribute("allCourses", courses);
-
-        return "courses/all-courses";
+        return new ModelAndView("courses/all-courses", "courses", courses);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteCourse(@PathVariable int id) {
+    public ModelAndView deleteCourse(@PathVariable int id) {
         coursesServiceImpl.deleteCourseById(id);
-        return "redirect:/courses";
+        return new ModelAndView("redirect:/courses");
     }
 
     @GetMapping("/new")
-    public String newCourse(@ModelAttribute("course") Course course) {
-        return "courses/new";
+    public ModelAndView newCourse(@ModelAttribute("course") @RequestBody Course course) {
+        return new ModelAndView("courses/new", "course", course);
     }
 
     @PostMapping()
-    public String createCourse(@ModelAttribute("course") @Valid Course course,
-                               BindingResult bindingResult) {
+    public ModelAndView createCourse(@ModelAttribute("course") @RequestBody @Valid Course course,
+                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "courses/new";
+            return new ModelAndView("courses/new", "course", course);
         }
         coursesServiceImpl.createCourse(course);
-        return "redirect:/courses";
+        return new ModelAndView("redirect:/courses", "course", course);
     }
 
     @GetMapping("/{id}/edit")
-    public String editCourse(Model model, @PathVariable("id") int id) {
+    public ModelAndView editCourse(Model model, @PathVariable("id") int id) {
+        Course course = coursesServiceImpl.readOneRecordFromTable(id);
         model.addAttribute("course", coursesServiceImpl.readOneRecordFromTable(id));
-        return "courses/edit";
+        return new ModelAndView("courses/edit", "course", course);
     }
 
     @PatchMapping("/{id}")
-    public String updateGroup(@ModelAttribute("course") @Valid Course course,
-                              BindingResult bindingResult,
-                              @PathVariable("id") int id) {
+    public ModelAndView updateGroup(@ModelAttribute("course") @RequestBody @Valid Course course,
+                                    BindingResult bindingResult,
+                                    @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) {
-            return "courses/edit";
+            return new ModelAndView("courses/edit", "courses", course);
         }
         coursesServiceImpl.updateCourseData(id, course);
-        return "redirect:/courses";
+        return new ModelAndView("redirect:/courses", "courses", course);
     }
 }

@@ -25,7 +25,7 @@
         <tr th:each="course: ${allCourses}">
             <td th:text="${course.getId()}" />
             <td th:text="${course.getName()}"/>
-            <td th:text="${course.getTeacher().getFirstName() + ' ' + course.getTeacher().getLastName()}"/>
+            <td th:text="${course?.getTeacher()?.getFirstName() + ' ' + course?.getTeacher()?.getLastName()}"/>
             <td>
                 <form th:method="DELETE" th:action="@{/courses/{id}(id=${course.getId()})}">
                     <button type="submit">Delete</button>

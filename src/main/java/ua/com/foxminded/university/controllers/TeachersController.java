@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.services.TeacherServiceImpl;
 import ua.com.foxminded.university.services.interfaces.TeacherService;
@@ -12,7 +13,7 @@ import ua.com.foxminded.university.services.interfaces.TeacherService;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/teachers")
 public class TeachersController {
 
@@ -24,48 +25,48 @@ public class TeachersController {
     }
 
     @GetMapping()
-    private String showAllTeachers(Model model) {
+    private ModelAndView showAllTeachers(Model model) {
         List<Teacher> teachers = teacherServiceImpl.readTable();
         model.addAttribute("allTeachers", teachers);
-
-        return "teachers/all-teachers";
+        return new ModelAndView("teachers/all-teachers", "allTeachers", teachers);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteTeacher(@PathVariable int id) {
+    public ModelAndView deleteTeacher(@PathVariable int id) {
         teacherServiceImpl.deleteTeacherById(id);
-        return "redirect:/teachers";
+        return new ModelAndView("redirect:/teachers");
     }
 
     @GetMapping("/new")
-    public String newTeacher(@ModelAttribute("teacher") Teacher teacher) {
-        return "teachers/new";
+    public ModelAndView newTeacher(@ModelAttribute("teacher") @RequestBody Teacher teacher) {
+        return new ModelAndView("teachers/new", "teacher", teacher);
     }
 
     @PostMapping()
-    public String createTeacher(@ModelAttribute("teacher") @Valid Teacher teacher,
+    public ModelAndView createTeacher(@ModelAttribute("teacher") @RequestBody @Valid Teacher teacher,
                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "teachers/new";
+            return new ModelAndView("teachers/new", "teacher", teacher);
         }
         teacherServiceImpl.createTeacher(teacher);
-        return "redirect:/teachers";
+        return new ModelAndView("redirect:/teachers", "teacher", teacher);
     }
 
     @GetMapping("/{id}/edit")
-    public String editTeacher(Model model, @PathVariable("id") int id) {
-        model.addAttribute("teacher", teacherServiceImpl.readOneRecordFromTable(id));
-        return "teachers/edit";
+    public ModelAndView editTeacher(Model model, @PathVariable("id") int id) {
+        Teacher teacher = teacherServiceImpl.readOneRecordFromTable(id);
+        model.addAttribute("teacher", teacher);
+        return new ModelAndView("teachers/edit", "teacher", teacher);
     }
 
     @PatchMapping("/{id}")
-    public String updateTeacher(@ModelAttribute("teacher") @Valid Teacher teacher,
+    public ModelAndView updateTeacher(@ModelAttribute("teacher") @RequestBody @Valid Teacher teacher,
                                 BindingResult bindingResult,
                                 @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) {
-            return "teachers/edit";
+            return new ModelAndView("teachers/edit", "teacher", teacher);
         }
         teacherServiceImpl.updateTeacherData(id, teacher);
-        return "redirect:/teachers";
+        return new ModelAndView("redirect:/teachers", "teacher", teacher);
     }
 }

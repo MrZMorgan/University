@@ -10,7 +10,6 @@ public class UniversityController {
 
     @GetMapping()
     public String showStudentMenu() {
-
         return "university";
     }
 }
