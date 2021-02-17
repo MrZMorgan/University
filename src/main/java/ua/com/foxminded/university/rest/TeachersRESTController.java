@@ -2,15 +2,13 @@ package ua.com.foxminded.university.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.entities.Teacher;
-import ua.com.foxminded.university.services.interfaces.StudentsService;
 import ua.com.foxminded.university.services.interfaces.TeacherService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/teachers")
+@RequestMapping("api/teachers")
 public class TeachersRESTController {
 
 

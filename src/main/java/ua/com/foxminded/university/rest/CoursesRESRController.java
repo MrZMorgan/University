@@ -8,7 +8,7 @@ import ua.com.foxminded.university.services.interfaces.CoursesService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/courses")
+@RequestMapping("api/courses")
 public class CoursesRESRController {
 
     private static final String DELETE_MESSAGE = "Course with id %d was deleted";

@@ -7,7 +7,7 @@ import ua.com.foxminded.university.services.interfaces.StudentsService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("api/students")
 public class StudentsRESTController {
 
     private static final String DELETE_MESSAGE = "Student with id %d was deleted";

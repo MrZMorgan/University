@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/groups")
+@RequestMapping("api/groups")
 public class GroupsRESTController {
 
     private static final String DELETE_MESSAGE = "Groups with id %d was deleted";
