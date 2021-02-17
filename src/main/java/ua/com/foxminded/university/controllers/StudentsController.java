@@ -1,10 +1,10 @@
 package ua.com.foxminded.university.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.services.StudentsServiceImpl;
 import ua.com.foxminded.university.services.interfaces.StudentsService;
@@ -12,7 +12,7 @@ import ua.com.foxminded.university.services.interfaces.StudentsService;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/students")
 public class StudentsController {
 
@@ -24,48 +24,48 @@ public class StudentsController {
     }
 
     @GetMapping()
-    private ModelAndView showAllStudents(Model model) {
+    private String showAllStudents(Model model) {
         List<Student> students = studentsServiceImpl.readTable();
         model.addAttribute("allStudents", students);
-        return new ModelAndView("students/all-students", "allStudents", students);
+
+        return "students/all-students";
     }
 
     @DeleteMapping("/{id}")
-    public ModelAndView deleteStudent(@PathVariable int id) {
+    public String deleteStudent(@PathVariable int id) {
         studentsServiceImpl.deleteStudentById(id);
-        return new ModelAndView("redirect:/students");
+        return "redirect:/students";
     }
 
     @GetMapping("/new")
-    public ModelAndView newStudent(@ModelAttribute("student") @RequestBody Student student) {
-        return new ModelAndView("students/new", "student", student);
+    public String newStudent(@ModelAttribute("student") Student student) {
+        return "students/new";
     }
 
     @PostMapping()
-    public ModelAndView createStudent(@ModelAttribute("student") @RequestBody @Valid Student student,
+    public String createStudent(@ModelAttribute("student") @Valid Student student,
                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("students/new", "student", student);
+            return "students/new";
         }
         studentsServiceImpl.createStudent(student);
-        return new ModelAndView("redirect:/students", "student", student);
+        return "redirect:/students";
     }
 
     @GetMapping("/{id}/edit")
-    public ModelAndView editStudent(Model model, @PathVariable("id") int id) {
-        Student student = studentsServiceImpl.readOneRecordFromTable(id);
-        model.addAttribute("student", student);
-        return new ModelAndView("students/edit", "student", student);
+    public String editStudent(Model model, @PathVariable("id") int id) {
+        model.addAttribute("student", studentsServiceImpl.readOneRecordFromTable(id));
+        return "students/edit";
     }
 
     @PatchMapping("/{id}")
-    public ModelAndView updateStudent(@ModelAttribute("student") @RequestBody @Valid Student student,
+    public String updateStudent(@ModelAttribute("student") @Valid Student student,
                                 BindingResult bindingResult,
                                 @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("students/edit", "student", student);
+            return "students/edit";
         }
         studentsServiceImpl.updateStudentData(id, student);
-        return new ModelAndView("redirect:/students", "student", student);
+        return "redirect:/students";
     }
 }

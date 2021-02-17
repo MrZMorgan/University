@@ -29,7 +29,7 @@
             <td th:text="${student.getFirstName()}"/>
             <td th:text="${student.getLastName()}"/>
             <td th:text="${student.getAge()}"/>
-            <td th:text="${student?.getGroup()?.getName()}"/>
+            <td th:text="${student.getGroup().getName()}"/>
             <td>
                 <form th:method="DELETE" th:action="@{/students/{id}(id=${student.getId()})}">
                     <button type="submit">Delete</button>
