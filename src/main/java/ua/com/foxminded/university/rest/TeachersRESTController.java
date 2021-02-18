@@ -11,7 +11,6 @@ import java.util.List;
 @RequestMapping("api/teachers")
 public class TeachersRESTController {
 
-
     private static final String DELETE_MESSAGE = "Teacher with id %d was deleted";
     private TeacherService teacherService;
 
