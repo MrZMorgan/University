@@ -1,5 +1,7 @@
 package ua.com.foxminded.university.rest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +11,15 @@ import ua.com.foxminded.university.services.interfaces.CoursesService;
 import java.util.List;
 
 @RestController
+@Api(tags = "Courses API")
 @RequestMapping("api/courses")
-public class CoursesRESRController {
+public class CoursesRESTController {
 
     private static final String DELETE_MESSAGE = "Course with id %d was deleted";
     private CoursesService coursesServiceImpl;
 
     @Autowired
-    public CoursesRESRController(CoursesServiceImpl coursesServiceImpl) {
+    public CoursesRESTController(CoursesServiceImpl coursesServiceImpl) {
         this.coursesServiceImpl = coursesServiceImpl;
     }
 

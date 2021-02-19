@@ -1,5 +1,6 @@
 package ua.com.foxminded.university.rest;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import ua.com.foxminded.university.services.interfaces.StudentsService;
 import java.util.List;
 
 @RestController
+@Api(tags = "Students API")
 @RequestMapping("api/students")
 public class StudentsRESTController {
 
