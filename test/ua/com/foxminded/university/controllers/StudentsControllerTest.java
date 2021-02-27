@@ -4,46 +4,51 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ua.com.foxminded.university.config.TestConfig;
-import ua.com.foxminded.university.entities.Student;
-import ua.com.foxminded.university.services.StudentsService;
 
-import javax.transaction.Transactional;
-
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-@WebAppConfiguration
-@ContextConfiguration(classes = TestConfig.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class StudentsControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-    @Autowired
-    private StudentsService studentsService;
+
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
     void testShowAllStudents() throws Exception {
         String studentsControllerRequestMapping = "/students";
         String view = "students/all-students";
+        String firstStudentName = "Egor";
+        String firstStudentLastname = "Anchutin";
+        String secondStudentName = "Guinea";
+        String secondStudentLastname = "Pig";
 
         this.mockMvc.perform(get(studentsControllerRequestMapping))
                 .andExpect(status().isOk())
-                .andExpect(view().name(view));
+                .andExpect(view().name(view))
+                .andExpect(content().string(allOf(
+                        containsString(firstStudentName),
+                        containsString(firstStudentLastname),
+                        containsString(secondStudentName),
+                        containsString(secondStudentLastname))));
     }
 
     @Test
@@ -74,17 +79,12 @@ class StudentsControllerTest {
     }
 
     @Test
-    @Transactional
     void editStudent() throws Exception {
         String studentsControllerRequestMapping = "/students/2/edit";
         String view = "students/edit";
 
-        String expectedModelAttributeName = "student";
-        Student expectedStudent = studentsService.readOneRecordFromTable(2);
-
         mockMvc.perform(get(studentsControllerRequestMapping))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute(expectedModelAttributeName, expectedStudent))
                 .andExpect(view().name(view));
     }
 }
