@@ -126,13 +126,6 @@ public class StudentsServiceImpl implements StudentsService {
         studentsRepository.save(student);
     }
 
-    @Override
-    public void updateStudentId(int studentId, int updatedId) {
-        Student student = readOneRecordFromTable(studentId);
-        student.setId(studentId);
-        studentsRepository.save(student);
-    }
-
     @SneakyThrows
     public Group readOneGroup(int groupId) {
         Group group;

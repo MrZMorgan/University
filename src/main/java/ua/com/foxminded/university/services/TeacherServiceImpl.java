@@ -39,9 +39,8 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void deleteTeacherFromCourse(int courseId) {
         Course course = readOneCourse(courseId);
-        Teacher teacher = course.getTeacher();
-        teacher.getCourses().remove(course);
-        teachersRepository.save(teacher);
+        course.setTeacher(null);
+        coursesRepository.save(course);
     }
 
     @Override
@@ -82,9 +81,9 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void updateTeacherData(int id, Teacher teacherForQuery) {
         Teacher teacher = readOneRecordFromTable(id);
-        teacher.setAge(teacherForQuery.getAge());
         teacher.setFirstName(teacherForQuery.getFirstName());
         teacher.setLastName(teacherForQuery.getLastName());
+        teacher.setAge(teacherForQuery.getAge());
         teacher.setCourses(teacherForQuery.getCourses());
         teachersRepository.save(teacher);
     }

@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.university.dao.CoursesRepository;
+import ua.com.foxminded.university.dao.StudentsRepository;
 import ua.com.foxminded.university.dao.TeachersRepository;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Student;
@@ -20,15 +21,15 @@ public class CoursesServiceImpl implements CoursesService {
 
     private CoursesRepository coursesRepository;
     private TeachersRepository teachersRepository;
-    private StudentsService studentsService;
+    private StudentsRepository studentsRepository;
 
     @Autowired
     public CoursesServiceImpl(CoursesRepository coursesRepository,
                               TeachersRepository teachersRepository,
-                              StudentsServiceImpl studentsService) {
+                              StudentsRepository studentsRepository) {
         this.coursesRepository = coursesRepository;
         this.teachersRepository = teachersRepository;
-        this.studentsService = studentsService;
+        this.studentsRepository = studentsRepository;
     }
 
     @Override
@@ -81,8 +82,15 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
+    @SneakyThrows
     public List<Course> readCoursesByStudentId(int studentId) {
-        Student student = studentsService.readOneRecordFromTable(studentId);
+        Student student;
+        Optional<Student> optional = studentsRepository.findById(studentId);
+        if (optional.isPresent()) {
+            student = optional.get();
+        } else {
+            throw new DAOException(studentId);
+        }
         List<Course> courses = student.getCourses();
         return courses;
     }

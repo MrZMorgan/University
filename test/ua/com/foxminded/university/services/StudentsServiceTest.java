@@ -14,7 +14,6 @@ import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.services.interfaces.CoursesService;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
 import ua.com.foxminded.university.services.interfaces.StudentsService;
-import ua.com.foxminded.university.services.interfaces.TeacherService;
 
 import javax.transaction.Transactional;
 
@@ -232,5 +231,4 @@ class StudentsServiceTest {
 
         return students;
     }
-
 }
