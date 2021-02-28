@@ -20,6 +20,4 @@ public interface CoursesService {
     public List<Course> readCoursesByStudentId(int studentId);
 
     public void updateCourseData(int id, Course courseForQuery);
-
-    public void updateCourseId(int courseId, int updatedId);
 }

@@ -64,7 +64,8 @@ class GroupsServiceTest {
 
     @Test
     void shouldReadOneRecordFromTable() {
-
+        Group group = groupsService.readOneRecordFromTable(1);
+        assertEquals(expectedFirstGroup(), group);
     }
 
     @Test
@@ -98,6 +99,7 @@ class GroupsServiceTest {
         int groupId = 1;
         int courseId = 2;
         groupsService.assignGroupToCourse(groupId, courseId);
+
         int actualCourseId = groupsService.readOneRecordFromTable(groupId).getCourses().get(1).getId();
         assertEquals(courseId, actualCourseId);
     }

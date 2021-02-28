@@ -96,11 +96,4 @@ public class CoursesServiceImpl implements CoursesService {
         course.setStudents(courseForQuery.getStudents());
         coursesRepository.save(course);
     }
-
-    @Override
-    public void updateCourseId(int courseId, int updatedId) {
-        Course course = readOneRecordFromTable(courseId);
-        course.setId(updatedId);
-        coursesRepository.save(course);
-    }
 }
