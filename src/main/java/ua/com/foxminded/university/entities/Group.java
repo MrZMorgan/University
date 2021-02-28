@@ -36,7 +36,7 @@ public class Group {
     @ManyToMany(cascade = {CascadeType.PERSIST,
             CascadeType.DETACH,
             CascadeType.REFRESH,
-            CascadeType.MERGE}, fetch = FetchType.EAGER)
+            CascadeType.MERGE})
     @JoinTable(name = "groups_courses",
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
