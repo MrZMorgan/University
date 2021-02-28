@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import ua.com.foxminded.university.Application;
+import ua.com.foxminded.university.H2JpaConfig;
 import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.entities.Student;
@@ -13,14 +15,12 @@ import ua.com.foxminded.university.services.interfaces.CoursesService;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
 import ua.com.foxminded.university.services.interfaces.StudentsService;
 import ua.com.foxminded.university.services.interfaces.TeacherService;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(classes = {Application.class, H2JpaConfig.class})
 @ActiveProfiles("test")
 class GroupsServiceTest {
 
