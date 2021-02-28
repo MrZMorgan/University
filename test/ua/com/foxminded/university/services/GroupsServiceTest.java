@@ -14,7 +14,6 @@ import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.services.interfaces.CoursesService;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
 import ua.com.foxminded.university.services.interfaces.StudentsService;
-import ua.com.foxminded.university.services.interfaces.TeacherService;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +35,6 @@ class GroupsServiceTest {
 
     @Autowired
     private StudentsService studentsService;
-
-    @Autowired
-    private TeacherService teacherService;
 
     @Test
     void shouldDeleteGroupById() {

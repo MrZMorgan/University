@@ -9,7 +9,7 @@ public interface StudentsService {
 
     public void transferStudentToAnotherGroup(int studentId, int groupId);
 
-    public void deleteStudentFromGroup(int groupId);
+    public void deleteStudentFromGroup(int studentId);
 
     public void assignStudentToCourse(int studentId, int courseId);
 
@@ -28,6 +28,4 @@ public interface StudentsService {
     public List<Student> readTable();
 
     public void updateStudentData(int id, Student studentForQuery);
-
-    public void updateStudentId(int studentId, int updatedId);
 }
