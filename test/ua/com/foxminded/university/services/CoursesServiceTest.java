@@ -161,5 +161,4 @@ class CoursesServiceTest {
 
         return expectedCourse;
     }
-
 }
