@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("api/groups")
 public class GroupsRESTController {
 
-    private static final String DELETE_MESSAGE = "Groups with id %d was deleted";
+    private static final String DELETE_MESSAGE = "Group with id %d was deleted";
     private GroupsService groupsService;
 
     @Autowired

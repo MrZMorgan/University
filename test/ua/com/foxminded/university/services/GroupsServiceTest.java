@@ -148,6 +148,4 @@ class GroupsServiceTest {
 
         return group;
     }
-
-
 }

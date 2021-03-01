@@ -45,9 +45,11 @@ class CoursesRESTControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id", is(expectedCoursesList.get(0).getId())))
                 .andExpect(jsonPath("$[0].name", is(expectedCoursesList.get(0).getName())))
                 .andExpect(jsonPath("$[0].teacher.firstName",
                         is(expectedCoursesList.get(0).getTeacher().getFirstName())))
+                .andExpect(jsonPath("$[1].id", is(expectedCoursesList.get(1).getId())))
                 .andExpect(jsonPath("$[1].name", is(expectedCoursesList.get(1).getName())))
                 .andExpect(jsonPath("$[1].teacher.firstName",
                         is(expectedCoursesList.get(1).getTeacher().getFirstName())));
@@ -63,6 +65,7 @@ class CoursesRESTControllerTest {
 
         mockMvc.perform(get(URL).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(expectedCourse.getId())))
                 .andExpect(jsonPath("$.name", is(expectedCourse.getName())))
                 .andExpect(jsonPath("$.teacher.firstName", is(expectedCourse.getTeacher().getFirstName())))
                 .andExpect(jsonPath("$.teacher.lastName", is(expectedCourse.getTeacher().getLastName())));
