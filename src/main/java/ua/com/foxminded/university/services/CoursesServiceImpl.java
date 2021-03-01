@@ -38,8 +38,9 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
-    public void createCourse(Course course) {
+    public Course createCourse(Course course) {
         coursesRepository.save(course);
+        return course;
     }
 
     @Override
@@ -96,12 +97,14 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
-    public void updateCourseData(int id, Course courseForQuery) {
+    public Course updateCourseData(int id, Course courseForQuery) {
         Course course = readOneRecordFromTable(id);
         course.setName(courseForQuery.getName());
         course.setTeacher(courseForQuery.getTeacher());
         course.setGroups(courseForQuery.getGroups());
         course.setStudents(courseForQuery.getStudents());
         coursesRepository.save(course);
+
+        return course;
     }
 }
