@@ -69,7 +69,7 @@ class CoursesRESTControllerTest {
     }
 
     @Test
-    void deleteCourse() throws Exception {
+    void shouldDeleteCourse() throws Exception {
         int coursesId = 1;
         String URL = String.format("http://localhost:8080/api/courses/%d", coursesId);
         String message = String.format("Course with id %d was deleted", coursesId);
@@ -82,7 +82,7 @@ class CoursesRESTControllerTest {
     }
 
     @Test
-    void createCourse() throws Exception {
+    void shouldCreateCourse() throws Exception {
         String URL = "http://localhost:8080/api/courses";
 
         String inputJson = "{" +
@@ -102,7 +102,7 @@ class CoursesRESTControllerTest {
     }
 
     @Test
-    void updateGroup() throws Exception {
+    void shouldUpdateGroup() throws Exception {
         String URL = "http://localhost:8080/api/courses";
 
         String inputJson = "{" +
