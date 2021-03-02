@@ -2,32 +2,27 @@ package ua.com.foxminded.university.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ua.com.foxminded.university.config.TestConfig;
-import ua.com.foxminded.university.entities.Course;
-import ua.com.foxminded.university.services.CoursesService;
-
-import javax.transaction.Transactional;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import ua.com.foxminded.university.Application;
+import ua.com.foxminded.university.H2JpaConfig;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
-@WebAppConfiguration
-@ContextConfiguration(classes = TestConfig.class)
+@SpringBootTest(classes = {Application.class, H2JpaConfig.class})
+@ActiveProfiles("test")
 class CoursesControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-    @Autowired
-    private CoursesService coursesService;
+
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -39,10 +34,15 @@ class CoursesControllerTest {
     void testShowAllCourses() throws Exception {
         String courseControllerRequestMapping = "/courses";
         String view = "courses/all-courses";
+        String firstCourseName = "math";
+        String secondCourseName = "economy";
 
         this.mockMvc.perform(get(courseControllerRequestMapping))
                 .andExpect(status().isOk())
-                .andExpect(view().name(view));
+                .andExpect(view().name(view))
+                .andExpect(content().string(allOf(
+                        containsString(firstCourseName),
+                        containsString(secondCourseName))));
     }
 
     @Test
@@ -52,8 +52,7 @@ class CoursesControllerTest {
 
         mockMvc.perform(delete(courseControllerRequestMapping))
                 .andExpect(view().name(view))
-                .andExpect(status().is3xxRedirection())
-        ;
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -74,17 +73,12 @@ class CoursesControllerTest {
     }
 
     @Test
-    @Transactional
     void editCourse() throws Exception {
         String courseControllerRequestMapping = "/courses/2/edit";
         String view = "courses/edit";
-        String expectedModelAttributeName = "course";
-
-        Course expectedCourse = coursesService.readOneRecordFromTable(2);
 
         mockMvc.perform(get(courseControllerRequestMapping))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute(expectedModelAttributeName, expectedCourse))
                 .andExpect(view().name(view));
     }
 }

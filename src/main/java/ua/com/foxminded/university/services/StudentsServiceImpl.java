@@ -46,8 +46,10 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
-    public void deleteStudentFromGroup(int groupId) {
-        studentsRepository.deleteById(groupId);
+    public void deleteStudentFromGroup(int studentId) {
+        Student student = readOneRecordFromTable(studentId);
+        student.setGroup(null);
+        studentsRepository.save(student);
     }
 
     @Override
@@ -121,13 +123,6 @@ public class StudentsServiceImpl implements StudentsService {
         student.setLastName(studentForQuery.getLastName());
         student.setGroup(studentForQuery.getGroup());
         student.setCourses(studentForQuery.getCourses());
-        studentsRepository.save(student);
-    }
-
-    @Override
-    public void updateStudentId(int studentId, int updatedId) {
-        Student student = readOneRecordFromTable(studentId);
-        student.setId(studentId);
         studentsRepository.save(student);
     }
 

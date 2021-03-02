@@ -1,73 +1,148 @@
 package ua.com.foxminded.university.services;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ua.com.foxminded.university.dao.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import ua.com.foxminded.university.Application;
+import ua.com.foxminded.university.H2JpaConfig;
+import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
-import static org.mockito.Mockito.*;
+import ua.com.foxminded.university.entities.Student;
+import ua.com.foxminded.university.services.interfaces.CoursesService;
+import ua.com.foxminded.university.services.interfaces.GroupsService;
+import ua.com.foxminded.university.services.interfaces.StudentsService;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest(classes = {Application.class, H2JpaConfig.class})
+@ActiveProfiles("test")
+@Transactional
 class GroupsServiceTest {
 
-    private StudentsJdbcDao studentsJdbcDaoMock;
-    private GroupsJdbcDao groupsJdbcDaoMock;
+    private final static String GROUP_NAME_FOR_TEST = "testGroupName";
+
+    @Autowired
     private GroupsService groupsService;
 
+    @Autowired
+    private CoursesService coursesService;
 
-    @BeforeEach
-    void setUp() {
-        studentsJdbcDaoMock = mock(StudentsJdbcDao.class);
-        groupsJdbcDaoMock = mock(GroupsJdbcDao.class);
-        groupsService = new GroupsService(studentsJdbcDaoMock, groupsJdbcDaoMock);
-    }
+    @Autowired
+    private StudentsService studentsService;
 
     @Test
     void shouldDeleteGroupById() {
-        int groupId = anyInt();
-        groupsService.deleteGroupById(groupId);
-        verify(groupsJdbcDaoMock, times(1)).delete(anyInt());
+        groupsService.deleteGroupById(1);
+        int expectedGroupSize = 1;
+        int actualGroupSize = groupsService.readTable().size();
+        assertEquals(expectedGroupSize, actualGroupSize);
     }
 
     @Test
     void shouldCreateNewGroup() {
-        Group groupMock = mock(Group.class);
-        groupsService.createGroup(groupMock);
-        verify(groupsJdbcDaoMock, times(1)).create(groupMock);
+        groupsService.createGroup(new Group(GROUP_NAME_FOR_TEST));
+        int expectedGroupSize = 3;
+        int actualGroupSize = groupsService.readTable().size();
+        assertEquals(expectedGroupSize, actualGroupSize);
     }
 
     @Test
     void shouldRenameGroup() {
-        int groupIdToRename = anyInt();
-        String newGroupName = anyString();
-        groupsService.renameGroup(groupIdToRename, newGroupName);
-        verify(groupsJdbcDaoMock, times(1)).renameGroup(groupIdToRename, newGroupName);
+        int groupIdToRename = 1;
+        groupsService.renameGroup(groupIdToRename, GROUP_NAME_FOR_TEST);
+        String actualGroupName = groupsService.readOneRecordFromTable(groupIdToRename).getName();
+        assertEquals(GROUP_NAME_FOR_TEST, actualGroupName);
     }
 
     @Test
     void shouldReadOneRecordFromTable() {
-        int groupId = anyInt();
-        groupsService.readOneRecordFromTable(groupId);
-        verify(groupsJdbcDaoMock, times(1)).read(groupId);
+        Group actualGroup = groupsService.readOneRecordFromTable(1);
+        Group expectedGroup = expectedFirstGroup();
+        assertEquals(expectedGroup, actualGroup);
     }
 
     @Test
     void shouldReadTable() {
-        groupsService.readTable();
-        verify(groupsJdbcDaoMock, times(1)).read();
+        List<Group> actualGroups = groupsService.readTable();
+        List<Group> expectedGroups = new ArrayList<>();
+
+        Group group1 = expectedFirstGroup();
+        Group group2 = expectedSecondGroup();
+
+        expectedGroups.add(group1);
+        expectedGroups.add(group2);
+
+        assertEquals(expectedGroups, actualGroups);
     }
 
     @Test
     void shouldUpdateGroupData() {
-        int groupId = 1;
-        Group groupMock = mock(Group.class);
-        groupsService.updateGroupData(groupId, groupMock);
-        verify(groupsJdbcDaoMock, times(1)).update(groupId, groupMock);
+        int groupIdToUpdate = 1;
+        Group groupToUpdate = new Group(GROUP_NAME_FOR_TEST);
+        groupsService.updateGroupData(groupIdToUpdate, groupToUpdate);
+        String updatedGroupName = groupsService.readOneRecordFromTable(1).getName();
+
+        assertEquals(GROUP_NAME_FOR_TEST, updatedGroupName);
     }
 
     @Test
     void shouldAssignGroupToCourse() {
-        int groupId = anyInt();
-        int courseId = anyInt();
+        int groupId = 1;
+        int courseId = 2;
         groupsService.assignGroupToCourse(groupId, courseId);
-        verify(groupsJdbcDaoMock, times(1)).assignGroupToCourse(groupId, courseId);
+
+        int actualCourseId = groupsService.readOneRecordFromTable(groupId).getCourses().get(1).getId();
+        assertEquals(courseId, actualCourseId);
+    }
+
+    Group expectedFirstGroup() {
+        int groupId = 1;
+        String groupName = "GS-10-1";
+
+        Group group = new Group();
+        group.setId(groupId);
+        group.setName(groupName);
+
+        Student student1 = studentsService.readOneRecordFromTable(1);
+        Student student2 = studentsService.readOneRecordFromTable(2);
+        List<Student> studentsFromFirstGroup = new ArrayList<>();
+        studentsFromFirstGroup.add(student1);
+        studentsFromFirstGroup.add(student2);
+
+        Course course1 = coursesService.readOneRecordFromTable(1);
+        List<Course> coursesFromFirstGroup = new ArrayList<>();
+        coursesFromFirstGroup.add(course1);
+
+        group.setCourses(coursesFromFirstGroup);
+        group.setStudents(studentsFromFirstGroup);
+
+        return group;
+    }
+
+    Group expectedSecondGroup() {
+        int groupId = 2;
+        String groupName = "ERB-11-2";
+
+        Group group = new Group();
+        group.setId(groupId);
+        group.setName(groupName);
+
+        Student student1 = studentsService.readOneRecordFromTable(3);
+        Student student2 = studentsService.readOneRecordFromTable(4);
+        List<Student> studentsFromFirstGroup = new ArrayList<>();
+        studentsFromFirstGroup.add(student1);
+        studentsFromFirstGroup.add(student2);
+
+        Course course1 = coursesService.readOneRecordFromTable(2);
+        List<Course> coursesFromFirstGroup = new ArrayList<>();
+        coursesFromFirstGroup.add(course1);
+
+        group.setCourses(coursesFromFirstGroup);
+        group.setStudents(studentsFromFirstGroup);
+
+        return group;
     }
 }

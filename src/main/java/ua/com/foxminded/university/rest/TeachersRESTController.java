@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.services.interfaces.TeacherService;
 

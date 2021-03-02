@@ -7,7 +7,7 @@ public interface CoursesService {
 
     public void deleteCourseById(int courseId);
 
-    public void createCourse(Course course);
+    public Course createCourse(Course course);
 
     public void renameCourse(int courseIdToRename, String newCourseName);
 
@@ -19,7 +19,5 @@ public interface CoursesService {
 
     public List<Course> readCoursesByStudentId(int studentId);
 
-    public void updateCourseData(int id, Course courseForQuery);
-
-    public void updateCourseId(int courseId, int updatedId);
+    public Course updateCourseData(int id, Course courseForQuery);
 }
