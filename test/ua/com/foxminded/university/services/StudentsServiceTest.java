@@ -22,7 +22,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {Application.class, H2JpaConfig.class})
 @ActiveProfiles("test")
 @Transactional

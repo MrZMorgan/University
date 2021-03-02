@@ -11,9 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ua.com.foxminded.university.entities.Course;;
-import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.entities.Teacher;
 import ua.com.foxminded.university.services.CoursesServiceImpl;
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(CoursesRESTController.class)
 @ActiveProfiles("test")
 class CoursesRESTControllerTest {
@@ -116,7 +113,7 @@ class CoursesRESTControllerTest {
                 "\"students\":[]" +
                 "}";
 
-        MvcResult mvcResult = mockMvc.perform(post(URL)
+        MvcResult mvcResult = mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(inputJson)).andReturn();
 

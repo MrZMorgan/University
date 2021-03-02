@@ -26,7 +26,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(GroupsRESTController.class)
 @ActiveProfiles("test")
 class GroupsRESTControllerTest {
@@ -111,7 +110,7 @@ class GroupsRESTControllerTest {
                 "\"courses\":[]" +
                 "}";
 
-        MvcResult mvcResult = mockMvc.perform(post(URL)
+        MvcResult mvcResult = mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(inputJson)).andReturn();
 
