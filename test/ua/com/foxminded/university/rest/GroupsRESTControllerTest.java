@@ -1,25 +1,18 @@
 package ua.com.foxminded.university.rest;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
-import ua.com.foxminded.university.entities.Student;
-import ua.com.foxminded.university.services.CoursesServiceImpl;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -39,6 +32,9 @@ class GroupsRESTControllerTest {
     @Test
     void shouldShowAllGroups() throws Exception {
         List<Group> expectedGroupsList = expectedGroups();
+        Group firstGroup = expectedGroupsList.get(0);
+        Group secondGroup = expectedGroupsList.get(1);
+
         when(groupsServiceMock.readTable()).thenReturn(expectedGroupsList);
         String URL = "http://localhost:8080/api/groups";
 
@@ -46,10 +42,10 @@ class GroupsRESTControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", is(expectedGroupsList.get(0).getId())))
-                .andExpect(jsonPath("$[0].name", is(expectedGroupsList.get(0).getName())))
-                .andExpect(jsonPath("$[1].id", is(expectedGroupsList.get(1).getId())))
-                .andExpect(jsonPath("$[1].name", is(expectedGroupsList.get(1).getName())));
+                .andExpect(jsonPath("$[0].id", is(firstGroup.getId())))
+                .andExpect(jsonPath("$[0].name", is(firstGroup.getName())))
+                .andExpect(jsonPath("$[1].id", is(secondGroup.getId())))
+                .andExpect(jsonPath("$[1].name", is(secondGroup.getName())));
     }
 
     @Test

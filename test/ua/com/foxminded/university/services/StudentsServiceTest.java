@@ -1,11 +1,9 @@
 package ua.com.foxminded.university.services;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ua.com.foxminded.university.Application;
 import ua.com.foxminded.university.H2JpaConfig;
 import ua.com.foxminded.university.entities.Course;
@@ -14,9 +12,7 @@ import ua.com.foxminded.university.entities.Student;
 import ua.com.foxminded.university.services.interfaces.CoursesService;
 import ua.com.foxminded.university.services.interfaces.GroupsService;
 import ua.com.foxminded.university.services.interfaces.StudentsService;
-
 import javax.transaction.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 

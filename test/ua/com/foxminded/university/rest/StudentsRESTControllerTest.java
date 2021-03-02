@@ -9,23 +9,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import ua.com.foxminded.university.entities.Course;
 import ua.com.foxminded.university.entities.Group;
 import ua.com.foxminded.university.entities.Student;
-import ua.com.foxminded.university.services.CoursesServiceImpl;
 import ua.com.foxminded.university.services.StudentsServiceImpl;
-import ua.com.foxminded.university.services.interfaces.StudentsService;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @WebMvcTest(StudentsRESTController.class)
 @ActiveProfiles("test")
